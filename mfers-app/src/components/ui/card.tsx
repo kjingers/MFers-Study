@@ -4,7 +4,7 @@ import { cn } from "../../lib/utils"
 /**
  * Card container component props.
  */
-export interface CardProps extends HTMLAttributes<HTMLDivElement> {}
+export type CardProps = HTMLAttributes<HTMLDivElement>
 
 /**
  * Card container component for grouping related content.
@@ -99,10 +99,6 @@ const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
 CardFooter.displayName = "CardFooter"
 
 export {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardDescription,
-  CardContent
+    Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle
 }
+

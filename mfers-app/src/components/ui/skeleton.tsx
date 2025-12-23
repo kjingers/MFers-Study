@@ -4,7 +4,7 @@ import { cn } from "../../lib/utils"
 /**
  * Skeleton component props.
  */
-export interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {}
+export type SkeletonProps = HTMLAttributes<HTMLDivElement>
 
 /**
  * Skeleton loading placeholder component.

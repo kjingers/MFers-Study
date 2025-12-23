@@ -162,7 +162,7 @@ export async function fetchVersesFromFoundry(
     }
     
     return parsed
-  } catch (parseError) {
+  } catch {
     throw new Error(`Failed to parse Azure OpenAI response: ${content}`)
   }
 }

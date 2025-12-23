@@ -1,5 +1,5 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions"
-import { fetchVersesFromFoundry, isFoundryConfigured } from "../shared/azure-foundry"
+import { fetchVersesFromFoundry, isFoundryConfigured } from "../shared/azure-foundry.js"
 
 /**
  * Supported Bible translations.
