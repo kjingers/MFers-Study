@@ -5,6 +5,7 @@ import type { BibleReference } from "./types/verse"
 import { WeekViewer } from "./components/week"
 import { VerseModal } from "./components/verse-modal"
 import { WeekPageSkeleton } from "./components/ui"
+import { ErrorBoundary } from "./components/error-boundary"
 import { formatReference } from "./lib/verse-parser"
 import { BookOpen, Utensils } from "lucide-react"
 import "./index.css"
@@ -78,16 +79,18 @@ function LoadingPage() {
  */
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<WeekPage />} />
-          <Route path="/week/:weekId" element={<WeekPage />} />
-          <Route path="/loading" element={<LoadingPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<WeekPage />} />
+            <Route path="/week/:weekId" element={<WeekPage />} />
+            <Route path="/loading" element={<LoadingPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ErrorBoundary>
   )
 }
 
