@@ -9,6 +9,9 @@ on:
     branches:
       - main
 
+env:
+  NODE_VERSION: '20'
+
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
@@ -23,9 +26,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          cache-dependency-path: mfers-app/package-lock.json
+          cache-dependency-path: |
+            mfers-app/package-lock.json
+            mfers-app/api/package-lock.json
 
       - name: Install frontend dependencies
         run: npm ci
@@ -33,6 +38,26 @@ jobs:
 
       - name: Install API dependencies
         run: npm ci
+        working-directory: mfers-app/api
+
+      - name: Lint frontend
+        run: npm run lint
+        working-directory: mfers-app
+
+      - name: Typecheck frontend
+        run: npm run typecheck
+        working-directory: mfers-app
+
+      - name: Test frontend
+        run: npm test
+        working-directory: mfers-app
+
+      - name: Lint API
+        run: npm run lint
+        working-directory: mfers-app/api
+
+      - name: Typecheck API
+        run: npm run typecheck
         working-directory: mfers-app/api
 
       - name: Build frontend

@@ -13,26 +13,25 @@
 | #6 | Connect frontend to weeks API | ✅ Complete |
 | #7 | Write component tests | ✅ Complete (12 tests) |
 | #8 | Add error boundaries to App | ✅ Complete |
+| #15 | feat: Run Lighthouse accessibility audit | ✅ Complete |
 
 ### 🔄 Open Issues (In Progress)
 | Issue | Title | Priority | Status |
 |-------|-------|----------|--------|
+| #16 | feat: Configure Azure Static Web Apps deployment | 🔴 Critical | 🔄 In Progress |
 | #13 | feat: Implement Azure Table Storage for weeks | 🔴 Critical | ⏳ Not Started |
 | #14 | feat: Implement server-side verse caching | 🟡 High | ⏳ Not Started |
-| #15 | feat: Run Lighthouse accessibility audit | 🟡 High | ⏳ Not Started |
-| #16 | feat: Configure Azure Static Web Apps deployment | 🔴 Critical | ⏳ Not Started |
 | #17 | test: Mobile device testing | 🟡 High | ⏳ Not Started |
 | #18 | perf: Performance optimization and bundle analysis | 🟢 Medium | ⏳ Not Started |
 | #19 | docs: Update project documentation | 🟢 Medium | ⏳ Not Started |
 
 ### Priority Order for Remaining Work
-1. **#15** - Lighthouse audit (quick win, 1h)
-2. **#16** - Azure SWA deployment (critical for launch, 3h)
-3. **#13** - Azure Table Storage (backend persistence, 4h)
-4. **#14** - Server-side verse caching (improves performance, 3h)
-5. **#17** - Mobile testing (QA, 2h)
-6. **#18** - Performance optimization (2h)
-7. **#19** - Documentation update (2h)
+1. **#16** - Azure SWA deployment (critical for launch, 3h) ← CURRENT
+2. **#13** - Azure Table Storage (backend persistence, 4h)
+3. **#14** - Server-side verse caching (improves performance, 3h)
+4. **#17** - Mobile testing (QA, 2h)
+5. **#18** - Performance optimization (2h)
+6. **#19** - Documentation update (2h)
 
 ---
 
