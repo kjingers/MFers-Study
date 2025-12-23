@@ -2,22 +2,30 @@
   "name": "mfers-app-api",
   "version": "1.0.0",
   "description": "Azure Functions API for MFers Bible Study App",
+  "type": "module",
   "main": "dist/src/functions/*.js",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
     "prestart": "npm run build",
     "start": "func start",
-    "test": "vitest"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@azure/data-tables": "^13.2.2",
     "@azure/functions": "^4.5.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
     "@types/node": "^20.10.0",
     "azure-functions-core-tools": "^4.6.0",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
     "typescript": "^5.3.0",
-    "vitest": "^1.0.0"
+    "typescript-eslint": "^8.46.4",
+    "vitest": "^4.0.0"
   }
 }
