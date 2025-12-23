@@ -4,27 +4,11 @@ import {
   HttpResponseInit,
   InvocationContext,
 } from "@azure/functions";
-
-/**
- * Week data structure returned from the API.
- */
-interface Week {
-  weekId: string;
-  weekDate: string;
-  readingAssignment: string;
-  dinnerFamily: string | null;
-  dinnerNotes: string | null;
-  questions: Question[];
-}
-
-/**
- * Question structure.
- */
-interface Question {
-  questionId: string;
-  order: number;
-  text: string;
-}
+import {
+  getWeeksFromStorage,
+  getWeekFromStorage,
+  type Week,
+} from "../shared/table-storage.js";
 
 /**
  * Navigation metadata for pagination.
@@ -37,8 +21,7 @@ interface WeekNavigation {
 }
 
 /**
- * Mock week data.
- * In production, this would come from Azure Table Storage.
+ * Mock week data - used as fallback when Table Storage is not configured.
  */
 const mockWeeks: Week[] = [
   {
@@ -150,21 +133,50 @@ const mockWeeks: Week[] = [
 ];
 
 /**
- * Get sorted weeks array.
+ * Get weeks data - tries Table Storage first, falls back to mock data.
  */
-function getSortedWeeks(): Week[] {
+async function getWeeksData(context: InvocationContext): Promise<Week[]> {
+  try {
+    const storageWeeks = await getWeeksFromStorage();
+    if (storageWeeks.length > 0) {
+      context.log("Loaded weeks from Azure Table Storage");
+      return storageWeeks;
+    }
+  } catch (error) {
+    context.log("Table Storage error, falling back to mock data:", error);
+  }
+  
+  context.log("Using mock week data");
   return [...mockWeeks].sort(
     (a, b) => new Date(a.weekDate).getTime() - new Date(b.weekDate).getTime()
   );
 }
 
 /**
+ * Get a specific week - tries Table Storage first, falls back to mock data.
+ */
+async function getWeekData(weekId: string, context: InvocationContext): Promise<Week | null> {
+  try {
+    const storageWeek = await getWeekFromStorage(weekId);
+    if (storageWeek) {
+      context.log(`Loaded week ${weekId} from Azure Table Storage`);
+      return storageWeek;
+    }
+  } catch (error) {
+    context.log("Table Storage error, falling back to mock data:", error);
+  }
+  
+  // Fall back to mock data
+  const week = mockWeeks.find((w) => w.weekId === weekId);
+  if (week) {
+    context.log(`Loaded week ${weekId} from mock data`);
+  }
+  return week ?? null;
+}
+
+/**
  * GET /api/weeks - List all weeks
  * GET /api/weeks/{weekId} - Get a specific week
- *
- * @param request - The HTTP request
- * @param context - The invocation context
- * @returns HTTP response with week data
  */
 async function getWeeks(
   request: HttpRequest,
@@ -173,20 +185,20 @@ async function getWeeks(
   context.log(`Processing weeks request: ${request.url}`);
 
   const weekId = request.params.weekId;
-  const sortedWeeks = getSortedWeeks();
 
   if (weekId) {
-    // Find the specific week
-    const weekIndex = sortedWeeks.findIndex((w) => w.weekId === weekId);
+    // Get specific week
+    const sortedWeeks = await getWeeksData(context);
+    const week = await getWeekData(weekId, context);
 
-    if (weekIndex === -1) {
+    if (!week) {
       return {
         status: 404,
         jsonBody: { error: `Week not found: ${weekId}` },
       };
     }
 
-    const week = sortedWeeks[weekIndex];
+    const weekIndex = sortedWeeks.findIndex((w) => w.weekId === weekId);
     const navigation: WeekNavigation = {
       previousWeekId: weekIndex > 0 ? sortedWeeks[weekIndex - 1].weekId : null,
       nextWeekId:
@@ -204,6 +216,7 @@ async function getWeeks(
   }
 
   // Return list of all weeks
+  const sortedWeeks = await getWeeksData(context);
   return {
     status: 200,
     jsonBody: {
