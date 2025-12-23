@@ -1,11 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BookOpen, Utensils } from "lucide-react";
 import { useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ErrorBoundary } from "./components/error-boundary";
+import { BottomNav } from "./components/layout";
 import { WeekPageSkeleton } from "./components/ui";
 import { VerseModal } from "./components/verse-modal";
 import { WeekViewer } from "./components/week";
+import { DinnerSchedule } from "./pages";
 import "./index.css";
 import { formatReference } from "./lib/verse-parser";
 import type { BibleReference } from "./types/verse";
@@ -55,33 +56,6 @@ function WeekPage() {
         <WeekViewer onVerseClick={handleVerseClick} />
       </main>
 
-      {/* Bottom Nav */}
-      <nav
-        className="fixed bottom-0 inset-x-0 h-16 border-t border-border bg-surface safe-area-bottom"
-        aria-label="Main navigation"
-      >
-        <div className="flex justify-around items-center h-full" role="tablist">
-          <button
-            className="flex flex-col items-center gap-1 p-2 min-w-[64px] min-h-[44px] text-accent"
-            role="tab"
-            aria-selected="true"
-            aria-label="View weekly study content"
-          >
-            <BookOpen className="h-6 w-6" aria-hidden="true" />
-            <span className="text-xs">Week</span>
-          </button>
-          <button
-            className="flex flex-col items-center gap-1 p-2 min-w-[64px] min-h-[44px] text-muted-foreground"
-            role="tab"
-            aria-selected="false"
-            aria-label="View dinner assignments"
-          >
-            <Utensils className="h-6 w-6" aria-hidden="true" />
-            <span className="text-xs">Dinner</span>
-          </button>
-        </div>
-      </nav>
-
       {/* Verse Modal - Integrated with API */}
       <VerseModal
         reference={selectedVerse}
@@ -93,10 +67,30 @@ function WeekPage() {
 }
 
 /**
+ * Dinner page wrapper with bottom navigation.
+ */
+function DinnerPage() {
+  return <DinnerSchedule />;
+}
+
+/**
  * Loading page component.
  */
 function LoadingPage() {
   return <WeekPageSkeleton />;
+}
+
+/**
+ * Layout wrapper that includes bottom navigation.
+ * Used for all main routes that need the nav bar.
+ */
+function AppLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      {children}
+      <BottomNav />
+    </>
+  );
 }
 
 /**
@@ -107,12 +101,15 @@ function App() {
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<WeekPage />} />
-            <Route path="/week/:weekId" element={<WeekPage />} />
-            <Route path="/loading" element={<LoadingPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <AppLayout>
+            <Routes>
+              <Route path="/" element={<WeekPage />} />
+              <Route path="/week/:weekId" element={<WeekPage />} />
+              <Route path="/dinner" element={<DinnerPage />} />
+              <Route path="/loading" element={<LoadingPage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </AppLayout>
         </BrowserRouter>
       </QueryClientProvider>
     </ErrorBoundary>
