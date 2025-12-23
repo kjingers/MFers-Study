@@ -1,0 +1,212 @@
+# MFers Bible Study App
+
+A Progressive Web App (PWA) for weekly Bible study tracking with verse lookup and multiple translation support.
+
+## ✨ Features
+
+- **Week Navigation**: Browse through weekly Bible study content
+- **Bible Verse Modal**: Click any verse reference to view full text
+- **4 Translation Tabs**: NIV, ESV, KJV, and NLT translations
+- **Azure Foundry Integration**: AI-powered verse fetching via Azure OpenAI
+- **PWA Support**: Install to homescreen on mobile devices
+- **Offline Capability**: Cached verses available offline
+- **Mobile-First Design**: Responsive UI optimized for mobile
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React 18 + TypeScript + Vite
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **Backend**: Azure Functions (Node.js)
+- **AI Integration**: Azure Foundry (OpenAI)
+- **Hosting**: Azure Static Web Apps
+
+## 📁 Project Structure
+
+```
+mfers-app/
+├── api/                        # Azure Functions backend
+│   ├── src/
+│   │   ├── functions/
+│   │   │   ├── verses.ts       # Verse lookup API
+│   │   │   └── weeks.ts        # Week content API
+│   │   └── shared/
+│   │       ├── azure-foundry.ts # Azure OpenAI client
+│   │       └── types.ts        # Shared TypeScript types
+│   ├── host.json
+│   ├── package.json
+│   └── tsconfig.json
+├── public/
+│   ├── icons/                  # PWA icons
+│   └── manifest.json           # PWA manifest
+├── src/
+│   ├── components/
+│   │   ├── dinner/             # Dinner card components
+│   │   ├── questions/          # Discussion questions
+│   │   ├── reading/            # Reading content & verse links
+│   │   ├── ui/                 # Reusable UI components
+│   │   ├── verse-modal/        # Verse display modal
+│   │   └── week/               # Week navigation & viewer
+│   ├── data/                   # Mock data for development
+│   ├── hooks/                  # Custom React hooks
+│   ├── lib/                    # Utility functions
+│   ├── services/               # API service layer
+│   ├── store/                  # Zustand stores
+│   └── types/                  # TypeScript type definitions
+├── .env.example                # Environment variables template
+├── index.html                  # Entry HTML with PWA tags
+├── package.json
+├── tailwind.config.js
+├── tsconfig.json
+└── vite.config.ts
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+- Azure account (for deployment)
+
+### Local Development
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/mfers-study.git
+   cd mfers-study/mfers-app
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   cd api && npm install && cd ..
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit `.env` with your Azure credentials:
+   ```env
+   VITE_API_URL=http://localhost:7071/api
+   AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com
+   AZURE_OPENAI_API_KEY=your-api-key
+   AZURE_OPENAI_DEPLOYMENT=gpt-4
+   ```
+
+4. **Start development servers**
+   ```bash
+   # Start Vite dev server
+   npm run dev
+   
+   # In a separate terminal, start Azure Functions
+   cd api && npm start
+   ```
+
+5. **Open the app**
+   Navigate to `http://localhost:5173`
+
+### Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start Vite development server |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build |
+| `npm run lint` | Run ESLint |
+| `npm run type-check` | Run TypeScript compiler check |
+
+## ☁️ Azure Deployment
+
+### Option 1: GitHub Actions (Recommended)
+
+1. Create an Azure Static Web App in the Azure Portal
+2. Copy the deployment token from Azure
+3. Add `AZURE_STATIC_WEB_APPS_API_TOKEN` secret to your GitHub repository
+4. Push to `main` branch - deployment is automatic
+
+### Option 2: Azure CLI
+
+```bash
+# Login to Azure
+az login
+
+# Create resource group
+az group create --name mfers-rg --location eastus
+
+# Create Static Web App
+az staticwebapp create \
+  --name mfers-bible-study \
+  --resource-group mfers-rg \
+  --source https://github.com/your-username/mfers-study \
+  --location "East US 2" \
+  --branch main \
+  --app-location "/mfers-app" \
+  --api-location "/mfers-app/api" \
+  --output-location "dist"
+```
+
+### Azure OpenAI Setup
+
+1. Create an Azure OpenAI resource in the Azure Portal
+2. Deploy a GPT-4 model
+3. Configure the following environment variables in your Static Web App:
+   - `AZURE_OPENAI_ENDPOINT`
+   - `AZURE_OPENAI_API_KEY`
+   - `AZURE_OPENAI_DEPLOYMENT`
+
+## 🔧 Environment Variables
+
+### Frontend (Vite)
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `VITE_API_URL` | API base URL | Yes |
+
+### Backend (Azure Functions)
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `AZURE_OPENAI_ENDPOINT` | Azure OpenAI endpoint URL | Yes |
+| `AZURE_OPENAI_API_KEY` | Azure OpenAI API key | Yes |
+| `AZURE_OPENAI_DEPLOYMENT` | Model deployment name | Yes |
+
+## 📱 PWA Installation
+
+### Mobile (iOS/Android)
+1. Open the app in your mobile browser
+2. Tap "Add to Home Screen" or "Install"
+3. The app will be available as a standalone application
+
+### Desktop (Chrome/Edge)
+1. Look for the install icon in the address bar
+2. Click "Install" to add to your desktop
+
+## 🧪 Testing
+
+```bash
+# Run unit tests
+npm run test
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run e2e tests
+npm run test:e2e
+```
+
+## 🤝 Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on how to contribute.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Bible verse data sourced via Azure OpenAI
+- Icons designed with accessibility in mind
+- Built with ❤️ for the MFers Bible study group
