@@ -220,17 +220,18 @@ function WeekViewerSkeleton() {
       </div>
 
       {/* Reading card skeleton */}
-      <div className="p-4">
+      <div className="px-4 pt-4">
         <Skeleton className="h-24 w-full rounded-lg" />
       </div>
 
       {/* Dinner card skeleton */}
-      <div className="px-4 pb-4">
+      <div className="px-4 pt-4">
         <Skeleton className="h-20 w-full rounded-lg" />
       </div>
 
-      {/* Questions skeleton */}
-      <div className="space-y-3 px-4">
+      {/* Questions skeleton - section spacing */}
+      <div className="px-4 pt-6 space-y-4">
+        <Skeleton className="h-6 w-40" />
         <Skeleton className="h-16 w-full rounded-lg" />
         <Skeleton className="h-16 w-full rounded-lg" />
         <Skeleton className="h-16 w-full rounded-lg" />
