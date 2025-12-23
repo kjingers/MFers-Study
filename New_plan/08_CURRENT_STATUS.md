@@ -1,28 +1,36 @@
 # MFers Bible Study App — Current Implementation Status
 
-**Last Updated:** December 23, 2025 (Late Evening)
+**Last Updated:** January 2025
 
 ---
 
 ## Executive Summary
 
-The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, and **Phase 2 (Bible Integration)**. The application builds successfully with **all core MVP features implemented**. Testing infrastructure is complete with 61 unit tests, CI/CD pipeline is operational, error boundaries provide robust error handling, and the **frontend now fetches week data from the API** instead of using mock data directly.
+The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, **Phase 2 (Bible Integration)**, and **Phase 3 (Production Deployment)**. The application is **live in production** with all core MVP features implemented.
 
-**All 8 GitHub issues have been closed.** Remaining work is primarily polish and production deployment.
+**Key Achievements:**
+- ✅ **Production Deployment**: https://lively-sand-015fd1b0f.4.azurestaticapps.net
+- ✅ **Azure OpenAI Integration**: GPT-4o powered verse retrieval with 7-day server-side caching
+- ✅ **62 Unit Tests** + **20 E2E Visual Tests** (Playwright)
+- ✅ **CI/CD Pipeline**: GitHub Actions with automated testing and deployment
+- ✅ **PWA Support**: Installable on mobile and desktop
+
+**Issues Completed:** 18 of 24 GitHub issues closed (including all critical functionality).
 
 ---
 
 ## Build Status
 
-| Check                  | Status                             |
-| ---------------------- | ---------------------------------- |
-| TypeScript Compilation | ✅ Passes                          |
-| Vite Build             | ✅ Passes (~4s)                    |
-| ESLint                 | ✅ Passes (0 errors)               |
-| Unit Tests             | ✅ 61 tests passing                |
-| CI/CD Pipeline         | ✅ GitHub Actions operational      |
-| Bundle Size            | ~74KB gzipped (under 200KB target) |
-| GitHub Issues          | ✅ All 8 closed                    |
+| Check                  | Status                                  |
+| ---------------------- | --------------------------------------- |
+| TypeScript Compilation | ✅ Passes                               |
+| Vite Build             | ✅ Passes (~4s)                         |
+| ESLint                 | ✅ Passes (0 errors)                    |
+| Unit Tests             | ✅ 62 tests passing (61 FE + 1 API)     |
+| E2E Visual Tests       | ✅ 20 tests passing (Playwright)        |
+| CI/CD Pipeline         | ✅ GitHub Actions operational           |
+| Bundle Size            | ~107KB gzipped (under 200KB target)     |
+| GitHub Issues          | ✅ 18 closed, 0 blocking                |
 
 ---
 
@@ -30,73 +38,91 @@ The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, and **
 
 ### ✅ Fully Implemented
 
-| Feature                        | Status      | Notes                             |
-| ------------------------------ | ----------- | --------------------------------- |
-| **Project Scaffolding**        | ✅ Complete | Vite + React + TypeScript         |
-| **Tailwind CSS**               | ✅ Complete | v4 with PostCSS                   |
-| **React Router**               | ✅ Complete | v7 with routing                   |
-| **TanStack Query**             | ✅ Complete | Configured with caching           |
-| **Zustand Store**              | ✅ Complete | Highlights persistence            |
-| **Week Navigation**            | ✅ Complete | Prev/Next buttons work            |
-| **Week Header Display**        | ✅ Complete | "Week of Dec 23, 2025" format     |
-| **Reading Assignment Display** | ✅ Complete | With verse detection              |
-| **Discussion Questions**       | ✅ Complete | Numbered list display             |
-| **Question Highlighting**      | ✅ Complete | Toggle + localStorage persistence |
-| **Dinner Card**                | ✅ Complete | Shows family + notes              |
-| **Bible Reference Parser**     | ✅ Complete | Regex-based detection             |
-| **Clickable Verse Links**      | ✅ Complete | Opens modal                       |
-| **Verse Modal**                | ✅ Complete | Bottom sheet on mobile            |
-| **Translation Tabs**           | ✅ Complete | NIV, KJV, MSG, ESV                |
-| **Verse API Endpoint**         | ✅ Complete | POST /api/verses                  |
-| **Azure Foundry Integration**  | ✅ Complete | GPT-4 for verse retrieval         |
-| **Mock Data Fallback**         | ✅ Complete | Works without Azure credentials   |
-| **Bottom Navigation**          | ✅ Complete | Week/Dinner tabs                  |
-| **Mobile-First Design**        | ✅ Complete | Card-based UI                     |
+| Feature                        | Status      | Notes                              |
+| ------------------------------ | ----------- | ---------------------------------- |
+| **Project Scaffolding**        | ✅ Complete | Vite 7 + React 19 + TypeScript 5   |
+| **Tailwind CSS**               | ✅ Complete | v4.1.18 with dark mode default     |
+| **React Router**               | ✅ Complete | v7 with routing                    |
+| **TanStack Query**             | ✅ Complete | Configured with caching            |
+| **Zustand Store**              | ✅ Complete | Highlights persistence             |
+| **Week Navigation**            | ✅ Complete | Prev/Next buttons work             |
+| **Week Header Display**        | ✅ Complete | "Week of Dec 23, 2025" format      |
+| **Reading Assignment Display** | ✅ Complete | With verse detection               |
+| **Discussion Questions**       | ✅ Complete | Numbered list display              |
+| **Question Highlighting**      | ✅ Complete | Toggle + localStorage persistence  |
+| **Dinner Card**                | ✅ Complete | Shows family + notes               |
+| **Bible Reference Parser**     | ✅ Complete | Regex-based detection              |
+| **Clickable Verse Links**      | ✅ Complete | Opens modal                        |
+| **Verse Modal**                | ✅ Complete | Bottom sheet on mobile             |
+| **Translation Tabs**           | ✅ Complete | NIV, KJV, MSG, ESV                 |
+| **Verse API Endpoint**         | ✅ Complete | POST /api/verses                   |
+| **Azure OpenAI Integration**   | ✅ Complete | GPT-4o for verse retrieval         |
+| **Server-Side Verse Caching**  | ✅ Complete | 7-day LRU cache (1000 entries)     |
+| **Bottom Navigation**          | ✅ Complete | Week/Dinner tabs                   |
+| **Mobile-First Design**        | ✅ Complete | Dark theme, 44px touch targets     |
+| **PWA Support**                | ✅ Complete | Installable on mobile/desktop      |
+| **CI/CD Pipeline**             | ✅ Complete | GitHub Actions with tests          |
+| **Playwright E2E Tests**       | ✅ Complete | 20 visual regression tests         |
+| **Accessibility (a11y)**       | ✅ Complete | WCAG 2.1 AA, skip links, ARIA      |
 
-### ⚠️ Partially Implemented
+### ⚠️ Not Implemented (Future Enhancements)
 
-| Feature                 | Status     | What's Missing                          |
-| ----------------------- | ---------- | --------------------------------------- |
-| **Azure Table Storage** | ⚠️ Partial | API returns mock data; no cloud storage |
+| Feature                      | Priority  | Notes                              |
+| ---------------------------- | --------- | ---------------------------------- |
+| **Azure Table Storage**      | 🟡 Medium | Week data from mock, not persisted |
+| **Present Mode**             | 🟢 Low    | Post-MVP feature                   |
+| **Offline Mode**             | 🟢 Low    | Service worker caching             |
 
-### ❌ Not Implemented
+---
 
-| Feature                      | Planned Phase | Priority  |
-| ---------------------------- | ------------- | --------- |
-| **Azure Table Storage**      | Phase 1       | 🟡 Medium |
-| **Verse Caching (Server)**   | Phase 2       | 🟡 Medium |
-| **Accessibility Audit**      | Phase 3       | 🟡 Medium |
-| **Performance Optimization** | Phase 3       | 🟡 Medium |
-| **Production Deployment**    | Phase 3       | 🟡 Medium |
-| **PWA Features**             | Post-MVP      | 🟢 Low    |
-| **Offline Mode**             | Post-MVP      | 🟢 Low    |
+## Testing Coverage
+
+### Unit Tests (62 total)
+
+| File                    | Location                    | Tests    |
+| ----------------------- | --------------------------- | -------- |
+| `verse-parser.test.ts`  | `src/lib/`                  | 28 tests |
+| `highlights.test.ts`    | `src/store/`                | 17 tests |
+| `VerseLink.test.tsx`    | `src/components/reading/`   | 6 tests  |
+| `QuestionList.test.tsx` | `src/components/questions/` | 6 tests  |
+| `setup.test.ts`         | `src/test/`                 | 4 tests  |
+| `verses.test.ts`        | `api/src/functions/`        | 1 test   |
+
+### E2E Visual Tests (20 total - Playwright)
+
+| Test Category               | Tests |
+| --------------------------- | ----- |
+| Dark theme verification     | 2     |
+| Header/navigation styling   | 4     |
+| Touch target accessibility  | 2     |
+| Mobile responsiveness       | 4     |
+| Content area layout         | 4     |
+| Visual regression snapshots | 4     |
 
 ---
 
 ## Known Bugs & Issues
 
-### 🟡 Medium Priority
+### ✅ Recently Fixed
 
-1. **Verse Caching Not Implemented (Server-Side)**
+1. **~~Dark mode not applying~~** - ✅ FIXED: Updated Tailwind v4 @theme block
+2. **~~Playwright tests showing white background~~** - ✅ FIXED: Added colorScheme: "dark" to config
+3. **~~No server-side caching~~** - ✅ FIXED: 7-day LRU cache implemented
+4. **~~No E2E tests~~** - ✅ FIXED: 20 Playwright tests added
 
-   - Plan calls for `PassageCache` table
-   - Currently relies on client-side React Query caching only
+### 🟡 Medium Priority (Future Work)
 
-2. **No Azure Table Storage**
-   - API returns mock data from code
-   - Week data not persisted to cloud
+1. **No Azure Table Storage**
+   - API returns mock week data from code
+   - Week data not persisted to cloud database
 
 ### 🟢 Low Priority
 
-3. **Bottom Nav Not Functional**
+1. **Bottom Nav Dinner Tab**
+   - Currently shows same content as Week tab
+   - Future: Navigate to dinner-only view
 
-   - "Dinner" tab doesn't navigate anywhere
-   - Tabs are visual only
-
-4. **Present Mode Not Implemented**
-   - Post-MVP feature but mentioned in scope
-
-### ✅ Recently Fixed
+---
 
 6. **~~No Unit Tests~~** - ✅ FIXED: 61 tests now passing
 
@@ -150,10 +176,10 @@ The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, and **
 
 ### Backend Functions
 
-| Function | Location                      | Status       |
-| -------- | ----------------------------- | ------------ |
-| `verses` | `api/src/functions/verses.ts` | ✅ Complete  |
-| `weeks`  | `api/src/functions/weeks.ts`  | ⚠️ Stub only |
+| Function | Location                      | Status      |
+| -------- | ----------------------------- | ----------- |
+| `verses` | `api/src/functions/verses.ts` | ✅ Complete |
+| `weeks`  | `api/src/functions/weeks.ts`  | ✅ Complete |
 
 ### Services & Utilities
 
@@ -161,27 +187,24 @@ The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, and **
 | ------------------ | ----------------- | ---------------------- |
 | `verse-parser`     | `src/lib/`        | ✅ Complete + 28 tests |
 | `verse-service`    | `src/services/`   | ✅ Complete            |
-| `azure-foundry`    | `api/src/shared/` | ✅ Complete            |
+| `azure-foundry`    | `api/src/shared/` | ✅ Complete + caching  |
 | `highlights store` | `src/store/`      | ✅ Complete + 17 tests |
 | `useVerseQuery`    | `src/hooks/`      | ✅ Complete            |
-| `useWeekQuery`     | `src/hooks/`      | ✅ Complete (NEW)      |
+| `useWeekQuery`     | `src/hooks/`      | ✅ Complete            |
 | `error-boundary`   | `src/components/` | ✅ Complete            |
 
-### Test Files
+### E2E Test Files
 
-| File                    | Location                    | Tests    |
-| ----------------------- | --------------------------- | -------- |
-| `verse-parser.test.ts`  | `src/lib/`                  | 28 tests |
-| `highlights.test.ts`    | `src/store/`                | 17 tests |
-| `VerseLink.test.tsx`    | `src/components/reading/`   | 6 tests  |
-| `QuestionList.test.tsx` | `src/components/questions/` | 6 tests  |
-| `setup.test.ts`         | `src/test/`                 | 4 tests  |
+| File               | Location | Tests             |
+| ------------------ | -------- | ----------------- |
+| `visual.spec.ts`   | `e2e/`   | 20 tests (2 proj) |
 
 ### CI/CD Configuration
 
-| File     | Location             | Status      |
-| -------- | -------------------- | ----------- |
-| `ci.yml` | `.github/workflows/` | ✅ Complete |
+| File                         | Location             | Status      |
+| ---------------------------- | -------------------- | ----------- |
+| `azure-static-web-apps.yml`  | `.github/workflows/` | ✅ Complete |
+| `playwright.config.ts`       | `mfers-app/`         | ✅ Complete |
 
 ---
 

@@ -23,7 +23,7 @@ A Progressive Web App (PWA) for weekly Bible study tracking with verse lookup an
 - **Backend**: Azure Functions v4 (Node.js 20)
 - **AI Integration**: Azure OpenAI (GPT-4o)
 - **Hosting**: Azure Static Web Apps
-- **Testing**: Vitest + React Testing Library (62 tests)
+- **Testing**: Vitest + React Testing Library (62 unit tests) + Playwright (20 e2e tests)
 - **CI/CD**: GitHub Actions
 
 ## 📁 Project Structure
@@ -212,6 +212,8 @@ az staticwebapp create \
 
 ## 🧪 Testing
 
+### Unit Tests
+
 ```bash
 # Run unit tests
 npm run test
@@ -219,9 +221,30 @@ npm run test
 # Run tests with coverage
 npm run test:coverage
 
-# Run e2e tests
-npm run test:e2e
+# Run tests in watch mode
+npm run test:watch
 ```
+
+### E2E Visual Tests (Playwright)
+
+```bash
+# Run e2e tests against deployed URL
+PLAYWRIGHT_BASE_URL="https://lively-sand-015fd1b0f.4.azurestaticapps.net" npm run test:e2e
+
+# Run with UI mode for debugging
+PLAYWRIGHT_BASE_URL="https://lively-sand-015fd1b0f.4.azurestaticapps.net" npm run test:e2e:ui
+
+# Update visual snapshots
+PLAYWRIGHT_BASE_URL="https://lively-sand-015fd1b0f.4.azurestaticapps.net" npm run test:e2e:update
+```
+
+**Visual Tests Cover:**
+
+- Dark theme verification
+- Header and navigation styling
+- 44px touch target accessibility (WCAG 2.1 AA)
+- Mobile responsiveness (Mobile Chrome viewport)
+- Visual regression screenshots
 
 ## 🤝 Contributing
 
