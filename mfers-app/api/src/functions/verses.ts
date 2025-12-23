@@ -1,5 +1,6 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions"
 import { fetchVersesFromFoundry, isFoundryConfigured } from "../shared/azure-foundry.js"
+import { getCachedPassage, cachePassage } from "../shared/verse-cache.js"
 
 /**
  * Supported Bible translations.
@@ -83,8 +84,30 @@ async function getVerses(
       }
     }
     
+    // Try to get from cache first
+    const cached = await getCachedPassage(body.book, body.chapter, body.verseStart, verseEnd, translation)
+    if (cached) {
+      context.log("Cache hit - returning cached verses")
+      const response: PassageResponse = {
+        reference: {
+          book: body.book,
+          chapter: body.chapter,
+          verseStart: body.verseStart,
+          verseEnd: verseEnd,
+          raw: formatReferenceString(body.book, body.chapter, body.verseStart, verseEnd)
+        },
+        translation,
+        verses: cached.verses,
+        copyright: cached.copyright
+      }
+      return { status: 200, jsonBody: response }
+    }
+    
+    context.log("Cache miss - fetching verses")
+    
     // Fetch verses from Azure Foundry or use mock data
     let verses: Verse[]
+    let copyright: string
     
     if (isFoundryConfigured()) {
       context.log("Fetching verses from Azure Foundry")
@@ -97,14 +120,20 @@ async function getVerses(
           translation
         )
         verses = foundryResponse.verses
+        copyright = getCopyrightNotice(translation)
+        
+        // Cache the result for future requests
+        await cachePassage(body.book, body.chapter, body.verseStart, verseEnd, translation, verses, copyright)
       } catch (foundryError) {
         context.error("Azure Foundry error:", foundryError)
         // Fall back to mock data on error
         verses = generateMockVerses(body.verseStart, verseEnd, translation)
+        copyright = getCopyrightNotice(translation)
       }
     } else {
       context.log("Azure Foundry not configured, using mock data")
       verses = generateMockVerses(body.verseStart, verseEnd, translation)
+      copyright = getCopyrightNotice(translation)
     }
     
     const response: PassageResponse = {
@@ -117,7 +146,7 @@ async function getVerses(
       },
       translation,
       verses,
-      copyright: getCopyrightNotice(translation)
+      copyright
     }
     
     return {
