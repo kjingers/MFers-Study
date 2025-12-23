@@ -42,3 +42,9 @@ export {
   VerseSkeleton,
   type SkeletonProps
 } from "./skeleton"
+
+export {
+  Sheet,
+  SheetContent,
+  type SheetProps
+} from "./sheet"
