@@ -5,8 +5,8 @@ import {
   InvocationContext,
 } from "@azure/functions";
 import {
-  getWeeksFromStorage,
   getWeekFromStorage,
+  getWeeksFromStorage,
   type Week,
 } from "../shared/table-storage.js";
 
@@ -145,7 +145,7 @@ async function getWeeksData(context: InvocationContext): Promise<Week[]> {
   } catch (error) {
     context.log("Table Storage error, falling back to mock data:", error);
   }
-  
+
   context.log("Using mock week data");
   return [...mockWeeks].sort(
     (a, b) => new Date(a.weekDate).getTime() - new Date(b.weekDate).getTime()
@@ -155,7 +155,10 @@ async function getWeeksData(context: InvocationContext): Promise<Week[]> {
 /**
  * Get a specific week - tries Table Storage first, falls back to mock data.
  */
-async function getWeekData(weekId: string, context: InvocationContext): Promise<Week | null> {
+async function getWeekData(
+  weekId: string,
+  context: InvocationContext
+): Promise<Week | null> {
   try {
     const storageWeek = await getWeekFromStorage(weekId);
     if (storageWeek) {
@@ -165,7 +168,7 @@ async function getWeekData(weekId: string, context: InvocationContext): Promise<
   } catch (error) {
     context.log("Table Storage error, falling back to mock data:", error);
   }
-  
+
   // Fall back to mock data
   const week = mockWeeks.find((w) => w.weekId === weekId);
   if (week) {

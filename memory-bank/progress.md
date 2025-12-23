@@ -21,11 +21,11 @@
 
 ### 🔄 Open Issues (In Progress)
 
-| Issue | Title                                              | Priority    | Status         |
-| ----- | -------------------------------------------------- | ----------- | -------------- |
-| #17   | test: Mobile device testing                        | 🟡 High     | ⏳ Not Started |
-| #18   | perf: Performance optimization and bundle analysis | 🟢 Medium   | ⏳ Not Started |
-| #19   | docs: Update project documentation                 | 🟢 Medium   | ⏳ Not Started |
+| Issue | Title                                              | Priority  | Status         |
+| ----- | -------------------------------------------------- | --------- | -------------- |
+| #17   | test: Mobile device testing                        | 🟡 High   | ⏳ Not Started |
+| #18   | perf: Performance optimization and bundle analysis | 🟢 Medium | ⏳ Not Started |
+| #19   | docs: Update project documentation                 | 🟢 Medium | ⏳ Not Started |
 
 ### Priority Order for Remaining Work
 
