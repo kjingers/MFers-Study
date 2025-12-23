@@ -9,6 +9,7 @@
 The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, **Phase 2 (Bible Integration)**, and **Phase 3 (Production Deployment)**. The application is **live in production** with all core MVP features implemented.
 
 **Key Achievements:**
+
 - ✅ **Production Deployment**: https://lively-sand-015fd1b0f.4.azurestaticapps.net
 - ✅ **Azure OpenAI Integration**: GPT-4o powered verse retrieval with 7-day server-side caching
 - ✅ **62 Unit Tests** + **20 E2E Visual Tests** (Playwright)
@@ -21,16 +22,16 @@ The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, **Phas
 
 ## Build Status
 
-| Check                  | Status                                  |
-| ---------------------- | --------------------------------------- |
-| TypeScript Compilation | ✅ Passes                               |
-| Vite Build             | ✅ Passes (~4s)                         |
-| ESLint                 | ✅ Passes (0 errors)                    |
-| Unit Tests             | ✅ 62 tests passing (61 FE + 1 API)     |
-| E2E Visual Tests       | ✅ 20 tests passing (Playwright)        |
-| CI/CD Pipeline         | ✅ GitHub Actions operational           |
-| Bundle Size            | ~107KB gzipped (under 200KB target)     |
-| GitHub Issues          | ✅ 18 closed, 0 blocking                |
+| Check                  | Status                              |
+| ---------------------- | ----------------------------------- |
+| TypeScript Compilation | ✅ Passes                           |
+| Vite Build             | ✅ Passes (~4s)                     |
+| ESLint                 | ✅ Passes (0 errors)                |
+| Unit Tests             | ✅ 62 tests passing (61 FE + 1 API) |
+| E2E Visual Tests       | ✅ 20 tests passing (Playwright)    |
+| CI/CD Pipeline         | ✅ GitHub Actions operational       |
+| Bundle Size            | ~107KB gzipped (under 200KB target) |
+| GitHub Issues          | ✅ 18 closed, 0 blocking            |
 
 ---
 
@@ -38,40 +39,40 @@ The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, **Phas
 
 ### ✅ Fully Implemented
 
-| Feature                        | Status      | Notes                              |
-| ------------------------------ | ----------- | ---------------------------------- |
-| **Project Scaffolding**        | ✅ Complete | Vite 7 + React 19 + TypeScript 5   |
-| **Tailwind CSS**               | ✅ Complete | v4.1.18 with dark mode default     |
-| **React Router**               | ✅ Complete | v7 with routing                    |
-| **TanStack Query**             | ✅ Complete | Configured with caching            |
-| **Zustand Store**              | ✅ Complete | Highlights persistence             |
-| **Week Navigation**            | ✅ Complete | Prev/Next buttons work             |
-| **Week Header Display**        | ✅ Complete | "Week of Dec 23, 2025" format      |
-| **Reading Assignment Display** | ✅ Complete | With verse detection               |
-| **Discussion Questions**       | ✅ Complete | Numbered list display              |
-| **Question Highlighting**      | ✅ Complete | Toggle + localStorage persistence  |
-| **Dinner Card**                | ✅ Complete | Shows family + notes               |
-| **Bible Reference Parser**     | ✅ Complete | Regex-based detection              |
-| **Clickable Verse Links**      | ✅ Complete | Opens modal                        |
-| **Verse Modal**                | ✅ Complete | Bottom sheet on mobile             |
-| **Translation Tabs**           | ✅ Complete | NIV, KJV, MSG, ESV                 |
-| **Verse API Endpoint**         | ✅ Complete | POST /api/verses                   |
-| **Azure OpenAI Integration**   | ✅ Complete | GPT-4o for verse retrieval         |
-| **Server-Side Verse Caching**  | ✅ Complete | 7-day LRU cache (1000 entries)     |
-| **Bottom Navigation**          | ✅ Complete | Week/Dinner tabs                   |
-| **Mobile-First Design**        | ✅ Complete | Dark theme, 44px touch targets     |
-| **PWA Support**                | ✅ Complete | Installable on mobile/desktop      |
-| **CI/CD Pipeline**             | ✅ Complete | GitHub Actions with tests          |
-| **Playwright E2E Tests**       | ✅ Complete | 20 visual regression tests         |
-| **Accessibility (a11y)**       | ✅ Complete | WCAG 2.1 AA, skip links, ARIA      |
+| Feature                        | Status      | Notes                             |
+| ------------------------------ | ----------- | --------------------------------- |
+| **Project Scaffolding**        | ✅ Complete | Vite 7 + React 19 + TypeScript 5  |
+| **Tailwind CSS**               | ✅ Complete | v4.1.18 with dark mode default    |
+| **React Router**               | ✅ Complete | v7 with routing                   |
+| **TanStack Query**             | ✅ Complete | Configured with caching           |
+| **Zustand Store**              | ✅ Complete | Highlights persistence            |
+| **Week Navigation**            | ✅ Complete | Prev/Next buttons work            |
+| **Week Header Display**        | ✅ Complete | "Week of Dec 23, 2025" format     |
+| **Reading Assignment Display** | ✅ Complete | With verse detection              |
+| **Discussion Questions**       | ✅ Complete | Numbered list display             |
+| **Question Highlighting**      | ✅ Complete | Toggle + localStorage persistence |
+| **Dinner Card**                | ✅ Complete | Shows family + notes              |
+| **Bible Reference Parser**     | ✅ Complete | Regex-based detection             |
+| **Clickable Verse Links**      | ✅ Complete | Opens modal                       |
+| **Verse Modal**                | ✅ Complete | Bottom sheet on mobile            |
+| **Translation Tabs**           | ✅ Complete | NIV, KJV, MSG, ESV                |
+| **Verse API Endpoint**         | ✅ Complete | POST /api/verses                  |
+| **Azure OpenAI Integration**   | ✅ Complete | GPT-4o for verse retrieval        |
+| **Server-Side Verse Caching**  | ✅ Complete | 7-day LRU cache (1000 entries)    |
+| **Bottom Navigation**          | ✅ Complete | Week/Dinner tabs                  |
+| **Mobile-First Design**        | ✅ Complete | Dark theme, 44px touch targets    |
+| **PWA Support**                | ✅ Complete | Installable on mobile/desktop     |
+| **CI/CD Pipeline**             | ✅ Complete | GitHub Actions with tests         |
+| **Playwright E2E Tests**       | ✅ Complete | 20 visual regression tests        |
+| **Accessibility (a11y)**       | ✅ Complete | WCAG 2.1 AA, skip links, ARIA     |
 
 ### ⚠️ Not Implemented (Future Enhancements)
 
-| Feature                      | Priority  | Notes                              |
-| ---------------------------- | --------- | ---------------------------------- |
-| **Azure Table Storage**      | 🟡 Medium | Week data from mock, not persisted |
-| **Present Mode**             | 🟢 Low    | Post-MVP feature                   |
-| **Offline Mode**             | 🟢 Low    | Service worker caching             |
+| Feature                 | Priority  | Notes                              |
+| ----------------------- | --------- | ---------------------------------- |
+| **Azure Table Storage** | 🟡 Medium | Week data from mock, not persisted |
+| **Present Mode**        | 🟢 Low    | Post-MVP feature                   |
+| **Offline Mode**        | 🟢 Low    | Service worker caching             |
 
 ---
 
@@ -195,16 +196,16 @@ The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, **Phas
 
 ### E2E Test Files
 
-| File               | Location | Tests             |
-| ------------------ | -------- | ----------------- |
-| `visual.spec.ts`   | `e2e/`   | 20 tests (2 proj) |
+| File             | Location | Tests             |
+| ---------------- | -------- | ----------------- |
+| `visual.spec.ts` | `e2e/`   | 20 tests (2 proj) |
 
 ### CI/CD Configuration
 
-| File                         | Location             | Status      |
-| ---------------------------- | -------------------- | ----------- |
-| `azure-static-web-apps.yml`  | `.github/workflows/` | ✅ Complete |
-| `playwright.config.ts`       | `mfers-app/`         | ✅ Complete |
+| File                        | Location             | Status      |
+| --------------------------- | -------------------- | ----------- |
+| `azure-static-web-apps.yml` | `.github/workflows/` | ✅ Complete |
+| `playwright.config.ts`      | `mfers-app/`         | ✅ Complete |
 
 ---
 
