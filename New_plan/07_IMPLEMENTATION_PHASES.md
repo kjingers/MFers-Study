@@ -8,12 +8,12 @@ This document outlines the step-by-step implementation plan for the MFers Bible 
 
 ## Phase Summary
 
-| Phase | Duration | Focus Area |
-|-------|----------|------------|
-| **Phase 0** | 1 week | Repository scaffolding, CI/CD setup |
-| **Phase 1** | 2 weeks | Week viewer and navigation |
-| **Phase 2** | 2 weeks | Bible verse integration |
-| **Phase 3** | 1 week | Polish, testing, deployment |
+| Phase       | Duration | Focus Area                          |
+| ----------- | -------- | ----------------------------------- |
+| **Phase 0** | 1 week   | Repository scaffolding, CI/CD setup |
+| **Phase 1** | 2 weeks  | Week viewer and navigation          |
+| **Phase 2** | 2 weeks  | Bible verse integration             |
+| **Phase 3** | 1 week   | Polish, testing, deployment         |
 
 **Total MVP: ~6 weeks**
 
@@ -24,6 +24,7 @@ This document outlines the step-by-step implementation plan for the MFers Bible 
 ### Status: ✅ COMPLETE
 
 ### Objectives
+
 - Set up monorepo structure
 - Configure TypeScript, linting, formatting
 - Initialize Azure Static Web Apps with Functions
@@ -33,6 +34,7 @@ This document outlines the step-by-step implementation plan for the MFers Bible 
 ### Tasks
 
 #### 0.1 Initialize Monorepo
+
 ```
 ☑ Create GitHub repository
 ☑ Initialize npm workspace
@@ -43,15 +45,17 @@ This document outlines the step-by-step implementation plan for the MFers Bible 
 ```
 
 **TDD Anchor:**
+
 ```typescript
-describe('project structure', () => {
-  it('should have src directory for frontend')
-  it('should have api directory for functions')
-  it('should have shared types accessible from both')
-})
+describe("project structure", () => {
+  it("should have src directory for frontend");
+  it("should have api directory for functions");
+  it("should have shared types accessible from both");
+});
 ```
 
 #### 0.2 Configure Frontend
+
 ```
 ☑ Initialize Vite + React + TypeScript
 ☑ Configure Tailwind CSS
@@ -62,15 +66,17 @@ describe('project structure', () => {
 ```
 
 **TDD Anchor:**
+
 ```typescript
-describe('frontend setup', () => {
-  it('should render App component')
-  it('should have QueryClient provider')
-  it('should have Router provider')
-})
+describe("frontend setup", () => {
+  it("should render App component");
+  it("should have QueryClient provider");
+  it("should have Router provider");
+});
 ```
 
 #### 0.3 Configure Backend
+
 ```
 ☑ Initialize Azure Functions (Node.js v4)
 ☑ Configure TypeScript for Functions
@@ -79,14 +85,16 @@ describe('frontend setup', () => {
 ```
 
 **TDD Anchor:**
+
 ```typescript
-describe('functions setup', () => {
-  it('should respond to health check endpoint')
-  it('should connect to Table Storage')
-})
+describe("functions setup", () => {
+  it("should respond to health check endpoint");
+  it("should connect to Table Storage");
+});
 ```
 
 #### 0.4 Setup CI/CD
+
 ```
 ☑ Create GitHub Actions workflow
 ☑ Configure lint, typecheck, test, build steps
@@ -97,6 +105,7 @@ describe('functions setup', () => {
 ```
 
 **Workflow Created:**
+
 ```yaml
 # .github/workflows/ci.yml - NOW IMPLEMENTED
 name: CI
@@ -113,6 +122,7 @@ jobs:
 ```
 
 ### Phase 0 Exit Criteria
+
 - [x] `npm run dev` starts local development
 - [x] `npm run build` produces production build
 - [x] `npm test` runs test suite (61 tests passing)
@@ -126,6 +136,7 @@ jobs:
 ### Status: ⚠️ PARTIALLY COMPLETE (UI done, API stub only)
 
 ### Objectives
+
 - Display current week with reading and questions
 - Navigate between weeks (prev/next)
 - Highlight discussion questions
@@ -134,6 +145,7 @@ jobs:
 ### Tasks
 
 #### 1.1 Data Layer
+
 ```
 ☑ Define Week and Question types
 □ Create weekRepository (NOT DONE - using mock data)
@@ -143,21 +155,23 @@ jobs:
 ```
 
 **TDD Anchors:**
-```typescript
-describe('weekRepository', () => {
-  it('should return null for non-existent week')
-  it('should return week with embedded questions')
-  it('should list weeks sorted by date')
-})
 
-describe('GET /api/weeks/:weekId', () => {
-  it('should return 404 for unknown week')
-  it('should return week with navigation')
-  it('should include questions array')
-})
+```typescript
+describe("weekRepository", () => {
+  it("should return null for non-existent week");
+  it("should return week with embedded questions");
+  it("should list weeks sorted by date");
+});
+
+describe("GET /api/weeks/:weekId", () => {
+  it("should return 404 for unknown week");
+  it("should return week with navigation");
+  it("should include questions array");
+});
 ```
 
 #### 1.2 Week Header Component
+
 ```
 ☑ Create WeekHeader component (WeekNavigation.tsx)
 ☑ Implement date formatting
@@ -166,16 +180,18 @@ describe('GET /api/weeks/:weekId', () => {
 ```
 
 **TDD Anchors:**
+
 ```typescript
-describe('WeekHeader', () => {
-  it('should display "Week of Dec 23, 2025"')
-  it('should call onPrevious when prev clicked')
-  it('should disable prev button at first week')
-  it('should have 44px touch targets')
-})
+describe("WeekHeader", () => {
+  it('should display "Week of Dec 23, 2025"');
+  it("should call onPrevious when prev clicked");
+  it("should disable prev button at first week");
+  it("should have 44px touch targets");
+});
 ```
 
 #### 1.3 Reading Card Component
+
 ```
 ☑ Create ReadingCard component (ReadingContent.tsx)
 ☑ Display reading assignment text
@@ -183,15 +199,17 @@ describe('WeekHeader', () => {
 ```
 
 **TDD Anchors:**
+
 ```typescript
-describe('ReadingCard', () => {
-  it('should display reading assignment')
-  it('should render book icon')
-  it('should have card styling')
-})
+describe("ReadingCard", () => {
+  it("should display reading assignment");
+  it("should render book icon");
+  it("should have card styling");
+});
 ```
 
 #### 1.4 Question List Component
+
 ```
 ☑ Create QuestionList component
 ☑ Create QuestionCard component (QuestionItem.tsx)
@@ -200,22 +218,24 @@ describe('ReadingCard', () => {
 ```
 
 **TDD Anchors:**
-```typescript
-describe('QuestionCard', () => {
-  it('should display question number and text')
-  it('should toggle highlight on click')
-  it('should show bold styling when highlighted')
-  it('should have aria-pressed attribute')
-})
 
-describe('useHighlights', () => {
-  it('should toggle question in set')
-  it('should persist to localStorage')
-  it('should load from localStorage on mount')
-})
+```typescript
+describe("QuestionCard", () => {
+  it("should display question number and text");
+  it("should toggle highlight on click");
+  it("should show bold styling when highlighted");
+  it("should have aria-pressed attribute");
+});
+
+describe("useHighlights", () => {
+  it("should toggle question in set");
+  it("should persist to localStorage");
+  it("should load from localStorage on mount");
+});
 ```
 
 #### 1.5 Dinner Card Component
+
 ```
 ☑ Create DinnerCard component
 ☑ Display family name and notes
@@ -223,15 +243,17 @@ describe('useHighlights', () => {
 ```
 
 **TDD Anchors:**
+
 ```typescript
-describe('DinnerCard', () => {
-  it('should display family name')
-  it('should display notes when present')
-  it('should return null when no family')
-})
+describe("DinnerCard", () => {
+  it("should display family name");
+  it("should display notes when present");
+  it("should return null when no family");
+});
 ```
 
 #### 1.6 Week Page Integration
+
 ```
 ☑ Create WeekPage component (WeekViewer.tsx)
 ⚠ Wire up useWeek hook (USING MOCK DATA DIRECTLY)
@@ -241,16 +263,18 @@ describe('DinnerCard', () => {
 ```
 
 **TDD Anchors:**
+
 ```typescript
-describe('WeekPage', () => {
-  it('should show skeleton while loading')
-  it('should display week content on success')
-  it('should show error message on failure')
-  it('should navigate to adjacent weeks')
-})
+describe("WeekPage", () => {
+  it("should show skeleton while loading");
+  it("should display week content on success");
+  it("should show error message on failure");
+  it("should navigate to adjacent weeks");
+});
 ```
 
 ### Phase 1 Exit Criteria
+
 - [x] Opening app shows current week
 - [x] Prev/Next navigation works
 - [x] Questions can be highlighted
@@ -264,6 +288,7 @@ describe('WeekPage', () => {
 ### Status: ✅ MOSTLY COMPLETE
 
 ### Objectives
+
 - Detect verse references in text
 - Render clickable verse links
 - Display verse modal with translations
@@ -272,6 +297,7 @@ describe('WeekPage', () => {
 ### Tasks
 
 #### 2.1 Bible Reference Parser
+
 ```
 ☑ Create regex pattern for verse references
 ☑ Implement parseVerseReferences function
@@ -280,27 +306,33 @@ describe('WeekPage', () => {
 ```
 
 **TDD Anchors:**
+
 ```typescript
-describe('parseVerseReferences', () => {
+describe("parseVerseReferences", () => {
   it('should parse "John 3:16"', () => {
-    result = parseVerseReferences('See John 3:16')
+    result = parseVerseReferences("See John 3:16");
     expect(result[0]).toEqual({
-      book: 'John', chapter: 3, verseStart: 16, verseEnd: null, raw: 'John 3:16'
-    })
-  })
-  
+      book: "John",
+      chapter: 3,
+      verseStart: 16,
+      verseEnd: null,
+      raw: "John 3:16",
+    });
+  });
+
   it('should parse "John 3:1-15"', () => {
-    result = parseVerseReferences('Read John 3:1-15')
-    expect(result[0].verseEnd).toBe(15)
-  })
-  
-  it('should parse "1 John 1:1-4"')
-  it('should handle lowercase')
-  it('should find multiple references')
-})
+    result = parseVerseReferences("Read John 3:1-15");
+    expect(result[0].verseEnd).toBe(15);
+  });
+
+  it('should parse "1 John 1:1-4"');
+  it("should handle lowercase");
+  it("should find multiple references");
+});
 ```
 
 #### 2.2 RichText Component
+
 ```
 ☑ Create RichText component (ReadingContent.tsx handles this)
 ☑ Render text segments and verse links
@@ -309,15 +341,17 @@ describe('parseVerseReferences', () => {
 ```
 
 **TDD Anchors:**
+
 ```typescript
-describe('RichText', () => {
-  it('should render plain text without links')
-  it('should render verse references as buttons')
-  it('should call onReferenceClick with parsed ref')
-})
+describe("RichText", () => {
+  it("should render plain text without links");
+  it("should render verse references as buttons");
+  it("should call onReferenceClick with parsed ref");
+});
 ```
 
 #### 2.3 Verse Modal Component
+
 ```
 ☑ Create VerseModal component
 ☑ Implement bottom sheet on mobile
@@ -327,18 +361,20 @@ describe('RichText', () => {
 ```
 
 **TDD Anchors:**
+
 ```typescript
-describe('VerseModal', () => {
-  it('should not render when closed')
-  it('should default to NIV tab')
-  it('should switch translations')
-  it('should show loading spinner')
-  it('should display verses with numbers')
-  it('should show copyright notice')
-})
+describe("VerseModal", () => {
+  it("should not render when closed");
+  it("should default to NIV tab");
+  it("should switch translations");
+  it("should show loading spinner");
+  it("should display verses with numbers");
+  it("should show copyright notice");
+});
 ```
 
 #### 2.4 Azure Foundry Integration
+
 ```
 ☑ Set up Foundry client
 ☑ Create verse retrieval service
@@ -347,16 +383,18 @@ describe('VerseModal', () => {
 ```
 
 **TDD Anchors:**
+
 ```typescript
-describe('verseService', () => {
-  it('should build correct prompt for verse')
-  it('should parse Foundry response')
-  it('should include copyright')
-  it('should throw on invalid response')
-})
+describe("verseService", () => {
+  it("should build correct prompt for verse");
+  it("should parse Foundry response");
+  it("should include copyright");
+  it("should throw on invalid response");
+});
 ```
 
 #### 2.5 Verse Caching
+
 ```
 □ Create PassageCache table (NOT DONE - client-side only)
 □ Implement cache check on request (NOT DONE)
@@ -366,16 +404,18 @@ Note: Client-side caching via React Query is implemented
 ```
 
 **TDD Anchors:**
+
 ```typescript
-describe('cacheService', () => {
-  it('should return null on cache miss')
-  it('should return cached passage on hit')
-  it('should not return expired cache')
-  it('should write new passages to cache')
-})
+describe("cacheService", () => {
+  it("should return null on cache miss");
+  it("should return cached passage on hit");
+  it("should not return expired cache");
+  it("should write new passages to cache");
+});
 ```
 
 #### 2.6 API Endpoint
+
 ```
 ☑ Create /api/verses endpoint
 ☑ Validate request parameters
@@ -384,16 +424,18 @@ describe('cacheService', () => {
 ```
 
 **TDD Anchors:**
+
 ```typescript
-describe('GET /api/verses/:book/:chapter/:verse', () => {
-  it('should return 400 for invalid translation')
-  it('should return verse content')
-  it('should include copyright')
-  it('should cache responses')
-})
+describe("GET /api/verses/:book/:chapter/:verse", () => {
+  it("should return 400 for invalid translation");
+  it("should return verse content");
+  it("should include copyright");
+  it("should cache responses");
+});
 ```
 
 ### Phase 2 Exit Criteria
+
 - [x] Verse references are clickable
 - [x] Modal opens with verse text
 - [x] Translation switching works
@@ -407,6 +449,7 @@ describe('GET /api/verses/:book/:chapter/:verse', () => {
 ### Status: ❌ NOT STARTED
 
 ### Objectives
+
 - Complete accessibility audit
 - Optimize performance
 - Final testing and bug fixes
@@ -415,6 +458,7 @@ describe('GET /api/verses/:book/:chapter/:verse', () => {
 ### Tasks
 
 #### 3.1 Accessibility Audit
+
 ```
 □ Run Lighthouse accessibility audit
 □ Fix any contrast issues
@@ -424,11 +468,13 @@ describe('GET /api/verses/:book/:chapter/:verse', () => {
 ```
 
 **Acceptance Criteria:**
+
 - [ ] Lighthouse accessibility score ≥ 90
 - [ ] All interactive elements keyboard accessible
 - [ ] Screen reader announces content correctly
 
 #### 3.2 Performance Optimization
+
 ```
 □ Analyze bundle size
 □ Implement code splitting (lazy routes)
@@ -438,11 +484,13 @@ describe('GET /api/verses/:book/:chapter/:verse', () => {
 ```
 
 **Acceptance Criteria:**
+
 - [ ] Initial load < 2s on 4G
 - [ ] Bundle size < 200KB gzipped
 - [ ] Lighthouse performance score ≥ 80
 
 #### 3.3 Mobile Testing
+
 ```
 □ Test on iOS Safari (iPhone SE, iPhone 14)
 □ Test on Android Chrome (Pixel 7)
@@ -452,11 +500,13 @@ describe('GET /api/verses/:book/:chapter/:verse', () => {
 ```
 
 **Acceptance Criteria:**
+
 - [ ] No layout issues on tested devices
 - [ ] Touch interactions work smoothly
 - [ ] No content obscured by notches/home indicator
 
 #### 3.4 Final Bug Fixes
+
 ```
 □ Review all open issues
 □ Fix critical/high priority bugs
@@ -465,6 +515,7 @@ describe('GET /api/verses/:book/:chapter/:verse', () => {
 ```
 
 #### 3.5 Production Deployment
+
 ```
 □ Configure production environment variables
 □ Set up Azure Key Vault references
@@ -475,6 +526,7 @@ describe('GET /api/verses/:book/:chapter/:verse', () => {
 ```
 
 **Deployment Checklist:**
+
 ```
 □ Environment variables configured in Azure Portal
 □ Key Vault secrets referenced (not hardcoded)
@@ -485,6 +537,7 @@ describe('GET /api/verses/:book/:chapter/:verse', () => {
 ```
 
 ### Phase 3 Exit Criteria
+
 - [ ] Accessibility audit passed
 - [ ] Performance targets met
 - [ ] Mobile testing completed
@@ -512,12 +565,12 @@ describe('GET /api/verses/:book/:chapter/:verse', () => {
 
 ### Coverage Targets
 
-| Area | Target |
-|------|--------|
-| Utility functions | 90% |
-| React hooks | 80% |
-| Components | 70% |
-| API functions | 80% |
+| Area              | Target |
+| ----------------- | ------ |
+| Utility functions | 90%    |
+| React hooks       | 80%    |
+| Components        | 70%    |
+| API functions     | 80%    |
 
 ### Key Test Files
 
@@ -553,40 +606,44 @@ api/
 
 ### Technical Risks
 
-| Risk | Mitigation |
-|------|------------|
-| Azure Foundry rate limits | Implement aggressive caching; add fallback |
+| Risk                        | Mitigation                                 |
+| --------------------------- | ------------------------------------------ |
+| Azure Foundry rate limits   | Implement aggressive caching; add fallback |
 | Bible translation copyright | Use proper attribution; consider API.Bible |
-| Table Storage limits | Monitor usage; design for future migration |
+| Table Storage limits        | Monitor usage; design for future migration |
 
 ### Schedule Risks
 
-| Risk | Mitigation |
-|------|------------|
-| Scope creep | Strict MVP boundaries; defer to post-MVP |
-| Integration delays | Start Azure setup early; use mocks |
-| Testing bottleneck | TDD approach; automate from start |
+| Risk               | Mitigation                               |
+| ------------------ | ---------------------------------------- |
+| Scope creep        | Strict MVP boundaries; defer to post-MVP |
+| Integration delays | Start Azure setup early; use mocks       |
+| Testing bottleneck | TDD approach; automate from start        |
 
 ---
 
 ## Post-MVP Roadmap
 
 ### Phase 4: Enhanced Navigation (2 weeks)
+
 - Week selector bottom sheet
 - Swipe gesture navigation
 - Deep linking support
 
 ### Phase 5: Attendance Tracking (2 weeks)
+
 - Headcount input modal
 - Family attendance tracking
 - Attendance history
 
 ### Phase 6: PWA Features (1 week)
+
 - Service worker for offline
 - Push notifications
 - Install prompt
 
 ### Phase 7: Admin Features (3 weeks)
+
 - Authentication (Azure AD B2C)
 - Week/question editing
 - Study management
@@ -598,16 +655,19 @@ api/
 A task is complete when:
 
 1. **Code Complete**
+
    - Implementation matches spec
    - TypeScript compiles without errors
    - No lint warnings
 
 2. **Tested**
+
    - Unit tests written and passing
    - Manual testing on mobile device
    - Edge cases handled
 
 3. **Reviewed**
+
    - Code reviewed by peer (if applicable)
    - Documentation updated
    - Accessibility checked
@@ -632,9 +692,11 @@ A task is complete when:
 | As a user, I want to... | 5 | - | Todo |
 
 **Risks:**
+
 - [Risk 1 and mitigation]
 
 **Definition of Done:**
+
 - [ ] All stories complete
 - [ ] Tests passing
 - [ ] Deployed to staging

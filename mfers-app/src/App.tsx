@@ -1,14 +1,14 @@
-import { useState } from "react"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-import type { BibleReference } from "./types/verse"
-import { WeekViewer } from "./components/week"
-import { VerseModal } from "./components/verse-modal"
-import { WeekPageSkeleton } from "./components/ui"
-import { ErrorBoundary } from "./components/error-boundary"
-import { formatReference } from "./lib/verse-parser"
-import { BookOpen, Utensils } from "lucide-react"
-import "./index.css"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BookOpen, Utensils } from "lucide-react";
+import { useState } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { ErrorBoundary } from "./components/error-boundary";
+import { WeekPageSkeleton } from "./components/ui";
+import { VerseModal } from "./components/verse-modal";
+import { WeekViewer } from "./components/week";
+import "./index.css";
+import { formatReference } from "./lib/verse-parser";
+import type { BibleReference } from "./types/verse";
 
 /**
  * Create a QueryClient instance for TanStack Query.
@@ -21,23 +21,25 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
     },
   },
-})
+});
 
 /**
  * Main week page component with verse modal integration.
  */
 function WeekPage() {
-  const [selectedVerse, setSelectedVerse] = useState<BibleReference | null>(null)
-  const isModalOpen = selectedVerse !== null
+  const [selectedVerse, setSelectedVerse] = useState<BibleReference | null>(
+    null
+  );
+  const isModalOpen = selectedVerse !== null;
 
   const handleVerseClick = (reference: BibleReference) => {
-    console.log("Opening verse:", formatReference(reference))
-    setSelectedVerse(reference)
-  }
+    console.log("Opening verse:", formatReference(reference));
+    setSelectedVerse(reference);
+  };
 
   const handleCloseModal = () => {
-    setSelectedVerse(null)
-  }
+    setSelectedVerse(null);
+  };
 
   return (
     <>
@@ -64,14 +66,14 @@ function WeekPage() {
         onClose={handleCloseModal}
       />
     </>
-  )
+  );
 }
 
 /**
  * Loading page component.
  */
 function LoadingPage() {
-  return <WeekPageSkeleton />
+  return <WeekPageSkeleton />;
 }
 
 /**
@@ -91,7 +93,7 @@ function App() {
         </BrowserRouter>
       </QueryClientProvider>
     </ErrorBoundary>
-  )
+  );
 }
 
-export default App
+export default App;
