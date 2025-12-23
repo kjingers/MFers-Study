@@ -1,0 +1,1 @@
+Implement must-haves only. Ensure CI covers BOTH root and api/. If tests don’t exist, still run lint + typecheck + build. Keep workflow permissions minimal and add concurrency cancellation for PRs. Show a brief diff summary for each file you change.
