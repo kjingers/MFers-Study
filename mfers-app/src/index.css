@@ -20,6 +20,11 @@
   --radius-md: calc(0.5rem - 2px);
   --radius-sm: calc(0.5rem - 4px);
 
+  /* Touch target sizes (44px minimum for mobile accessibility) */
+  --spacing-touch: 2.75rem;
+  --min-height-touch: 2.75rem;
+  --min-width-touch: 2.75rem;
+
   /* Font family */
   --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, sans-serif;
