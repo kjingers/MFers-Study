@@ -1,11 +1,20 @@
 /// <reference types="vitest" />
 import react from "@vitejs/plugin-react"
 import path from "path"
+import { visualizer } from "rollup-plugin-visualizer"
 import { defineConfig } from "vitest/config"
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    // Bundle analysis - generates stats.html after build
+    visualizer({
+      filename: "dist/stats.html",
+      open: false,
+      gzipSize: true,
+    }),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

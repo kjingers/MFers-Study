@@ -43,3 +43,4 @@ coverage
 # Misc
 *.zip
 *.tsbuildinfo
+stats.html
