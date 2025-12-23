@@ -68,6 +68,32 @@ jobs:
         run: npm run build
         working-directory: mfers-app/api
 
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+        working-directory: mfers-app
+
+      - name: Run Playwright E2E tests
+        run: npm run test:e2e
+        working-directory: mfers-app
+        env:
+          CI: true
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: mfers-app/playwright-report/
+          retention-days: 7
+
+      - name: Upload Playwright screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-screenshots
+          path: mfers-app/test-results/
+          retention-days: 7
+
       - name: List dist contents
         run: |
           echo "=== Contents of mfers-app/dist ==="

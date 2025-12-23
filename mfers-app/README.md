@@ -2,24 +2,29 @@
 
 A Progressive Web App (PWA) for weekly Bible study tracking with verse lookup and multiple translation support.
 
+**Live Demo:** https://lively-sand-015fd1b0f.4.azurestaticapps.net
+
 ## ✨ Features
 
 - **Week Navigation**: Browse through weekly Bible study content
 - **Bible Verse Modal**: Click any verse reference to view full text
-- **4 Translation Tabs**: NIV, ESV, KJV, and NLT translations
-- **Azure Foundry Integration**: AI-powered verse fetching via Azure OpenAI
+- **4 Translation Tabs**: NIV, ESV, KJV, and MSG translations
+- **Azure OpenAI Integration**: GPT-4o powered verse retrieval
+- **Server-Side Caching**: 7-day verse cache for cost optimization
 - **PWA Support**: Install to homescreen on mobile devices
-- **Offline Capability**: Cached verses available offline
-- **Mobile-First Design**: Responsive UI optimized for mobile
+- **Mobile-First Design**: Dark theme with 44px touch targets
+- **Accessibility**: WCAG 2.1 AA compliant with skip links and ARIA labels
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 18 + TypeScript + Vite
-- **Styling**: Tailwind CSS
-- **State Management**: Zustand
-- **Backend**: Azure Functions (Node.js)
-- **AI Integration**: Azure Foundry (OpenAI)
+- **Frontend**: React 19 + TypeScript 5 + Vite 7
+- **Styling**: Tailwind CSS 4
+- **State Management**: Zustand + TanStack Query
+- **Backend**: Azure Functions v4 (Node.js 20)
+- **AI Integration**: Azure OpenAI (GPT-4o)
 - **Hosting**: Azure Static Web Apps
+- **Testing**: Vitest + React Testing Library (62 tests)
+- **CI/CD**: GitHub Actions
 
 ## 📁 Project Structure
 
@@ -54,6 +59,7 @@ mfers-app/
 │   ├── store/                  # Zustand stores
 │   └── types/                  # TypeScript type definitions
 ├── .env.example                # Environment variables template
+
 ├── index.html                  # Entry HTML with PWA tags
 ├── package.json
 ├── tailwind.config.js
@@ -72,23 +78,27 @@ mfers-app/
 ### Local Development
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/your-username/mfers-study.git
    cd mfers-study/mfers-app
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    cd api && npm install && cd ..
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env
    ```
-   
+
    Edit `.env` with your Azure credentials:
+
    ```env
    VITE_API_URL=http://localhost:7071/api
    AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com
@@ -97,10 +107,11 @@ mfers-app/
    ```
 
 4. **Start development servers**
+
    ```bash
    # Start Vite dev server
    npm run dev
-   
+
    # In a separate terminal, start Azure Functions
    cd api && npm start
    ```
@@ -110,13 +121,26 @@ mfers-app/
 
 ### Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start Vite development server |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
-| `npm run lint` | Run ESLint |
-| `npm run type-check` | Run TypeScript compiler check |
+#### Frontend (`mfers-app/`)
+
+| Command             | Description                   |
+| ------------------- | ----------------------------- |
+| `npm run dev`       | Start Vite development server |
+| `npm run build`     | Build for production          |
+| `npm run preview`   | Preview production build      |
+| `npm run lint`      | Run ESLint                    |
+| `npm run typecheck` | Run TypeScript compiler check |
+| `npm test`          | Run Vitest tests              |
+
+#### Backend (`mfers-app/api/`)
+
+| Command             | Description                   |
+| ------------------- | ----------------------------- |
+| `npm start`         | Start Azure Functions locally |
+| `npm run build`     | Compile TypeScript            |
+| `npm run lint`      | Run ESLint                    |
+| `npm run typecheck` | Run TypeScript compiler check |
+| `npm test`          | Run Vitest tests              |
 
 ## ☁️ Azure Deployment
 
@@ -161,26 +185,28 @@ az staticwebapp create \
 
 ### Frontend (Vite)
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `VITE_API_URL` | API base URL | Yes |
+| Variable       | Description  | Required |
+| -------------- | ------------ | -------- |
+| `VITE_API_URL` | API base URL | Yes      |
 
 ### Backend (Azure Functions)
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `AZURE_OPENAI_ENDPOINT` | Azure OpenAI endpoint URL | Yes |
-| `AZURE_OPENAI_API_KEY` | Azure OpenAI API key | Yes |
-| `AZURE_OPENAI_DEPLOYMENT` | Model deployment name | Yes |
+| Variable                  | Description               | Required |
+| ------------------------- | ------------------------- | -------- |
+| `AZURE_OPENAI_ENDPOINT`   | Azure OpenAI endpoint URL | Yes      |
+| `AZURE_OPENAI_API_KEY`    | Azure OpenAI API key      | Yes      |
+| `AZURE_OPENAI_DEPLOYMENT` | Model deployment name     | Yes      |
 
 ## 📱 PWA Installation
 
 ### Mobile (iOS/Android)
+
 1. Open the app in your mobile browser
 2. Tap "Add to Home Screen" or "Install"
 3. The app will be available as a standalone application
 
 ### Desktop (Chrome/Edge)
+
 1. Look for the install icon in the address bar
 2. Click "Install" to add to your desktop
 

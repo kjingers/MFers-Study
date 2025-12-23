@@ -44,3 +44,7 @@ coverage
 *.zip
 *.tsbuildinfo
 stats.html
+
+# Playwright
+playwright-report/
+test-results/
