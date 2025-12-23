@@ -30,7 +30,7 @@ export function ReadingContent({ text, onVerseClick }: ReadingContentProps) {
   return (
     <Card className="mx-4 mt-4">
       <CardHeader className="flex flex-row items-center gap-2 pb-2">
-        <BookOpen className="h-5 w-5 text-accent" />
+        <BookOpen className="h-5 w-5 text-accent" aria-hidden="true" />
         <CardTitle className="text-base">Reading</CardTitle>
       </CardHeader>
       <CardContent>

@@ -48,18 +48,19 @@ export function WeekNavigation({
         size="icon"
         onClick={onPrevious}
         disabled={!hasPrevious}
-        aria-label="Previous week"
+        aria-label="Go to previous week"
         className="min-w-[44px] min-h-[44px]"
       >
-        <ChevronLeft className="h-5 w-5" />
+        <ChevronLeft className="h-5 w-5" aria-hidden="true" />
       </Button>
 
       <div className="flex flex-col items-center">
         <h1 className="text-lg font-semibold">{weekTitle}</h1>
         {isCurrentWeek && (
-          <div
+          <span
             className="w-2 h-2 rounded-full bg-accent mt-1"
-            aria-label="Current week"
+            role="img"
+            aria-label="This is the current week"
           />
         )}
       </div>
@@ -69,10 +70,10 @@ export function WeekNavigation({
         size="icon"
         onClick={onNext}
         disabled={!hasNext}
-        aria-label="Next week"
+        aria-label="Go to next week"
         className="min-w-[44px] min-h-[44px]"
       >
-        <ChevronRight className="h-5 w-5" />
+        <ChevronRight className="h-5 w-5" aria-hidden="true" />
       </Button>
     </header>
   )

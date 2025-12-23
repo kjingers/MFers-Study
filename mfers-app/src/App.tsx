@@ -46,14 +46,27 @@ function WeekPage() {
       <WeekViewer onVerseClick={handleVerseClick} />
 
       {/* Bottom Nav */}
-      <nav className="fixed bottom-0 inset-x-0 h-16 border-t border-border bg-surface safe-area-bottom">
-        <div className="flex justify-around items-center h-full">
-          <button className="flex flex-col items-center gap-1 p-2 min-w-[64px] min-h-[44px] text-accent">
-            <BookOpen className="h-6 w-6" />
+      <nav
+        className="fixed bottom-0 inset-x-0 h-16 border-t border-border bg-surface safe-area-bottom"
+        aria-label="Main navigation"
+      >
+        <div className="flex justify-around items-center h-full" role="tablist">
+          <button
+            className="flex flex-col items-center gap-1 p-2 min-w-[64px] min-h-[44px] text-accent"
+            role="tab"
+            aria-selected="true"
+            aria-label="View weekly study content"
+          >
+            <BookOpen className="h-6 w-6" aria-hidden="true" />
             <span className="text-xs">Week</span>
           </button>
-          <button className="flex flex-col items-center gap-1 p-2 min-w-[64px] min-h-[44px] text-muted-foreground">
-            <Utensils className="h-6 w-6" />
+          <button
+            className="flex flex-col items-center gap-1 p-2 min-w-[64px] min-h-[44px] text-muted-foreground"
+            role="tab"
+            aria-selected="false"
+            aria-label="View dinner assignments"
+          >
+            <Utensils className="h-6 w-6" aria-hidden="true" />
             <span className="text-xs">Dinner</span>
           </button>
         </div>
