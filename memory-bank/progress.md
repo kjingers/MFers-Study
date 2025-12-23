@@ -17,22 +17,21 @@
 | #15   | feat: Run Lighthouse accessibility audit         | ✅ Complete            |
 | #16   | feat: Configure Azure Static Web Apps deployment | ✅ Complete            |
 | #13   | feat: Implement Azure Table Storage for weeks    | ✅ Complete            |
+| #14   | feat: Implement server-side verse caching        | ✅ Complete            |
 
 ### 🔄 Open Issues (In Progress)
 
 | Issue | Title                                              | Priority    | Status         |
 | ----- | -------------------------------------------------- | ----------- | -------------- |
-| #14   | feat: Implement server-side verse caching          | 🟡 High     | 🔄 In Progress |
 | #17   | test: Mobile device testing                        | 🟡 High     | ⏳ Not Started |
 | #18   | perf: Performance optimization and bundle analysis | 🟢 Medium   | ⏳ Not Started |
 | #19   | docs: Update project documentation                 | 🟢 Medium   | ⏳ Not Started |
 
 ### Priority Order for Remaining Work
 
-1. **#14** - Server-side verse caching (improves performance, 3h) ← CURRENT
-2. **#17** - Mobile testing (QA, 2h)
-3. **#18** - Performance optimization (2h)
-4. **#19** - Documentation update (2h)
+1. **#17** - Mobile testing (QA, 2h)
+2. **#18** - Performance optimization (2h)
+3. **#19** - Documentation update (2h)
 
 ---
 
