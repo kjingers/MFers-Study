@@ -1,0 +1,57 @@
+version: 2
+updates:
+  # Frontend dependencies
+  - package-ecosystem: "npm"
+    directory: "/mfers-app"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      react:
+        patterns:
+          - "react*"
+          - "@types/react*"
+      tanstack:
+        patterns:
+          - "@tanstack/*"
+      tailwind:
+        patterns:
+          - "tailwindcss*"
+          - "@tailwindcss/*"
+      dev-dependencies:
+        dependency-type: "development"
+        patterns:
+          - "eslint*"
+          - "typescript*"
+          - "vite*"
+          - "@vitejs/*"
+    labels:
+      - "dependencies"
+      - "frontend"
+
+  # API dependencies
+  - package-ecosystem: "npm"
+    directory: "/mfers-app/api"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 3
+    groups:
+      azure:
+        patterns:
+          - "@azure/*"
+    labels:
+      - "dependencies"
+      - "api"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "ci"

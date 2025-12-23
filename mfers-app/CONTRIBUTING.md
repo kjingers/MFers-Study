@@ -54,44 +54,65 @@ This project is meant to support Bible study and fellowship. Please be respectfu
 
 ### Prerequisites
 
-- Node.js 18+
-- npm 9+
+- Node.js 20+
+- npm 10+
 - Git
+- Azure Functions Core Tools (for API development)
 
 ### Installation
 
 ```bash
+# Navigate to the frontend
+cd mfers-app
+
 # Install frontend dependencies
 npm install
 
 # Install API dependencies
 cd api && npm install && cd ..
-
-# Copy environment file
-cp .env.example .env
 ```
 
 ### Running Locally
 
 ```bash
-# Start frontend dev server
+# Start frontend dev server (http://localhost:5173)
 npm run dev
 
-# In a separate terminal, start API
+# In a separate terminal, start API (http://localhost:7071)
 cd api && npm start
 ```
 
-### Running Tests
+### Running Checks
+
+These commands must pass before submitting a PR:
+
+#### Frontend (`mfers-app/`)
 
 ```bash
-# Run all tests
-npm run test
+cd mfers-app
+npm run lint       # ESLint
+npm run typecheck  # TypeScript type checking
+npm run build      # Production build
+```
 
-# Run tests with coverage
-npm run test:coverage
+#### API (`mfers-app/api/`)
 
-# Run linter
-npm run lint
+```bash
+cd mfers-app/api
+npm run lint       # ESLint
+npm run typecheck  # TypeScript type checking
+npm run build      # Compile TypeScript
+npm test           # Run Vitest tests
+```
+
+#### Run All Checks at Once
+
+```bash
+# Frontend
+cd mfers-app && npm run lint && npm run typecheck && npm run build
+
+# API
+cd mfers-app/api && npm run lint && npm run typecheck && npm run build
 ```
 
 ## 📝 Code Style Guidelines

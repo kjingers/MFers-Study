@@ -2,7 +2,7 @@
  * Unit tests for highlights Zustand store.
  * Tests cover all state management operations.
  */
-import { describe, it, expect, beforeEach } from "vitest"
+import { beforeEach, describe, expect, it } from "vitest"
 import { useHighlightsStore } from "./highlights"
 
 describe("useHighlightsStore", () => {
