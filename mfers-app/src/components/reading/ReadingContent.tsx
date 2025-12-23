@@ -1,7 +1,8 @@
 import { BookOpen } from "lucide-react";
 import { parseTextWithReferences } from "../../lib/verse-parser";
 import type { BibleReference } from "../../types/verse";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
+import { SectionHeader } from "../ui/section-header";
 import { VerseLink } from "./VerseLink";
 
 /**
@@ -28,26 +29,25 @@ export function ReadingContent({ text, onVerseClick }: ReadingContentProps) {
   const segments = parseTextWithReferences(text);
 
   return (
-    <Card className="mx-4 mt-4">
-      <CardHeader className="flex flex-row items-center gap-2 pb-2">
-        <BookOpen className="h-5 w-5 text-accent" aria-hidden="true" />
-        <CardTitle className="text-base">Reading</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-lg leading-relaxed">
-          {segments.map((segment, index) =>
-            segment.type === "text" ? (
-              <span key={index}>{segment.content}</span>
-            ) : (
-              <VerseLink
-                key={index}
-                reference={segment.reference}
-                onClick={() => onVerseClick(segment.reference)}
-              />
-            )
-          )}
-        </p>
-      </CardContent>
-    </Card>
+    <section className="mx-4 mt-6">
+      <SectionHeader icon={BookOpen} title="This Week's Reading" />
+      <Card>
+        <CardContent className="pt-4">
+          <p className="text-lg leading-relaxed">
+            {segments.map((segment, index) =>
+              segment.type === "text" ? (
+                <span key={index}>{segment.content}</span>
+              ) : (
+                <VerseLink
+                  key={index}
+                  reference={segment.reference}
+                  onClick={() => onVerseClick(segment.reference)}
+                />
+              )
+            )}
+          </p>
+        </CardContent>
+      </Card>
+    </section>
   );
 }

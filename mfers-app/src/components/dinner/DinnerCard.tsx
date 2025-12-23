@@ -1,5 +1,6 @@
 import { Utensils } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
+import { SectionHeader } from "../ui/section-header";
 
 /**
  * Props for DinnerCard component.
@@ -25,15 +26,16 @@ export function DinnerCard({ familyName, notes }: DinnerCardProps) {
   }
 
   return (
-    <Card className="mx-4 mt-4">
-      <CardHeader className="flex flex-row items-center gap-2 pb-2">
-        <Utensils className="h-5 w-5 text-accent" aria-hidden="true" />
-        <CardTitle className="text-base">Dinner</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-lg">{familyName}</p>
-        {notes && <p className="text-sm text-muted-foreground mt-1">{notes}</p>}
-      </CardContent>
-    </Card>
+    <section className="mx-4 mt-6">
+      <SectionHeader icon={Utensils} title="Dinner" />
+      <Card>
+        <CardContent className="pt-4">
+          <p className="text-lg font-medium">{familyName}</p>
+          {notes && (
+            <p className="text-sm text-muted-foreground mt-1">{notes}</p>
+          )}
+        </CardContent>
+      </Card>
+    </section>
   );
 }
