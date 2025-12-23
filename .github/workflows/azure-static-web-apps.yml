@@ -43,6 +43,13 @@ jobs:
         run: npm run build
         working-directory: mfers-app/api
 
+      - name: Prepare API for deployment
+        run: |
+          cd mfers-app/api
+          rm -rf node_modules
+          npm ci --omit=dev
+        working-directory: .
+
       - name: Deploy to Azure Static Web Apps
         id: deploy
         uses: Azure/static-web-apps-deploy@v1
