@@ -163,6 +163,7 @@
 ### Immediate Actions (This Week)
 
 1. **Run Lighthouse Accessibility Audit** (T-010) — 1 hour
+
    - Run Lighthouse in Chrome DevTools
    - Fix any WCAG issues identified
    - Add proper ARIA labels
@@ -175,15 +176,16 @@
 ### Next Sprint
 
 3. **Implement Azure Table Storage** (T-007) — 4 hours
+
    - Set up Azure Table Storage client
    - Store week data in cloud
 
-3. **Azure SWA Deployment** (T-011) — 3 hours
+4. **Azure SWA Deployment** (T-011) — 3 hours
 
    - Configure Azure Static Web Apps
    - Set up production environment
 
-4. **Accessibility Audit** (T-010, T-017) — 3 hours
+5. **Accessibility Audit** (T-010, T-017) — 3 hours
    - Run Lighthouse audit
    - Add proper ARIA labels
 

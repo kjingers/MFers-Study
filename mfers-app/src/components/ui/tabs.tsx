@@ -121,6 +121,7 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
         ref={ref}
         role="tab"
         type="button"
+        id={`tab-${value}`}
         aria-selected={isActive}
         aria-controls={`tabpanel-${value}`}
         data-state={isActive ? "active" : "inactive"}

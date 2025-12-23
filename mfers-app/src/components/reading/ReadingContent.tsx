@@ -1,23 +1,23 @@
-import { parseTextWithReferences } from "../../lib/verse-parser"
-import type { BibleReference } from "../../types/verse"
-import { VerseLink } from "./VerseLink"
-import { BookOpen } from "lucide-react"
-import { Card, CardHeader, CardContent, CardTitle } from "../ui/card"
+import { BookOpen } from "lucide-react";
+import { parseTextWithReferences } from "../../lib/verse-parser";
+import type { BibleReference } from "../../types/verse";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { VerseLink } from "./VerseLink";
 
 /**
  * Props for ReadingContent component.
  */
 export interface ReadingContentProps {
   /** The reading assignment text (may contain verse references) */
-  text: string
+  text: string;
   /** Callback when a verse reference is clicked */
-  onVerseClick: (reference: BibleReference) => void
+  onVerseClick: (reference: BibleReference) => void;
 }
 
 /**
  * Display reading assignment text with auto-detected verse links.
  * Parses text for Bible references and renders them as clickable VerseLink components.
- * 
+ *
  * @example
  * <ReadingContent
  *   text="Read John 3:1-21 and discuss John 3:16"
@@ -25,7 +25,7 @@ export interface ReadingContentProps {
  * />
  */
 export function ReadingContent({ text, onVerseClick }: ReadingContentProps) {
-  const segments = parseTextWithReferences(text)
+  const segments = parseTextWithReferences(text);
 
   return (
     <Card className="mx-4 mt-4">
@@ -49,5 +49,5 @@ export function ReadingContent({ text, onVerseClick }: ReadingContentProps) {
         </p>
       </CardContent>
     </Card>
-  )
+  );
 }

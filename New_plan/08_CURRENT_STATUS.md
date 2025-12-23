@@ -55,9 +55,9 @@ The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, and **
 
 ### ⚠️ Partially Implemented
 
-| Feature                 | Status     | What's Missing                            |
-| ----------------------- | ---------- | ----------------------------------------- |
-| **Azure Table Storage** | ⚠️ Partial | API returns mock data; no cloud storage   |
+| Feature                 | Status     | What's Missing                          |
+| ----------------------- | ---------- | --------------------------------------- |
+| **Azure Table Storage** | ⚠️ Partial | API returns mock data; no cloud storage |
 
 ### ❌ Not Implemented
 
@@ -78,6 +78,7 @@ The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, and **
 ### 🟡 Medium Priority
 
 1. **Verse Caching Not Implemented (Server-Side)**
+
    - Plan calls for `PassageCache` table
    - Currently relies on client-side React Query caching only
 
@@ -88,10 +89,11 @@ The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, and **
 ### 🟢 Low Priority
 
 3. **Bottom Nav Not Functional**
+
    - "Dinner" tab doesn't navigate anywhere
    - Tabs are visual only
 
-5. **Present Mode Not Implemented**
+4. **Present Mode Not Implemented**
    - Post-MVP feature but mentioned in scope
 
 ### ✅ Recently Fixed
@@ -234,6 +236,7 @@ The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, and **
 ### Immediate Actions (This Sprint)
 
 1. **Run Lighthouse Accessibility Audit** (T-010) - 1 hour
+
    - Run Lighthouse in Chrome DevTools
    - Fix any WCAG issues identified
 
@@ -244,15 +247,17 @@ The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, and **
 ### Next Sprint
 
 3. **Implement Azure Table Storage** (T-007) - 4 hours
+
    - Set up Azure Table Storage client
    - Store week data in cloud
 
 4. **Server-side Verse Caching** (T-009) - 3 hours
+
    - Implement PassageCache table
    - Reduce API calls to Azure OpenAI
    - Ensure WCAG AA compliance
 
-4. **Azure SWA Deployment** (T-011) - 3 hours
+5. **Azure SWA Deployment** (T-011) - 3 hours
    - Configure Azure Static Web Apps
    - Set up staging/production environments
 

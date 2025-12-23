@@ -21,6 +21,8 @@ export interface ModalProps {
   children: ReactNode
   /** Additional class names */
   className?: string
+  /** ID for the modal title (for aria-labelledby) */
+  titleId?: string
 }
 
 /**
@@ -35,7 +37,7 @@ export interface ModalProps {
  *   <ModalContent>Content here</ModalContent>
  * </Modal>
  */
-export function Modal({ isOpen, onClose, children, className }: ModalProps) {
+export function Modal({ isOpen, onClose, children, className, titleId = "modal-title" }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null)
   
   // Handle escape key
@@ -72,6 +74,7 @@ export function Modal({ isOpen, onClose, children, className }: ModalProps) {
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
+      aria-labelledby={titleId}
     >
       <div
         ref={dialogRef}
@@ -136,6 +139,7 @@ const ModalTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElem
   ({ className, ...props }, ref) => (
     <h2
       ref={ref}
+      id="modal-title"
       className={cn("text-lg font-semibold", className)}
       {...props}
     />

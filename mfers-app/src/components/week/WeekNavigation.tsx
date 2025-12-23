@@ -1,28 +1,28 @@
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { Button } from "../ui/button"
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "../ui/button";
 
 /**
  * Props for WeekNavigation component.
  */
 export interface WeekNavigationProps {
   /** Display text for the week (e.g., "Week of Dec 23, 2025") */
-  weekTitle: string
+  weekTitle: string;
   /** Whether a previous week exists */
-  hasPrevious: boolean
+  hasPrevious: boolean;
   /** Whether a next week exists */
-  hasNext: boolean
+  hasNext: boolean;
   /** Callback when previous button clicked */
-  onPrevious: () => void
+  onPrevious: () => void;
   /** Callback when next button clicked */
-  onNext: () => void
+  onNext: () => void;
   /** Whether this is the current week */
-  isCurrentWeek?: boolean
+  isCurrentWeek?: boolean;
 }
 
 /**
  * Week navigation header with prev/next controls.
  * Mobile-optimized with 44px touch targets.
- * 
+ *
  * @example
  * <WeekNavigation
  *   weekTitle="Week of Dec 23, 2025"
@@ -76,5 +76,5 @@ export function WeekNavigation({
         <ChevronRight className="h-5 w-5" aria-hidden="true" />
       </Button>
     </header>
-  )
+  );
 }

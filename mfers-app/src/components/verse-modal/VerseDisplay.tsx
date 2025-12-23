@@ -45,14 +45,15 @@ export function VerseDisplay({
   // Error state
   if (error) {
     return (
-      <div className="text-center py-6">
+      <div className="text-center py-6" role="alert">
         <p className="text-destructive mb-4">
           Unable to load verses. Please try again.
         </p>
         {onRetry && (
           <button
             onClick={onRetry}
-            className="px-4 py-2 bg-accent text-accent-foreground rounded-md hover:bg-accent/90 transition-colors"
+            className="px-4 py-2 bg-accent text-accent-foreground rounded-md hover:bg-accent/90 transition-colors min-h-[44px] min-w-[44px]"
+            aria-label="Retry loading verses"
           >
             Retry
           </button>
