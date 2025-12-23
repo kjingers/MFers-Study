@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "../ui/button";
+import { cn } from "../../lib/utils";
 
 /**
  * Props for WeekNavigation component.
@@ -42,7 +43,14 @@ export function WeekNavigation({
   isCurrentWeek = false,
 }: WeekNavigationProps) {
   return (
-    <header className="sticky top-0 z-10 h-14 flex items-center justify-between px-4 bg-surface border-b border-border">
+    <header
+      className={cn(
+        "sticky top-0 z-10 h-14 flex items-center justify-between px-4 border-b transition-colors",
+        isCurrentWeek
+          ? "bg-accent/10 border-accent/30"
+          : "bg-surface border-border"
+      )}
+    >
       <Button
         variant="ghost"
         size="icon"
@@ -55,14 +63,17 @@ export function WeekNavigation({
       </Button>
 
       <div className="flex flex-col items-center">
-        <h1 className="text-lg font-semibold">{weekTitle}</h1>
-        {isCurrentWeek && (
-          <span
-            className="w-2 h-2 rounded-full bg-accent mt-1"
-            role="img"
-            aria-label="This is the current week"
-          />
-        )}
+        <div className="flex items-center gap-2">
+          <h1 className="text-lg font-semibold">{weekTitle}</h1>
+          {isCurrentWeek && (
+            <span
+              className="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-accent text-accent-foreground rounded-full"
+              role="status"
+            >
+              This Week
+            </span>
+          )}
+        </div>
       </div>
 
       <Button
