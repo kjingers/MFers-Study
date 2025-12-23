@@ -1,4 +1,6 @@
+import { BookOpen } from "lucide-react";
 import type { Verse } from "../../types/verse";
+import { EmptyState } from "../ui/empty-state";
 import { VerseSkeleton } from "../ui/skeleton";
 
 /**
@@ -45,29 +47,33 @@ export function VerseDisplay({
   // Error state
   if (error) {
     return (
-      <div className="text-center py-6" role="alert">
-        <p className="text-destructive mb-4">
-          Unable to load verses. Please try again.
-        </p>
-        {onRetry && (
-          <button
-            onClick={onRetry}
-            className="px-4 py-2 bg-accent text-accent-foreground rounded-md hover:bg-accent/90 transition-colors min-h-[44px] min-w-[44px]"
-            aria-label="Retry loading verses"
-          >
-            Retry
-          </button>
-        )}
-      </div>
+      <EmptyState
+        icon={BookOpen}
+        title="Unable to Load Verses"
+        description="Something went wrong while fetching the passage."
+        action={
+          onRetry
+            ? {
+                label: "Try Again",
+                onClick: onRetry,
+                variant: "default",
+              }
+            : undefined
+        }
+        size="sm"
+      />
     );
   }
 
   // No data state
   if (!verses || verses.length === 0) {
     return (
-      <p className="text-muted-foreground italic">
-        No verses found for this reference.
-      </p>
+      <EmptyState
+        icon={BookOpen}
+        title="Passage Not Found"
+        description="We couldn't find verses for this reference. Please check the reference and try again."
+        size="sm"
+      />
     );
   }
 

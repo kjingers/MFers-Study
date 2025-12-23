@@ -1,5 +1,6 @@
 import { Utensils } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { EmptyState } from "../ui/empty-state";
 
 /**
  * Props for DinnerCard component.
@@ -9,18 +10,32 @@ export interface DinnerCardProps {
   familyName: string | null;
   /** Additional notes about dinner (optional) */
   notes: string | null;
+  /** Whether to show empty state when no family assigned */
+  showEmpty?: boolean;
 }
 
 /**
  * Simple card showing who's bringing dinner.
- * Returns null if no family is assigned.
+ * Can show empty state or hide completely when no family assigned.
  *
  * @example
  * <DinnerCard familyName="The Smith Family" notes="Bringing tacos" />
  */
-export function DinnerCard({ familyName, notes }: DinnerCardProps) {
-  // Don't render if no family assigned
+export function DinnerCard({ familyName, notes, showEmpty = false }: DinnerCardProps) {
+  // Show empty state or nothing if no family assigned
   if (!familyName) {
+    if (showEmpty) {
+      return (
+        <div className="mx-4 mt-4">
+          <EmptyState
+            icon={Utensils}
+            title="No Dinner Assigned"
+            description="No one is assigned to bring dinner this week."
+            size="sm"
+          />
+        </div>
+      );
+    }
     return null;
   }
 

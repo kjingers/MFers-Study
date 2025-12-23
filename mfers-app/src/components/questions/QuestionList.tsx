@@ -1,5 +1,7 @@
+import { MessageCircle } from "lucide-react"
 import type { Question } from "../../types/week"
 import type { BibleReference } from "../../types/verse"
+import { EmptyState } from "../ui/empty-state"
 import { QuestionItem } from "./QuestionItem"
 
 /**
@@ -36,6 +38,21 @@ export function QuestionList({
 }: QuestionListProps) {
   // Sort questions by order
   const sortedQuestions = [...questions].sort((a, b) => a.order - b.order)
+
+  // Empty state when no questions
+  if (sortedQuestions.length === 0) {
+    return (
+      <section className="px-4 mt-6">
+        <h2 className="font-semibold text-lg mb-3">Discussion Questions</h2>
+        <EmptyState
+          icon={MessageCircle}
+          title="No Questions This Week"
+          description="Discussion questions will appear here when available."
+          size="sm"
+        />
+      </section>
+    )
+  }
 
   return (
     <section className="px-4 mt-6">
