@@ -1,12 +1,14 @@
 # MFers Bible Study App — Current Implementation Status
 
-**Last Updated:** December 23, 2025 (Evening)
+**Last Updated:** December 23, 2025 (Late Evening)
 
 ---
 
 ## Executive Summary
 
-The project has made significant progress through **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, and **Phase 2 (Bible Integration)**. The application builds successfully with all core MVP features implemented. **Testing infrastructure is now complete** with 61 unit tests, **CI/CD pipeline is operational**, and **error boundaries** provide robust error handling. The remaining gap is connecting the frontend to the real weeks API (still using mock data).
+The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, and **Phase 2 (Bible Integration)**. The application builds successfully with **all core MVP features implemented**. Testing infrastructure is complete with 61 unit tests, CI/CD pipeline is operational, error boundaries provide robust error handling, and the **frontend now fetches week data from the API** instead of using mock data directly.
+
+**All 8 GitHub issues have been closed.** Remaining work is primarily polish and production deployment.
 
 ---
 
@@ -20,6 +22,7 @@ The project has made significant progress through **Phase 0 (Setup)**, **Phase 1
 | Unit Tests             | ✅ 61 tests passing                |
 | CI/CD Pipeline         | ✅ GitHub Actions operational      |
 | Bundle Size            | ~74KB gzipped (under 200KB target) |
+| GitHub Issues          | ✅ All 8 closed                    |
 
 ---
 
@@ -52,17 +55,15 @@ The project has made significant progress through **Phase 0 (Setup)**, **Phase 1
 
 ### ⚠️ Partially Implemented
 
-| Feature                         | Status     | What's Missing                                           |
-| ------------------------------- | ---------- | -------------------------------------------------------- |
-| **API Data Layer**              | ⚠️ Partial | Weeks API returns stub data; using client-side mock data |
-| **Current Week Auto-Detection** | ⚠️ Partial | Works with mock data, not Tuesday-anchored API           |
+| Feature                 | Status     | What's Missing                            |
+| ----------------------- | ---------- | ----------------------------------------- |
+| **Azure Table Storage** | ⚠️ Partial | API returns mock data; no cloud storage   |
 
 ### ❌ Not Implemented
 
 | Feature                      | Planned Phase | Priority  |
 | ---------------------------- | ------------- | --------- |
 | **Azure Table Storage**      | Phase 1       | 🟡 Medium |
-| **Weeks API (Full)**         | Phase 1       | 🟡 Medium |
 | **Verse Caching (Server)**   | Phase 2       | 🟡 Medium |
 | **Accessibility Audit**      | Phase 3       | 🟡 Medium |
 | **Performance Optimization** | Phase 3       | 🟡 Medium |
@@ -74,29 +75,19 @@ The project has made significant progress through **Phase 0 (Setup)**, **Phase 1
 
 ## Known Bugs & Issues
 
-### 🔴 High Priority
-
-1. **API Uses Stub Data**
-   - `weeks.ts` returns hardcoded stub responses
-   - Frontend uses `mock-weeks.ts` directly instead of API
-   - No actual Azure Table Storage integration
-
 ### 🟡 Medium Priority
 
-2. **Verse Caching Not Implemented (Server-Side)**
-
+1. **Verse Caching Not Implemented (Server-Side)**
    - Plan calls for `PassageCache` table
    - Currently relies on client-side React Query caching only
 
-3. **Week API Not Connected**
-   - Frontend fetches from `mockWeeks` directly
-   - Need `useWeekQuery` hook to fetch from API
-   - Need to wire up actual API calls
+2. **No Azure Table Storage**
+   - API returns mock data from code
+   - Week data not persisted to cloud
 
 ### 🟢 Low Priority
 
-4. **Bottom Nav Not Functional**
-
+3. **Bottom Nav Not Functional**
    - "Dinner" tab doesn't navigate anywhere
    - Tabs are visual only
 
@@ -171,6 +162,7 @@ The project has made significant progress through **Phase 0 (Setup)**, **Phase 1
 | `azure-foundry`    | `api/src/shared/` | ✅ Complete            |
 | `highlights store` | `src/store/`      | ✅ Complete + 17 tests |
 | `useVerseQuery`    | `src/hooks/`      | ✅ Complete            |
+| `useWeekQuery`     | `src/hooks/`      | ✅ Complete (NEW)      |
 | `error-boundary`   | `src/components/` | ✅ Complete            |
 
 ### Test Files
@@ -202,14 +194,11 @@ The project has made significant progress through **Phase 0 (Setup)**, **Phase 1
 | T-003 | Write unit tests for highlights store         | ✅ Done | 387d904 |
 | T-004 | Fix 4 ESLint errors                           | ✅ Done | b9752a6 |
 | T-005 | Set up GitHub Actions CI workflow             | ✅ Done | 4a282c5 |
+| T-006 | Connect frontend to weeks API                 | ✅ Done | 7a7cc95 |
 | T-008 | Write component tests (React Testing Library) | ✅ Done | 1e751db |
 | T-012 | Add error boundaries to App                   | ✅ Done | 0a0e1bc |
-
-### 🔴 Critical (Must Complete for MVP)
-
-| ID    | Task                          | Effort | Blocker? |
-| ----- | ----------------------------- | ------ | -------- |
-| T-006 | Connect frontend to weeks API | 4h     | No       |
+| T-013 | Tuesday-anchored week detection               | ✅ Done | 7a7cc95 |
+| T-014 | Add loading states to week viewer             | ✅ Done | 7a7cc95 |
 
 ### 🟡 High (Important for MVP Quality)
 
@@ -224,8 +213,6 @@ The project has made significant progress through **Phase 0 (Setup)**, **Phase 1
 
 | ID    | Task                                        | Effort | Blocker? |
 | ----- | ------------------------------------------- | ------ | -------- |
-| T-013 | Implement Tuesday-anchored week detection   | 2h     | T-007    |
-| T-014 | Add loading states to week viewer           | 1h     | No       |
 | T-015 | Mobile testing (iOS Safari, Android Chrome) | 2h     | No       |
 | T-016 | Performance optimization (code splitting)   | 2h     | No       |
 | T-017 | Add proper aria labels for accessibility    | 2h     | No       |
@@ -246,23 +233,23 @@ The project has made significant progress through **Phase 0 (Setup)**, **Phase 1
 
 ### Immediate Actions (This Sprint)
 
-1. **Connect API Layer** (T-006) - 4 hours
-   - Create `useWeekQuery` hook with React Query
-   - Update WeekViewer to fetch from `/api/weeks`
-   - Add loading and error states
-   - Remove direct mock data import
+1. **Run Lighthouse Accessibility Audit** (T-010) - 1 hour
+   - Run Lighthouse in Chrome DevTools
+   - Fix any WCAG issues identified
+
+2. **Configure Azure SWA Deployment** (T-011) - 3 hours
+   - Set up Azure Static Web Apps deployment
+   - Configure environment variables
 
 ### Next Sprint
 
-2. **Implement Azure Table Storage** (T-007) - 4 hours
-
+3. **Implement Azure Table Storage** (T-007) - 4 hours
    - Set up Azure Table Storage client
    - Store week data in cloud
 
-3. **Accessibility Audit** (T-010, T-017) - 3 hours
-
-   - Run Lighthouse audit
-   - Add proper ARIA labels
+4. **Server-side Verse Caching** (T-009) - 3 hours
+   - Implement PassageCache table
+   - Reduce API calls to Azure OpenAI
    - Ensure WCAG AA compliance
 
 4. **Azure SWA Deployment** (T-011) - 3 hours

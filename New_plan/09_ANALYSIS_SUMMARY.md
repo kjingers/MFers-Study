@@ -104,12 +104,11 @@
 
 ## Remaining Gaps ⚠️
 
-### 1. API Uses Stub Data
+### 1. No Azure Table Storage
 
-- `weeks.ts` returns hardcoded responses
-- Frontend imports `mock-weeks.ts` directly
-- No Azure Table Storage integration
-- Week data not persisted
+- API returns mock data from code
+- Week data not persisted to cloud storage
+- Need Azure Table Storage integration for production
 
 ---
 
@@ -124,14 +123,11 @@
 | T-003 | Write unit tests for highlights store         | ✅ Done (17 tests) |
 | T-004 | Fix 4 ESLint errors                           | ✅ Done            |
 | T-005 | Set up GitHub Actions CI workflow             | ✅ Done            |
+| T-006 | Connect frontend to weeks API                 | ✅ Done            |
 | T-008 | Write component tests (React Testing Library) | ✅ Done (12 tests) |
 | T-012 | Add error boundaries to App                   | ✅ Done            |
-
-### 🔴 Critical (Must Complete for MVP)
-
-| ID    | Task                          | Effort | Status |
-| ----- | ----------------------------- | ------ | ------ |
-| T-006 | Connect frontend to weeks API | 4h     | Todo   |
+| T-013 | Tuesday-anchored week detection               | ✅ Done            |
+| T-014 | Add loading states to week viewer             | ✅ Done            |
 
 ### 🟡 High (Important for MVP Quality)
 
@@ -146,8 +142,6 @@
 
 | ID    | Task                                        | Effort | Status |
 | ----- | ------------------------------------------- | ------ | ------ |
-| T-013 | Implement Tuesday-anchored week detection   | 2h     | Todo   |
-| T-014 | Add loading states to week viewer           | 1h     | Todo   |
 | T-015 | Mobile testing (iOS Safari, Android Chrome) | 2h     | Todo   |
 | T-016 | Performance optimization (code splitting)   | 2h     | Todo   |
 | T-017 | Add proper ARIA labels for accessibility    | 2h     | Todo   |
@@ -168,15 +162,19 @@
 
 ### Immediate Actions (This Week)
 
-1. **Connect API Layer** (T-006) — 4 hours
-   - Create `useWeekQuery` hook with React Query
-   - Update WeekViewer to fetch from `/api/weeks`
-   - Add proper loading and error states
+1. **Run Lighthouse Accessibility Audit** (T-010) — 1 hour
+   - Run Lighthouse in Chrome DevTools
+   - Fix any WCAG issues identified
+   - Add proper ARIA labels
+
+2. **Configure Azure SWA Deployment** (T-011) — 3 hours
+   - Set up Azure Static Web Apps deployment
+   - Configure environment variables
+   - Test production deployment
 
 ### Next Sprint
 
-2. **Implement Azure Table Storage** (T-007) — 4 hours
-
+3. **Implement Azure Table Storage** (T-007) — 4 hours
    - Set up Azure Table Storage client
    - Store week data in cloud
 
