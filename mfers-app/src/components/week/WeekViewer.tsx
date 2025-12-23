@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { getCurrentWeekId, useWeeksQuery } from "../../hooks/useWeekQuery";
+import { useSwipeNavigation } from "../../hooks/useSwipeNavigation";
 import { useHighlightsStore } from "../../store";
 import type { BibleReference } from "../../types/verse";
 import { DinnerCard } from "../dinner/DinnerCard";
@@ -115,6 +116,14 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
     }
   }, [hasNext]);
 
+  // Swipe navigation for mobile
+  const { handlers: swipeHandlers, style: swipeStyle } = useSwipeNavigation(
+    handleNext,    // onSwipeLeft → go to next week
+    handlePrevious, // onSwipeRight → go to previous week
+    hasNext,       // canSwipeLeft
+    hasPrevious    // canSwipeRight
+  );
+
   // Verse click handler
   const handleVerseClick = useCallback(
     (reference: BibleReference) => {
@@ -185,7 +194,12 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
         isCurrentWeek={isCurrentWeek}
       />
 
-      <main>
+      {/* Swipeable content area */}
+      <main
+        {...swipeHandlers}
+        style={swipeStyle}
+        className="will-change-transform"
+      >
         <ReadingContent
           text={week.readingAssignment}
           onVerseClick={handleVerseClick}
