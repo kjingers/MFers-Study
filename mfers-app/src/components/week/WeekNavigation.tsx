@@ -17,6 +17,8 @@ export interface WeekNavigationProps {
   onNext: () => void;
   /** Whether this is the current week */
   isCurrentWeek?: boolean;
+  /** Callback when title is clicked to open week selector */
+  onTitleClick?: () => void;
 }
 
 /**
@@ -40,6 +42,7 @@ export function WeekNavigation({
   onPrevious,
   onNext,
   isCurrentWeek = false,
+  onTitleClick,
 }: WeekNavigationProps) {
   return (
     <header className="sticky top-0 z-10 h-14 flex items-center justify-between px-4 bg-surface border-b border-border">
@@ -54,16 +57,31 @@ export function WeekNavigation({
         <ChevronLeft className="h-5 w-5" aria-hidden="true" />
       </Button>
 
-      <div className="flex flex-col items-center">
-        <h1 className="text-lg font-semibold">{weekTitle}</h1>
-        {isCurrentWeek && (
-          <span
-            className="w-2 h-2 rounded-full bg-accent mt-1"
-            role="img"
-            aria-label="This is the current week"
-          />
+      {/* Tappable title to open week selector */}
+      <button
+        type="button"
+        onClick={onTitleClick}
+        className={cn(
+          "flex flex-col items-center gap-0.5 px-3 py-1 rounded-lg",
+          "transition-colors duration-150",
+          "hover:bg-muted/50 active:bg-muted",
+          "focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2",
+          "min-h-[44px] justify-center"
         )}
-      </div>
+        aria-label="Open week selector"
+        aria-haspopup="dialog"
+      >
+        <div className="flex items-center gap-1">
+          <h1 className="text-lg font-semibold">{weekTitle}</h1>
+          <ChevronDown
+            className="h-4 w-4 text-muted-foreground"
+            aria-hidden="true"
+          />
+        </div>
+        {isCurrentWeek && (
+          <span className="text-xs text-accent font-medium">This Week</span>
+        )}
+      </button>
 
       <Button
         variant="ghost"

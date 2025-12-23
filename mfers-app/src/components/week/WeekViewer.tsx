@@ -7,6 +7,7 @@ import { QuestionList } from "../questions/QuestionList";
 import { ReadingContent } from "../reading/ReadingContent";
 import { Skeleton } from "../ui/skeleton";
 import { WeekNavigation } from "./WeekNavigation";
+import { WeekSelector } from "./WeekSelector";
 
 /**
  * Format a date string for display in the week header.
@@ -98,6 +99,9 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
   const hasNext = safeWeekIndex < sortedWeeks.length - 1;
   const isCurrentWeek = week?.weekId === currentWeekId;
 
+  // Week selector state
+  const [showWeekSelector, setShowWeekSelector] = useState(false);
+
   // Highlights from store - must be called before any returns
   const { getHighlights, toggleHighlight } = useHighlightsStore();
   const highlights = week ? getHighlights(week.weekId) : new Set<string>();
@@ -114,6 +118,17 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
       setWeekIndex((prev) => prev + 1);
     }
   }, [hasNext]);
+
+  // Week selector handler
+  const handleSelectWeek = useCallback(
+    (weekId: string) => {
+      const idx = sortedWeeks.findIndex((w) => w.weekId === weekId);
+      if (idx !== -1) {
+        setWeekIndex(idx);
+      }
+    },
+    [sortedWeeks]
+  );
 
   // Verse click handler
   const handleVerseClick = useCallback(
@@ -183,6 +198,7 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
         onPrevious={handlePrevious}
         onNext={handleNext}
         isCurrentWeek={isCurrentWeek}
+        onTitleClick={() => setShowWeekSelector(true)}
       />
 
       <main>
@@ -200,6 +216,16 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
           onVerseClick={handleVerseClick}
         />
       </main>
+
+      {/* Week Selector Bottom Sheet */}
+      <WeekSelector
+        isOpen={showWeekSelector}
+        onClose={() => setShowWeekSelector(false)}
+        weeks={sortedWeeks}
+        selectedWeekId={week.weekId}
+        currentWeekId={currentWeekId}
+        onSelectWeek={handleSelectWeek}
+      />
     </div>
   );
 }
