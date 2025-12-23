@@ -31,10 +31,10 @@ export function ReadingContent({ text, onVerseClick }: ReadingContentProps) {
     <Card className="mx-4 mt-4">
       <CardHeader className="flex flex-row items-center gap-2 pb-2">
         <BookOpen className="h-5 w-5 text-accent" aria-hidden="true" />
-        <CardTitle className="text-base">Reading</CardTitle>
+        <CardTitle className="text-card-title">Reading</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-lg leading-relaxed">
+        <p className="text-reading">
           {segments.map((segment, index) =>
             segment.type === "text" ? (
               <span key={index}>{segment.content}</span>

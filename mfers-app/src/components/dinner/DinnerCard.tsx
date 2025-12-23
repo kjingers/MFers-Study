@@ -28,11 +28,11 @@ export function DinnerCard({ familyName, notes }: DinnerCardProps) {
     <Card className="mx-4 mt-4">
       <CardHeader className="flex flex-row items-center gap-2 pb-2">
         <Utensils className="h-5 w-5 text-accent" aria-hidden="true" />
-        <CardTitle className="text-base">Dinner</CardTitle>
+        <CardTitle className="text-card-title">Dinner</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-lg">{familyName}</p>
-        {notes && <p className="text-sm text-muted-foreground mt-1">{notes}</p>}
+        <p className="text-reading">{familyName}</p>
+        {notes && <p className="text-caption mt-1">{notes}</p>}
       </CardContent>
     </Card>
   );
