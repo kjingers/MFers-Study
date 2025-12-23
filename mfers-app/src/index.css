@@ -28,6 +28,25 @@
   /* Font family */
   --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, sans-serif;
+  
+  /* 
+   * Typography Scale (1.25 ratio - Major Third)
+   * Use semantic names for consistent hierarchy
+   */
+  --font-size-xs: 0.75rem;     /* 12px - metadata, copyright */
+  --font-size-sm: 0.875rem;    /* 14px - secondary, hints, captions */
+  --font-size-base: 1rem;      /* 16px - body text, UI elements */
+  --font-size-lg: 1.125rem;    /* 18px - emphasized body */
+  --font-size-xl: 1.25rem;     /* 20px - card titles, scripture body */
+  --font-size-2xl: 1.5rem;     /* 24px - section headers */
+  --font-size-3xl: 1.875rem;   /* 30px - page titles */
+  
+  /* Line heights optimized per role */
+  --leading-tight: 1.25;       /* Headings */
+  --leading-snug: 1.375;       /* Compact UI */
+  --leading-normal: 1.5;       /* Body text */
+  --leading-relaxed: 1.625;    /* Reading content */
+  --leading-scripture: 1.75;   /* Scripture - optimized for verses */
 }
 
 /* CSS Variables for dynamic theming (kept for compatibility) */
@@ -161,6 +180,64 @@ a {
   font-size: 0.75em;
   color: hsl(var(--muted-foreground));
   margin-right: 0.25em;
+}
+
+/*
+ * Typography Utility Classes
+ * Use these for consistent typography across the app
+ */
+
+/* Scripture text - optimized for reading Bible verses */
+.text-scripture {
+  font-size: var(--font-size-xl);
+  line-height: var(--leading-scripture);
+  letter-spacing: 0.01em;
+}
+
+/* Scripture verse numbers - subtle superscript styling */
+.verse-number {
+  font-size: 0.7em;
+  color: hsl(var(--accent) / 0.8);
+  vertical-align: super;
+  font-weight: 500;
+  margin-right: 0.2em;
+  user-select: none;
+}
+
+/* Reading body text - comfortable for longer reading */
+.text-reading {
+  font-size: var(--font-size-lg);
+  line-height: var(--leading-relaxed);
+}
+
+/* Section headers - clear hierarchy markers */
+.text-section-header {
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.02em;
+}
+
+/* Card titles - prominent but not overwhelming */
+.text-card-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+}
+
+/* Caption/meta text - secondary information */
+.text-caption {
+  font-size: var(--font-size-sm);
+  line-height: var(--leading-normal);
+  color: hsl(var(--muted-foreground));
+}
+
+/* Page title - largest text size */
+.text-page-title {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.025em;
 }
 
 /* Loading skeleton animation */

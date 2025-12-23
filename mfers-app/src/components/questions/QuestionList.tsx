@@ -39,7 +39,7 @@ export function QuestionList({
 
   return (
     <section className="px-4 mt-6">
-      <h2 className="font-semibold text-lg mb-3">Discussion Questions</h2>
+      <h2 className="text-section-header mb-3">Discussion Questions</h2>
       <div className="space-y-3">
         {sortedQuestions.map((question) => (
           <QuestionItem
