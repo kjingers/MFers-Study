@@ -1,3 +1,4 @@
+import { Calendar } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { getCurrentWeekId, useWeeksQuery } from "../../hooks/useWeekQuery";
 import { useHighlightsStore } from "../../store";
@@ -5,6 +6,7 @@ import type { BibleReference } from "../../types/verse";
 import { DinnerCard } from "../dinner/DinnerCard";
 import { QuestionList } from "../questions/QuestionList";
 import { ReadingContent } from "../reading/ReadingContent";
+import { EmptyState } from "../ui/empty-state";
 import { Skeleton } from "../ui/skeleton";
 import { WeekNavigation } from "./WeekNavigation";
 
@@ -164,12 +166,13 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
   // No data state
   if (!week) {
     return (
-      <div className="min-h-screen bg-background pb-20">
-        <div className="p-4">
-          <div className="rounded-lg border p-4 text-center">
-            <p className="text-muted-foreground">No weeks available</p>
-          </div>
-        </div>
+      <div className="min-h-screen bg-background pb-20 flex items-center justify-center">
+        <EmptyState
+          icon={Calendar}
+          title="No Study Weeks Yet"
+          description="Check back soon for new weekly Bible study content!"
+          size="lg"
+        />
       </div>
     );
   }
