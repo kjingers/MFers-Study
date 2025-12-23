@@ -1,26 +1,26 @@
-import type { Verse } from "../../types/verse"
-import { VerseSkeleton } from "../ui/skeleton"
+import type { Verse } from "../../types/verse";
+import { VerseSkeleton } from "../ui/skeleton";
 
 /**
  * Props for VerseDisplay component.
  */
 export interface VerseDisplayProps {
   /** Array of verses to display */
-  verses: Verse[] | undefined
+  verses: Verse[] | undefined;
   /** Copyright notice for the translation */
-  copyright: string | undefined
+  copyright: string | undefined;
   /** Whether verses are loading */
-  isLoading: boolean
+  isLoading: boolean;
   /** Error object if fetch failed */
-  error: Error | null
+  error: Error | null;
   /** Callback to retry failed fetch */
-  onRetry?: () => void
+  onRetry?: () => void;
 }
 
 /**
  * Displays verse text with proper typography.
  * Handles loading, error, and success states.
- * 
+ *
  * @example
  * <VerseDisplay
  *   verses={data?.verses}
@@ -39,9 +39,9 @@ export function VerseDisplay({
 }: VerseDisplayProps) {
   // Loading state
   if (isLoading) {
-    return <VerseSkeleton />
+    return <VerseSkeleton />;
   }
-  
+
   // Error state
   if (error) {
     return (
@@ -59,18 +59,18 @@ export function VerseDisplay({
           </button>
         )}
       </div>
-    )
+    );
   }
-  
+
   // No data state
   if (!verses || verses.length === 0) {
     return (
       <p className="text-muted-foreground italic">
         No verses found for this reference.
       </p>
-    )
+    );
   }
-  
+
   // Success state - render verses
   return (
     <div className="prose prose-lg">
@@ -84,12 +84,12 @@ export function VerseDisplay({
           </p>
         ))}
       </div>
-      
+
       {copyright && (
         <p className="text-xs text-muted-foreground mt-6 border-t border-border pt-4">
           {copyright}
         </p>
       )}
     </div>
-  )
+  );
 }

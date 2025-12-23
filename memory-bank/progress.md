@@ -3,41 +3,44 @@
 ## GitHub Issues Tracker
 
 ### ✅ Completed Issues (Closed)
-| Issue | Title | Status |
-|-------|-------|--------|
-| #1 | Fix 4 ESLint errors | ✅ Complete |
-| #2 | Set up Vitest testing framework | ✅ Complete |
-| #3 | Write unit tests for verse-parser | ✅ Complete (28 tests) |
-| #4 | Write unit tests for highlights store | ✅ Complete (17 tests) |
-| #5 | Set up GitHub Actions CI workflow | ✅ Complete |
-| #6 | Connect frontend to weeks API | ✅ Complete |
-| #7 | Write component tests | ✅ Complete (12 tests) |
-| #8 | Add error boundaries to App | ✅ Complete |
-| #15 | feat: Run Lighthouse accessibility audit | ✅ Complete |
+
+| Issue | Title                                            | Status                 |
+| ----- | ------------------------------------------------ | ---------------------- |
+| #1    | Fix 4 ESLint errors                              | ✅ Complete            |
+| #2    | Set up Vitest testing framework                  | ✅ Complete            |
+| #3    | Write unit tests for verse-parser                | ✅ Complete (28 tests) |
+| #4    | Write unit tests for highlights store            | ✅ Complete (17 tests) |
+| #5    | Set up GitHub Actions CI workflow                | ✅ Complete            |
+| #6    | Connect frontend to weeks API                    | ✅ Complete            |
+| #7    | Write component tests                            | ✅ Complete (12 tests) |
+| #8    | Add error boundaries to App                      | ✅ Complete            |
+| #15   | feat: Run Lighthouse accessibility audit         | ✅ Complete            |
+| #16   | feat: Configure Azure Static Web Apps deployment | ✅ Complete            |
 
 ### 🔄 Open Issues (In Progress)
-| Issue | Title | Priority | Status |
-|-------|-------|----------|--------|
-| #16 | feat: Configure Azure Static Web Apps deployment | 🔴 Critical | 🔄 In Progress |
-| #13 | feat: Implement Azure Table Storage for weeks | 🔴 Critical | ⏳ Not Started |
-| #14 | feat: Implement server-side verse caching | 🟡 High | ⏳ Not Started |
-| #17 | test: Mobile device testing | 🟡 High | ⏳ Not Started |
-| #18 | perf: Performance optimization and bundle analysis | 🟢 Medium | ⏳ Not Started |
-| #19 | docs: Update project documentation | 🟢 Medium | ⏳ Not Started |
+
+| Issue | Title                                              | Priority    | Status         |
+| ----- | -------------------------------------------------- | ----------- | -------------- |
+| #13   | feat: Implement Azure Table Storage for weeks      | 🔴 Critical | 🔄 In Progress |
+| #14   | feat: Implement server-side verse caching          | 🟡 High     | ⏳ Not Started |
+| #17   | test: Mobile device testing                        | 🟡 High     | ⏳ Not Started |
+| #18   | perf: Performance optimization and bundle analysis | 🟢 Medium   | ⏳ Not Started |
+| #19   | docs: Update project documentation                 | 🟢 Medium   | ⏳ Not Started |
 
 ### Priority Order for Remaining Work
-1. **#16** - Azure SWA deployment (critical for launch, 3h) ← CURRENT
-2. **#13** - Azure Table Storage (backend persistence, 4h)
-3. **#14** - Server-side verse caching (improves performance, 3h)
-4. **#17** - Mobile testing (QA, 2h)
-5. **#18** - Performance optimization (2h)
-6. **#19** - Documentation update (2h)
+
+1. **#13** - Azure Table Storage (backend persistence, 4h) ← CURRENT
+2. **#14** - Server-side verse caching (improves performance, 3h)
+3. **#17** - Mobile testing (QA, 2h)
+4. **#18** - Performance optimization (2h)
+5. **#19** - Documentation update (2h)
 
 ---
 
 ## What Works
 
 ### ✅ Deployment Pipeline
+
 - GitHub Actions CI/CD workflow configured and working
 - Automatic deployment on push to `main` branch
 - Frontend deploys to Azure Static Web Apps
@@ -46,6 +49,7 @@
 - **NEW:** CI workflow with lint, typecheck, test, build steps
 
 ### ✅ Testing Infrastructure
+
 - **Vitest 4.0.16** configured with React Testing Library
 - **61 tests passing** across the codebase:
   - 28 verse-parser tests
@@ -55,6 +59,7 @@
 - Test coverage for critical utilities
 
 ### ✅ Frontend Structure
+
 - React 19 + Vite 7 application scaffolded
 - Component architecture established:
   - `WeekViewer` - Main week display with API integration
@@ -70,6 +75,7 @@
 - **NEW:** ARIA labels and accessibility improvements
 
 ### ✅ API Structure
+
 - Azure Functions v4 project configured
 - Two function endpoints:
   - `POST /api/verses` - Get Bible verse text
@@ -78,6 +84,7 @@
 - Mock data fallback when Foundry not configured
 
 ### ✅ Development Infrastructure
+
 - GitHub repository connected
 - Memory bank documentation system set up
 - TypeScript throughout (frontend and API)
@@ -87,17 +94,20 @@
 ## What's Left to Build
 
 ### 🔲 High Priority (Issues #13-16)
+
 - [ ] Run Lighthouse accessibility audit (#15)
 - [ ] Configure Azure SWA deployment (#16)
 - [ ] Implement Azure Table Storage for weeks (#13)
 - [ ] Implement server-side verse caching (#14)
 
 ### 🔲 Medium Priority (Issues #17-19)
+
 - [ ] Mobile device testing (#17)
 - [ ] Performance optimization (#18)
 - [ ] Documentation update (#19)
 
 ### 🔲 Lower Priority (Future)
+
 - [ ] PWA service worker for offline support
 - [ ] Admin interface for content management
 - [ ] User preferences persistence
@@ -105,23 +115,24 @@
 
 ## Current Status
 
-| Component | Status | Notes |
-|-----------|--------|-------|
-| Deployment | ✅ Complete | Auto-deploy working |
-| CI/CD | ✅ Complete | Lint, typecheck, test, build |
-| Testing | ✅ Complete | 61 tests passing |
-| Error Handling | ✅ Complete | Error boundaries added |
-| Frontend UI | ✅ Scaffolded | Components built, API connected |
-| API Endpoints | ✅ Deployed | Mock data, need persistence |
-| Verse Lookup | 🟡 Partial | API works, mock text returned |
-| Week Data | 🟡 Mock | Hardcoded, need Table Storage |
-| Bible Data | ❌ Not connected | Foundry optional, not configured |
-| PWA | ❌ Not started | manifest.json exists, no SW |
-| Admin UI | ❌ Not started | No content management |
+| Component      | Status           | Notes                            |
+| -------------- | ---------------- | -------------------------------- |
+| Deployment     | ✅ Complete      | Auto-deploy working              |
+| CI/CD          | ✅ Complete      | Lint, typecheck, test, build     |
+| Testing        | ✅ Complete      | 61 tests passing                 |
+| Error Handling | ✅ Complete      | Error boundaries added           |
+| Frontend UI    | ✅ Scaffolded    | Components built, API connected  |
+| API Endpoints  | ✅ Deployed      | Mock data, need persistence      |
+| Verse Lookup   | 🟡 Partial       | API works, mock text returned    |
+| Week Data      | 🟡 Mock          | Hardcoded, need Table Storage    |
+| Bible Data     | ❌ Not connected | Foundry optional, not configured |
+| PWA            | ❌ Not started   | manifest.json exists, no SW      |
+| Admin UI       | ❌ Not started   | No content management            |
 
 ## Known Issues
 
 1. **Mock Data Only**
+
    - API returns placeholder verse text
    - Week content needs Azure Table Storage
    - Need real data sources
@@ -133,6 +144,7 @@
 ## Evolution of Project Decisions
 
 ### December 23, 2025
+
 - **Initial deployment achieved**
 - Fixed Azure SWA deployment issues:
   - Job name must be `build_and_deploy_job`
@@ -141,6 +153,7 @@
 - Set up memory bank for project continuity
 
 ### Earlier (Based on existing code)
+
 - Chose React + Vite for modern, fast frontend
 - Selected Azure Static Web Apps for integrated hosting
 - Designed component hierarchy around weekly content structure
@@ -149,14 +162,14 @@
 
 ## Milestones
 
-| Milestone | Target | Status |
-|-----------|--------|--------|
-| Project Setup | - | ✅ Complete |
-| Basic UI Components | - | ✅ Complete |
-| API Endpoints | - | ✅ Complete |
-| First Deployment | Dec 23, 2025 | ✅ Complete |
-| Real Verse Data | TBD | Not started |
-| Real Week Content | TBD | Not started |
-| PWA Support | TBD | Not started |
-| Admin Interface | TBD | Not started |
-| Production Ready | TBD | Not started |
+| Milestone           | Target       | Status      |
+| ------------------- | ------------ | ----------- |
+| Project Setup       | -            | ✅ Complete |
+| Basic UI Components | -            | ✅ Complete |
+| API Endpoints       | -            | ✅ Complete |
+| First Deployment    | Dec 23, 2025 | ✅ Complete |
+| Real Verse Data     | TBD          | Not started |
+| Real Week Content   | TBD          | Not started |
+| PWA Support         | TBD          | Not started |
+| Admin Interface     | TBD          | Not started |
+| Production Ready    | TBD          | Not started |

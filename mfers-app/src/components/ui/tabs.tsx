@@ -1,29 +1,29 @@
 import {
   createContext,
+  forwardRef,
   useContext,
   useState,
-  type ReactNode,
   type HTMLAttributes,
-  forwardRef
-} from "react"
-import { cn } from "../../lib/utils"
+  type ReactNode,
+} from "react";
+import { cn } from "../../lib/utils";
 
 /**
  * Tabs context for managing active tab state.
  */
 interface TabsContextValue {
-  activeTab: string
-  setActiveTab: (value: string) => void
+  activeTab: string;
+  setActiveTab: (value: string) => void;
 }
 
-const TabsContext = createContext<TabsContextValue | null>(null)
+const TabsContext = createContext<TabsContextValue | null>(null);
 
 function useTabsContext() {
-  const context = useContext(TabsContext)
+  const context = useContext(TabsContext);
   if (!context) {
-    throw new Error("Tabs components must be used within a Tabs provider")
+    throw new Error("Tabs components must be used within a Tabs provider");
   }
-  return context
+  return context;
 }
 
 /**
@@ -31,18 +31,18 @@ function useTabsContext() {
  */
 export interface TabsProps extends HTMLAttributes<HTMLDivElement> {
   /** Currently active tab value */
-  value?: string
+  value?: string;
   /** Default tab value (uncontrolled) */
-  defaultValue?: string
+  defaultValue?: string;
   /** Callback when tab changes */
-  onValueChange?: (value: string) => void
+  onValueChange?: (value: string) => void;
   /** Tab content */
-  children: ReactNode
+  children: ReactNode;
 }
 
 /**
  * Tabs container component for tabbed navigation.
- * 
+ *
  * @example
  * <Tabs defaultValue="tab1">
  *   <TabsList>
@@ -61,21 +61,21 @@ export function Tabs({
   className,
   ...props
 }: TabsProps) {
-  const [internalValue, setInternalValue] = useState(defaultValue)
-  
-  const activeTab = value ?? internalValue
+  const [internalValue, setInternalValue] = useState(defaultValue);
+
+  const activeTab = value ?? internalValue;
   const setActiveTab = (newValue: string) => {
-    setInternalValue(newValue)
-    onValueChange?.(newValue)
-  }
-  
+    setInternalValue(newValue);
+    onValueChange?.(newValue);
+  };
+
   return (
     <TabsContext.Provider value={{ activeTab, setActiveTab }}>
       <div className={cn("w-full", className)} {...props}>
         {children}
       </div>
     </TabsContext.Provider>
-  )
+  );
 }
 
 /**
@@ -95,17 +95,17 @@ const TabsList = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
       {...props}
     />
   )
-)
-TabsList.displayName = "TabsList"
+);
+TabsList.displayName = "TabsList";
 
 /**
  * Tab trigger button props.
  */
 export interface TabsTriggerProps extends HTMLAttributes<HTMLButtonElement> {
   /** Unique value for this tab */
-  value: string
+  value: string;
   /** Whether the tab is disabled */
-  disabled?: boolean
+  disabled?: boolean;
 }
 
 /**
@@ -113,9 +113,9 @@ export interface TabsTriggerProps extends HTMLAttributes<HTMLButtonElement> {
  */
 const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
   ({ className, value, disabled, ...props }, ref) => {
-    const { activeTab, setActiveTab } = useTabsContext()
-    const isActive = activeTab === value
-    
+    const { activeTab, setActiveTab } = useTabsContext();
+    const isActive = activeTab === value;
+
     return (
       <button
         ref={ref}
@@ -142,17 +142,17 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
         )}
         {...props}
       />
-    )
+    );
   }
-)
-TabsTrigger.displayName = "TabsTrigger"
+);
+TabsTrigger.displayName = "TabsTrigger";
 
 /**
  * Tab content panel props.
  */
 export interface TabsContentProps extends HTMLAttributes<HTMLDivElement> {
   /** Value matching the corresponding trigger */
-  value: string
+  value: string;
 }
 
 /**
@@ -160,11 +160,11 @@ export interface TabsContentProps extends HTMLAttributes<HTMLDivElement> {
  */
 const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(
   ({ className, value, ...props }, ref) => {
-    const { activeTab } = useTabsContext()
-    const isActive = activeTab === value
-    
-    if (!isActive) return null
-    
+    const { activeTab } = useTabsContext();
+    const isActive = activeTab === value;
+
+    if (!isActive) return null;
+
     return (
       <div
         ref={ref}
@@ -180,9 +180,9 @@ const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(
         )}
         {...props}
       />
-    )
+    );
   }
-)
-TabsContent.displayName = "TabsContent"
+);
+TabsContent.displayName = "TabsContent";
 
-export { TabsList, TabsTrigger, TabsContent }
+export { TabsContent, TabsList, TabsTrigger };

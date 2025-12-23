@@ -1,34 +1,34 @@
+import { X } from "lucide-react";
 import {
+  forwardRef,
   useEffect,
   useRef,
-  type ReactNode,
   type HTMLAttributes,
-  forwardRef
-} from "react"
-import { X } from "lucide-react"
-import { cn } from "../../lib/utils"
-import { Button } from "./button"
+  type ReactNode,
+} from "react";
+import { cn } from "../../lib/utils";
+import { Button } from "./button";
 
 /**
  * Modal/Dialog component props.
  */
 export interface ModalProps {
   /** Whether the modal is open */
-  isOpen: boolean
+  isOpen: boolean;
   /** Callback when modal should close */
-  onClose: () => void
+  onClose: () => void;
   /** Modal content */
-  children: ReactNode
+  children: ReactNode;
   /** Additional class names */
-  className?: string
+  className?: string;
   /** ID for the modal title (for aria-labelledby) */
-  titleId?: string
+  titleId?: string;
 }
 
 /**
  * Modal component that renders as a bottom sheet on mobile.
  * Includes backdrop blur and swipe-to-close support.
- * 
+ *
  * @example
  * <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
  *   <ModalHeader>
@@ -37,33 +37,39 @@ export interface ModalProps {
  *   <ModalContent>Content here</ModalContent>
  * </Modal>
  */
-export function Modal({ isOpen, onClose, children, className, titleId = "modal-title" }: ModalProps) {
-  const dialogRef = useRef<HTMLDivElement>(null)
-  
+export function Modal({
+  isOpen,
+  onClose,
+  children,
+  className,
+  titleId = "modal-title",
+}: ModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
   // Handle escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose()
-    }
-    
+      if (e.key === "Escape") onClose();
+    };
+
     if (isOpen) {
-      document.addEventListener("keydown", handleEscape)
-      document.body.style.overflow = "hidden"
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
     }
-    
+
     return () => {
-      document.removeEventListener("keydown", handleEscape)
-      document.body.style.overflow = ""
-    }
-  }, [isOpen, onClose])
-  
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen, onClose]);
+
   // Handle click outside
   const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) onClose()
-  }
-  
-  if (!isOpen) return null
-  
+    if (e.target === e.currentTarget) onClose();
+  };
+
+  if (!isOpen) return null;
+
   return (
     <div
       className={cn(
@@ -91,7 +97,7 @@ export function Modal({ isOpen, onClose, children, className, titleId = "modal-t
         {children}
       </div>
     </div>
-  )
+  );
 }
 
 /**
@@ -99,9 +105,9 @@ export function Modal({ isOpen, onClose, children, className, titleId = "modal-t
  */
 export interface ModalHeaderProps extends HTMLAttributes<HTMLDivElement> {
   /** Whether to show the close button */
-  showCloseButton?: boolean
+  showCloseButton?: boolean;
   /** Close callback for the button */
-  onClose?: () => void
+  onClose?: () => void;
 }
 
 const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
@@ -129,23 +135,24 @@ const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
       )}
     </div>
   )
-)
-ModalHeader.displayName = "ModalHeader"
+);
+ModalHeader.displayName = "ModalHeader";
 
 /**
  * Modal title component.
  */
-const ModalTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement>>(
-  ({ className, ...props }, ref) => (
-    <h2
-      ref={ref}
-      id="modal-title"
-      className={cn("text-lg font-semibold", className)}
-      {...props}
-    />
-  )
-)
-ModalTitle.displayName = "ModalTitle"
+const ModalTitle = forwardRef<
+  HTMLHeadingElement,
+  HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h2
+    ref={ref}
+    id="modal-title"
+    className={cn("text-lg font-semibold", className)}
+    {...props}
+  />
+));
+ModalTitle.displayName = "ModalTitle";
 
 /**
  * Modal content container.
@@ -158,8 +165,8 @@ const ModalContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
       {...props}
     />
   )
-)
-ModalContent.displayName = "ModalContent"
+);
+ModalContent.displayName = "ModalContent";
 
 /**
  * Modal footer for actions.
@@ -176,7 +183,7 @@ const ModalFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
       {...props}
     />
   )
-)
-ModalFooter.displayName = "ModalFooter"
+);
+ModalFooter.displayName = "ModalFooter";
 
-export { ModalHeader, ModalTitle, ModalContent, ModalFooter }
+export { ModalContent, ModalFooter, ModalHeader, ModalTitle };
