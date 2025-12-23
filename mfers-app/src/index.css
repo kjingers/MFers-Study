@@ -45,8 +45,17 @@
   --primary-foreground: 210 40% 98%;
   --radius: 0.5rem;
 
-  /* Typography scale base */
-  font-size: 16px;
+  /*
+   * Typography: Respect user font size preferences
+   * Using 100% allows the browser/OS to apply user preferences.
+   * All UI text uses rem units which scale relative to this base.
+   * 
+   * Supported platforms:
+   * - iOS: Settings → Accessibility → Display & Text Size → Larger Text
+   * - Android: Settings → Accessibility → Font size
+   * - Desktop browsers: Browser zoom (Cmd/Ctrl +/-)
+   */
+  font-size: 100%;
 }
 
 /* Light mode override (for future use) */
