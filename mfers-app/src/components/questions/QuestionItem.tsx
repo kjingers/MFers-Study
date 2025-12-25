@@ -1,29 +1,29 @@
-import type { Question } from "../../types/week"
-import type { BibleReference } from "../../types/verse"
-import { parseTextWithReferences } from "../../lib/verse-parser"
-import { VerseLink } from "../reading/VerseLink"
-import { Card } from "../ui/card"
-import { cn } from "../../lib/utils"
+import { cn } from "../../lib/utils";
+import { parseTextWithReferences } from "../../lib/verse-parser";
+import type { BibleReference } from "../../types/verse";
+import type { Question } from "../../types/week";
+import { VerseLink } from "../reading/VerseLink";
+import { Card } from "../ui/card";
 
 /**
  * Props for QuestionItem component.
  */
 export interface QuestionItemProps {
   /** The question data */
-  question: Question
+  question: Question;
   /** Whether the question is highlighted */
-  isHighlighted: boolean
+  isHighlighted: boolean;
   /** Callback to toggle highlight state */
-  onToggle: () => void
+  onToggle: () => void;
   /** Callback when a verse reference in the question is clicked */
-  onVerseClick: (reference: BibleReference) => void
+  onVerseClick: (reference: BibleReference) => void;
 }
 
 /**
  * Individual question card with highlight toggle.
  * Displays question text with number, tap to toggle bold/highlight state.
  * Verse references in questions are clickable.
- * 
+ *
  * @example
  * <QuestionItem
  *   question={{ questionId: "q1", order: 1, text: "What does John 3:16 mean?" }}
@@ -38,7 +38,7 @@ export function QuestionItem({
   onToggle,
   onVerseClick,
 }: QuestionItemProps) {
-  const segments = parseTextWithReferences(question.text)
+  const segments = parseTextWithReferences(question.text);
 
   return (
     <Card
@@ -53,8 +53,8 @@ export function QuestionItem({
       aria-pressed={isHighlighted}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault()
-          onToggle()
+          e.preventDefault();
+          onToggle();
         }
       }}
     >
@@ -82,5 +82,5 @@ export function QuestionItem({
         </div>
       </div>
     </Card>
-  )
+  );
 }

@@ -1,41 +1,42 @@
-import type { Question } from "../../types/week"
-import type { BibleReference } from "../../types/verse"
-import { QuestionItem } from "./QuestionItem"
+import type { BibleReference } from "../../types/verse";
+import type { Question } from "../../types/week";
+import { QuestionItem } from "./QuestionItem";
 
 /**
  * Props for QuestionList component.
  */
 export interface QuestionListProps {
   /** Array of questions to display */
-  questions: Question[]
-  /** Set of highlighted question IDs */
-  highlightedIds: Set<string>
-  /** Callback to toggle highlight for a question */
-  onToggleHighlight: (questionId: string) => void
+  questions: Question[];
+  /** ID of the currently active (highlighted) question, or null if none */
+  activeQuestionId: string | null;
+  /** Callback when a question is clicked to select/deselect it */
+  onSelectQuestion: (questionId: string) => void;
   /** Callback when a verse reference is clicked */
-  onVerseClick: (reference: BibleReference) => void
+  onVerseClick: (reference: BibleReference) => void;
 }
 
 /**
  * Renders a numbered list of discussion questions.
- * Each question can be highlighted by tapping.
- * 
+ * Only one question can be active (highlighted) at a time.
+ * Tapping the active question deselects it.
+ *
  * @example
  * <QuestionList
  *   questions={week.questions}
- *   highlightedIds={highlights}
- *   onToggleHighlight={(id) => toggleHighlight(id)}
+ *   activeQuestionId={activeId}
+ *   onSelectQuestion={(id) => setActiveQuestion(weekId, id)}
  *   onVerseClick={(ref) => openVerseModal(ref)}
  * />
  */
 export function QuestionList({
   questions,
-  highlightedIds,
-  onToggleHighlight,
+  activeQuestionId,
+  onSelectQuestion,
   onVerseClick,
 }: QuestionListProps) {
   // Sort questions by order
-  const sortedQuestions = [...questions].sort((a, b) => a.order - b.order)
+  const sortedQuestions = [...questions].sort((a, b) => a.order - b.order);
 
   return (
     <section className="px-4 mt-6">
@@ -45,12 +46,12 @@ export function QuestionList({
           <QuestionItem
             key={question.questionId}
             question={question}
-            isHighlighted={highlightedIds.has(question.questionId)}
-            onToggle={() => onToggleHighlight(question.questionId)}
+            isHighlighted={question.questionId === activeQuestionId}
+            onToggle={() => onSelectQuestion(question.questionId)}
             onVerseClick={onVerseClick}
           />
         ))}
       </div>
     </section>
-  )
+  );
 }

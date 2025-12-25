@@ -2,68 +2,62 @@ import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
 /**
- * Highlights store state interface.
+ * Active question store state interface.
+ * Changed from multi-select (array) to single-select (string | null).
  */
-interface HighlightsState {
-  /** Map of weekId to Set of highlighted questionIds */
-  highlightsByWeek: Record<string, string[]>
-  /** Toggle highlight for a question */
-  toggleHighlight: (weekId: string, questionId: string) => void
-  /** Check if a question is highlighted */
-  isHighlighted: (weekId: string, questionId: string) => boolean
-  /** Get all highlighted question IDs for a week */
-  getHighlights: (weekId: string) => Set<string>
-  /** Clear all highlights for a week */
-  clearWeekHighlights: (weekId: string) => void
+interface ActiveQuestionState {
+  /** Map of weekId to the active question ID (or null if none) */
+  activeQuestionByWeek: Record<string, string | null>
+  /** Set or toggle the active question for a week */
+  setActiveQuestion: (weekId: string, questionId: string) => void
+  /** Check if a question is the active one */
+  isActive: (weekId: string, questionId: string) => boolean
+  /** Get the active question ID for a week (or null) */
+  getActiveQuestionId: (weekId: string) => string | null
+  /** Clear the active question for a week */
+  clearActiveQuestion: (weekId: string) => void
 }
 
 /**
- * Zustand store for managing question highlights.
+ * Zustand store for managing the single active discussion question.
+ * Only one question can be active (highlighted) at a time per week.
+ * Clicking the active question toggles it off.
  * Persists to localStorage for offline access.
  */
-export const useHighlightsStore = create<HighlightsState>()(
+export const useHighlightsStore = create<ActiveQuestionState>()(
   persist(
     (set, get) => ({
-      highlightsByWeek: {},
-      
-      toggleHighlight: (weekId: string, questionId: string) => {
+      activeQuestionByWeek: {},
+
+      setActiveQuestion: (weekId: string, questionId: string) => {
         set((state) => {
-          const weekHighlights = state.highlightsByWeek[weekId] ?? []
-          const index = weekHighlights.indexOf(questionId)
+          const currentActive = state.activeQuestionByWeek[weekId]
           
-          let newHighlights: string[]
-          if (index > -1) {
-            // Remove if exists
-            newHighlights = weekHighlights.filter((id) => id !== questionId)
-          } else {
-            // Add if doesn't exist
-            newHighlights = [...weekHighlights, questionId]
-          }
+          // Toggle off if clicking the same question
+          const newActive = currentActive === questionId ? null : questionId
           
           return {
-            highlightsByWeek: {
-              ...state.highlightsByWeek,
-              [weekId]: newHighlights,
+            activeQuestionByWeek: {
+              ...state.activeQuestionByWeek,
+              [weekId]: newActive,
             },
           }
         })
       },
-      
-      isHighlighted: (weekId: string, questionId: string) => {
-        const weekHighlights = get().highlightsByWeek[weekId] ?? []
-        return weekHighlights.includes(questionId)
+
+      isActive: (weekId: string, questionId: string) => {
+        return get().activeQuestionByWeek[weekId] === questionId
       },
-      
-      getHighlights: (weekId: string) => {
-        const weekHighlights = get().highlightsByWeek[weekId] ?? []
-        return new Set(weekHighlights)
+
+      getActiveQuestionId: (weekId: string) => {
+        return get().activeQuestionByWeek[weekId] ?? null
       },
-      
-      clearWeekHighlights: (weekId: string) => {
+
+      clearActiveQuestion: (weekId: string) => {
         set((state) => ({
-          highlightsByWeek: {
-            ...state.highlightsByWeek,
-            [weekId]: [],
+          activeQuestionByWeek: {
+            ...state.activeQuestionByWeek,
+            [weekId]: null,
           },
         }))
       },

@@ -2,14 +2,11 @@ import { useCallback, useMemo, useState } from "react";
 import { getCurrentWeekId, useWeeksQuery } from "../../hooks/useWeekQuery";
 import { useHighlightsStore } from "../../store";
 import type { BibleReference } from "../../types/verse";
-import { DinnerCard } from "../dinner/DinnerCard";
-import { QuestionList } from "../questions/QuestionList";
-import { ReadingContent } from "../reading/ReadingContent";
 import { Skeleton } from "../ui/skeleton";
-import { WeekNavigation } from "./WeekNavigation";
+import { QuestionList } from "./QuestionList";
 
 /**
- * Format a date string for display in the week header.
+ * Format a date string for display in the header.
  */
 function formatWeekDate(dateString: string): string {
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -45,18 +42,21 @@ function findBestWeekIndex(
 }
 
 /**
- * Main container component that orchestrates all week viewer components.
- * Manages week navigation state and verse click handling.
- *
- * @example
- * <WeekViewer onVerseClick={(ref) => openVerseModal(ref)} />
+ * Props for QuestionsView component.
  */
-export interface WeekViewerProps {
+export interface QuestionsViewProps {
   /** Optional callback when a verse reference is clicked */
   onVerseClick?: (reference: BibleReference) => void;
 }
 
-export function WeekViewer({ onVerseClick }: WeekViewerProps) {
+/**
+ * Standalone view showing only the discussion questions for the current week.
+ * Provides a focused interface for reviewing questions.
+ *
+ * @example
+ * <QuestionsView onVerseClick={(ref) => openVerseModal(ref)} />
+ */
+export function QuestionsView({ onVerseClick }: QuestionsViewProps) {
   // Fetch weeks from API
   const { data: weeks, isLoading, error } = useWeeksQuery();
 
@@ -74,46 +74,31 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
 
   // Find current week index
   const currentWeekId = getCurrentWeekId();
-
-  // Track the week index - derive initial value when data changes
-  // We use a key pattern: reset index when sortedWeeks changes
   const initialIndex = useMemo(
     () => findBestWeekIndex(sortedWeeks, currentWeekId),
     [sortedWeeks, currentWeekId]
   );
 
-  // Use a ref to track if we've initialized with data
-  const [weekIndex, setWeekIndex] = useState(initialIndex);
-
-  // Keep weekIndex in sync when initialIndex changes (data loads)
-  const effectiveWeekIndex = sortedWeeks.length > 0 ? weekIndex : 0;
+  const [weekIndex] = useState(initialIndex);
   const safeWeekIndex = Math.min(
-    effectiveWeekIndex,
+    weekIndex,
     Math.max(0, sortedWeeks.length - 1)
   );
-
-  // Current week data - safe access with fallback
   const week = sortedWeeks[safeWeekIndex];
-  const hasPrevious = safeWeekIndex > 0;
-  const hasNext = safeWeekIndex < sortedWeeks.length - 1;
-  const isCurrentWeek = week?.weekId === currentWeekId;
 
-  // Active question from store (single-select with toggle-off) - must be called before any returns
+  // Active question from store (single-select with toggle-off)
   const { getActiveQuestionId, setActiveQuestion } = useHighlightsStore();
   const activeQuestionId = week ? getActiveQuestionId(week.weekId) : null;
 
-  // Navigation handlers
-  const handlePrevious = useCallback(() => {
-    if (hasPrevious) {
-      setWeekIndex((prev) => prev - 1);
-    }
-  }, [hasPrevious]);
-
-  const handleNext = useCallback(() => {
-    if (hasNext) {
-      setWeekIndex((prev) => prev + 1);
-    }
-  }, [hasNext]);
+  // Select/deselect question handler
+  const handleSelectQuestion = useCallback(
+    (questionId: string) => {
+      if (week) {
+        setActiveQuestion(week.weekId, questionId);
+      }
+    },
+    [week, setActiveQuestion]
+  );
 
   // Verse click handler
   const handleVerseClick = useCallback(
@@ -126,19 +111,9 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
     [onVerseClick]
   );
 
-  // Select/deselect question handler
-  const handleSelectQuestion = useCallback(
-    (questionId: string) => {
-      if (week) {
-        setActiveQuestion(week.weekId, questionId);
-      }
-    },
-    [week, setActiveQuestion]
-  );
-
   // Loading state
   if (isLoading) {
-    return <WeekViewerSkeleton />;
+    return <QuestionsViewSkeleton />;
   }
 
   // Error state
@@ -148,7 +123,7 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
         <div className="p-4">
           <div className="rounded-lg border border-destructive bg-destructive/10 p-4">
             <h2 className="text-lg font-semibold text-destructive">
-              Error loading week data
+              Error loading questions
             </h2>
             <p className="text-sm text-muted-foreground">
               {error instanceof Error
@@ -167,7 +142,7 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
       <div className="min-h-screen bg-background pb-20">
         <div className="p-4">
           <div className="rounded-lg border p-4 text-center">
-            <p className="text-muted-foreground">No weeks available</p>
+            <p className="text-muted-foreground">No questions available</p>
           </div>
         </div>
       </div>
@@ -176,23 +151,16 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <WeekNavigation
-        weekTitle={`Week of ${formatWeekDate(week.weekDate)}`}
-        hasPrevious={hasPrevious}
-        hasNext={hasNext}
-        onPrevious={handlePrevious}
-        onNext={handleNext}
-        isCurrentWeek={isCurrentWeek}
-      />
+      {/* Header */}
+      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+        <div className="flex items-center justify-center p-4">
+          <h1 className="text-lg font-semibold">
+            Questions - Week of {formatWeekDate(week.weekDate)}
+          </h1>
+        </div>
+      </header>
 
       <main>
-        <ReadingContent
-          text={week.readingAssignment}
-          onVerseClick={handleVerseClick}
-        />
-
-        <DinnerCard familyName={week.dinnerFamily} notes={week.dinnerNotes} />
-
         <QuestionList
           questions={week.questions}
           activeQuestionId={activeQuestionId}
@@ -205,32 +173,21 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
 }
 
 /**
- * Skeleton loading state for WeekViewer.
+ * Skeleton loading state for QuestionsView.
  */
-function WeekViewerSkeleton() {
+function QuestionsViewSkeleton() {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header skeleton */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex items-center justify-between p-4">
-          <Skeleton className="h-10 w-10" />
-          <Skeleton className="h-6 w-40" />
-          <Skeleton className="h-10 w-10" />
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b border-border">
+        <div className="flex items-center justify-center p-4">
+          <Skeleton className="h-6 w-56" />
         </div>
       </div>
 
-      {/* Reading card skeleton */}
-      <div className="p-4">
-        <Skeleton className="h-24 w-full rounded-lg" />
-      </div>
-
-      {/* Dinner card skeleton */}
-      <div className="px-4 pb-4">
-        <Skeleton className="h-20 w-full rounded-lg" />
-      </div>
-
       {/* Questions skeleton */}
-      <div className="space-y-3 px-4">
+      <div className="space-y-3 px-4 mt-6">
+        <Skeleton className="h-5 w-40 mb-3" />
         <Skeleton className="h-16 w-full rounded-lg" />
         <Skeleton className="h-16 w-full rounded-lg" />
         <Skeleton className="h-16 w-full rounded-lg" />

@@ -1,6 +1,6 @@
 /**
- * Unit tests for highlights Zustand store.
- * Tests cover all state management operations.
+ * Unit tests for active question Zustand store.
+ * Tests cover single-active behavior with toggle-off.
  */
 import { beforeEach, describe, expect, it } from "vitest"
 import { useHighlightsStore } from "./highlights"
@@ -10,203 +10,202 @@ describe("useHighlightsStore", () => {
   beforeEach(() => {
     // Clear the store state
     useHighlightsStore.setState({
-      highlightsByWeek: {},
+      activeQuestionByWeek: {},
     })
     // Clear localStorage
     localStorage.clear()
   })
 
   describe("initial state", () => {
-    it("should have empty highlightsByWeek", () => {
+    it("should have empty activeQuestionByWeek", () => {
       const state = useHighlightsStore.getState()
-      expect(state.highlightsByWeek).toEqual({})
+      expect(state.activeQuestionByWeek).toEqual({})
     })
   })
 
-  describe("toggleHighlight", () => {
-    it("should add a highlight when not present", () => {
-      const { toggleHighlight, isHighlighted } = useHighlightsStore.getState()
-      
-      toggleHighlight("week-1", "question-1")
-      
-      expect(isHighlighted("week-1", "question-1")).toBe(true)
+  describe("setActiveQuestion", () => {
+    it("should set a question as active", () => {
+      const { setActiveQuestion, isActive } = useHighlightsStore.getState()
+
+      setActiveQuestion("week-1", "question-1")
+
+      expect(isActive("week-1", "question-1")).toBe(true)
     })
 
-    it("should remove a highlight when already present", () => {
-      const { toggleHighlight, isHighlighted } = useHighlightsStore.getState()
-      
-      // Add
-      toggleHighlight("week-1", "question-1")
-      expect(isHighlighted("week-1", "question-1")).toBe(true)
-      
-      // Remove
-      toggleHighlight("week-1", "question-1")
-      expect(isHighlighted("week-1", "question-1")).toBe(false)
-    })
-
-    it("should handle multiple questions in same week", () => {
-      const { toggleHighlight, isHighlighted } = useHighlightsStore.getState()
-      
-      toggleHighlight("week-1", "question-1")
-      toggleHighlight("week-1", "question-2")
-      toggleHighlight("week-1", "question-3")
-      
-      expect(isHighlighted("week-1", "question-1")).toBe(true)
-      expect(isHighlighted("week-1", "question-2")).toBe(true)
-      expect(isHighlighted("week-1", "question-3")).toBe(true)
-    })
-
-    it("should handle highlights across different weeks", () => {
-      const { toggleHighlight, isHighlighted } = useHighlightsStore.getState()
-      
-      toggleHighlight("week-1", "question-1")
-      toggleHighlight("week-2", "question-1")
-      
-      expect(isHighlighted("week-1", "question-1")).toBe(true)
-      expect(isHighlighted("week-2", "question-1")).toBe(true)
-    })
-
-    it("should not affect other questions when toggling", () => {
-      const { toggleHighlight, isHighlighted } = useHighlightsStore.getState()
-      
-      toggleHighlight("week-1", "question-1")
-      toggleHighlight("week-1", "question-2")
-      
-      // Toggle off question-1
-      toggleHighlight("week-1", "question-1")
-      
-      expect(isHighlighted("week-1", "question-1")).toBe(false)
-      expect(isHighlighted("week-1", "question-2")).toBe(true)
-    })
-  })
-
-  describe("isHighlighted", () => {
-    it("should return false for non-existent week", () => {
-      const { isHighlighted } = useHighlightsStore.getState()
-      
-      expect(isHighlighted("non-existent-week", "question-1")).toBe(false)
-    })
-
-    it("should return false for non-highlighted question", () => {
-      const { toggleHighlight, isHighlighted } = useHighlightsStore.getState()
-      
-      toggleHighlight("week-1", "question-1")
-      
-      expect(isHighlighted("week-1", "question-2")).toBe(false)
-    })
-
-    it("should return true for highlighted question", () => {
-      const { toggleHighlight, isHighlighted } = useHighlightsStore.getState()
-      
-      toggleHighlight("week-1", "question-1")
-      
-      expect(isHighlighted("week-1", "question-1")).toBe(true)
-    })
-  })
-
-  describe("getHighlights", () => {
-    it("should return empty Set for non-existent week", () => {
-      const { getHighlights } = useHighlightsStore.getState()
-      
-      const highlights = getHighlights("non-existent-week")
-      
-      expect(highlights).toBeInstanceOf(Set)
-      expect(highlights.size).toBe(0)
-    })
-
-    it("should return Set with all highlighted questions", () => {
-      const { toggleHighlight, getHighlights } = useHighlightsStore.getState()
-      
-      toggleHighlight("week-1", "question-1")
-      toggleHighlight("week-1", "question-2")
-      toggleHighlight("week-1", "question-3")
-      
-      const highlights = getHighlights("week-1")
-      
-      expect(highlights.size).toBe(3)
-      expect(highlights.has("question-1")).toBe(true)
-      expect(highlights.has("question-2")).toBe(true)
-      expect(highlights.has("question-3")).toBe(true)
-    })
-
-    it("should only return highlights for specified week", () => {
-      const { toggleHighlight, getHighlights } = useHighlightsStore.getState()
-      
-      toggleHighlight("week-1", "question-1")
-      toggleHighlight("week-2", "question-2")
-      
-      const week1Highlights = getHighlights("week-1")
-      const week2Highlights = getHighlights("week-2")
-      
-      expect(week1Highlights.has("question-1")).toBe(true)
-      expect(week1Highlights.has("question-2")).toBe(false)
-      expect(week2Highlights.has("question-2")).toBe(true)
-      expect(week2Highlights.has("question-1")).toBe(false)
-    })
-  })
-
-  describe("clearWeekHighlights", () => {
-    it("should clear all highlights for a week", () => {
-      const { toggleHighlight, clearWeekHighlights, getHighlights } =
+    it("should toggle OFF when clicking the same question (single-select behavior)", () => {
+      const { setActiveQuestion, isActive, getActiveQuestionId } =
         useHighlightsStore.getState()
-      
-      toggleHighlight("week-1", "question-1")
-      toggleHighlight("week-1", "question-2")
-      toggleHighlight("week-1", "question-3")
-      
-      clearWeekHighlights("week-1")
-      
-      const highlights = getHighlights("week-1")
-      expect(highlights.size).toBe(0)
+
+      // Set active
+      setActiveQuestion("week-1", "question-1")
+      expect(isActive("week-1", "question-1")).toBe(true)
+
+      // Click same question - should toggle off
+      setActiveQuestion("week-1", "question-1")
+      expect(isActive("week-1", "question-1")).toBe(false)
+      expect(getActiveQuestionId("week-1")).toBe(null)
+    })
+
+    it("should switch to new question when clicking different question", () => {
+      const { setActiveQuestion, isActive, getActiveQuestionId } =
+        useHighlightsStore.getState()
+
+      // Set Q1 active
+      setActiveQuestion("week-1", "question-1")
+      expect(isActive("week-1", "question-1")).toBe(true)
+
+      // Click Q2 - should switch to Q2, Q1 becomes inactive
+      setActiveQuestion("week-1", "question-2")
+      expect(isActive("week-1", "question-1")).toBe(false)
+      expect(isActive("week-1", "question-2")).toBe(true)
+      expect(getActiveQuestionId("week-1")).toBe("question-2")
+    })
+
+    it("should only allow one active question at a time (not multiple)", () => {
+      const { setActiveQuestion, isActive, getActiveQuestionId } =
+        useHighlightsStore.getState()
+
+      setActiveQuestion("week-1", "question-1")
+      setActiveQuestion("week-1", "question-2")
+      setActiveQuestion("week-1", "question-3")
+
+      // Only Q3 should be active
+      expect(isActive("week-1", "question-1")).toBe(false)
+      expect(isActive("week-1", "question-2")).toBe(false)
+      expect(isActive("week-1", "question-3")).toBe(true)
+      expect(getActiveQuestionId("week-1")).toBe("question-3")
+    })
+
+    it("should handle active questions across different weeks independently", () => {
+      const { setActiveQuestion, isActive, getActiveQuestionId } =
+        useHighlightsStore.getState()
+
+      setActiveQuestion("week-1", "question-1")
+      setActiveQuestion("week-2", "question-2")
+
+      expect(isActive("week-1", "question-1")).toBe(true)
+      expect(isActive("week-2", "question-2")).toBe(true)
+      expect(getActiveQuestionId("week-1")).toBe("question-1")
+      expect(getActiveQuestionId("week-2")).toBe("question-2")
+    })
+  })
+
+  describe("isActive", () => {
+    it("should return false for non-existent week", () => {
+      const { isActive } = useHighlightsStore.getState()
+
+      expect(isActive("non-existent-week", "question-1")).toBe(false)
+    })
+
+    it("should return false for non-active question", () => {
+      const { setActiveQuestion, isActive } = useHighlightsStore.getState()
+
+      setActiveQuestion("week-1", "question-1")
+
+      expect(isActive("week-1", "question-2")).toBe(false)
+    })
+
+    it("should return true only for the active question", () => {
+      const { setActiveQuestion, isActive } = useHighlightsStore.getState()
+
+      setActiveQuestion("week-1", "question-1")
+
+      expect(isActive("week-1", "question-1")).toBe(true)
+      expect(isActive("week-1", "question-2")).toBe(false)
+      expect(isActive("week-1", "question-3")).toBe(false)
+    })
+  })
+
+  describe("getActiveQuestionId", () => {
+    it("should return null for non-existent week", () => {
+      const { getActiveQuestionId } = useHighlightsStore.getState()
+
+      expect(getActiveQuestionId("non-existent-week")).toBe(null)
+    })
+
+    it("should return null when no question is active", () => {
+      const { setActiveQuestion, getActiveQuestionId } =
+        useHighlightsStore.getState()
+
+      // Set and then toggle off
+      setActiveQuestion("week-1", "question-1")
+      setActiveQuestion("week-1", "question-1")
+
+      expect(getActiveQuestionId("week-1")).toBe(null)
+    })
+
+    it("should return the active question ID", () => {
+      const { setActiveQuestion, getActiveQuestionId } =
+        useHighlightsStore.getState()
+
+      setActiveQuestion("week-1", "question-2")
+
+      expect(getActiveQuestionId("week-1")).toBe("question-2")
+    })
+  })
+
+  describe("clearActiveQuestion", () => {
+    it("should clear the active question for a week", () => {
+      const { setActiveQuestion, clearActiveQuestion, getActiveQuestionId } =
+        useHighlightsStore.getState()
+
+      setActiveQuestion("week-1", "question-1")
+      clearActiveQuestion("week-1")
+
+      expect(getActiveQuestionId("week-1")).toBe(null)
     })
 
     it("should not affect other weeks when clearing", () => {
-      const { toggleHighlight, clearWeekHighlights, isHighlighted } =
-        useHighlightsStore.getState()
-      
-      toggleHighlight("week-1", "question-1")
-      toggleHighlight("week-2", "question-1")
-      
-      clearWeekHighlights("week-1")
-      
-      expect(isHighlighted("week-1", "question-1")).toBe(false)
-      expect(isHighlighted("week-2", "question-1")).toBe(true)
+      const {
+        setActiveQuestion,
+        clearActiveQuestion,
+        isActive,
+        getActiveQuestionId,
+      } = useHighlightsStore.getState()
+
+      setActiveQuestion("week-1", "question-1")
+      setActiveQuestion("week-2", "question-1")
+
+      clearActiveQuestion("week-1")
+
+      expect(getActiveQuestionId("week-1")).toBe(null)
+      expect(isActive("week-2", "question-1")).toBe(true)
     })
 
     it("should handle clearing non-existent week gracefully", () => {
-      const { clearWeekHighlights, getHighlights } =
+      const { clearActiveQuestion, getActiveQuestionId } =
         useHighlightsStore.getState()
-      
+
       // Should not throw
-      clearWeekHighlights("non-existent-week")
-      
-      expect(getHighlights("non-existent-week").size).toBe(0)
+      clearActiveQuestion("non-existent-week")
+
+      expect(getActiveQuestionId("non-existent-week")).toBe(null)
     })
   })
 
   describe("persistence", () => {
     it("should have correct storage key", () => {
-      const { toggleHighlight } = useHighlightsStore.getState()
-      
-      toggleHighlight("week-1", "question-1")
-      
+      const { setActiveQuestion } = useHighlightsStore.getState()
+
+      setActiveQuestion("week-1", "question-1")
+
       // Check localStorage has the correct key
       const stored = localStorage.getItem("mfers-highlights")
       expect(stored).not.toBeNull()
     })
 
     it("should persist state to localStorage", () => {
-      const { toggleHighlight } = useHighlightsStore.getState()
-      
-      toggleHighlight("week-1", "question-1")
-      toggleHighlight("week-1", "question-2")
-      
+      const { setActiveQuestion } = useHighlightsStore.getState()
+
+      setActiveQuestion("week-1", "question-1")
+      setActiveQuestion("week-2", "question-3")
+
       const stored = localStorage.getItem("mfers-highlights")
       expect(stored).not.toBeNull()
-      
+
       const parsed = JSON.parse(stored!)
-      expect(parsed.state.highlightsByWeek["week-1"]).toContain("question-1")
-      expect(parsed.state.highlightsByWeek["week-1"]).toContain("question-2")
+      expect(parsed.state.activeQuestionByWeek["week-1"]).toBe("question-1")
+      expect(parsed.state.activeQuestionByWeek["week-2"]).toBe("question-3")
     })
   })
 })

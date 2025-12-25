@@ -15,8 +15,8 @@ describe("QuestionList", () => {
 
   const defaultProps = {
     questions: mockQuestions,
-    highlightedIds: new Set<string>(),
-    onToggleHighlight: vi.fn(),
+    activeQuestionId: null as string | null,
+    onSelectQuestion: vi.fn(),
     onVerseClick: vi.fn(),
   };
 
@@ -52,10 +52,10 @@ describe("QuestionList", () => {
     expect(items[2]).toHaveTextContent("Third question");
   });
 
-  it("should call onToggleHighlight when a question is clicked", () => {
-    const onToggleHighlight = vi.fn();
+  it("should call onSelectQuestion when a question is clicked", () => {
+    const onSelectQuestion = vi.fn();
     render(
-      <QuestionList {...defaultProps} onToggleHighlight={onToggleHighlight} />
+      <QuestionList {...defaultProps} onSelectQuestion={onSelectQuestion} />
     );
 
     // Find the button that contains the question text
@@ -64,19 +64,36 @@ describe("QuestionList", () => {
     });
     fireEvent.click(questionButton);
 
-    expect(onToggleHighlight).toHaveBeenCalledWith("q1");
+    expect(onSelectQuestion).toHaveBeenCalledWith("q1");
   });
 
-  it("should show highlighted state for highlighted questions", () => {
-    const highlightedIds = new Set(["q1"]);
-    render(<QuestionList {...defaultProps} highlightedIds={highlightedIds} />);
+  it("should show highlighted state only for the active question", () => {
+    render(<QuestionList {...defaultProps} activeQuestionId="q1" />);
 
-    // The highlighted question should have some visual indication
-    // Find all question items (role="button" with aria-pressed attribute)
-    const questionItems = screen.getAllByRole("button", { pressed: false });
-    // We have 3 question items + 1 verse link button = 4 total buttons
-    // But aria-pressed is only on question items, so we filter by that
-    expect(questionItems.length).toBeGreaterThan(0);
+    // The active question should have aria-pressed="true"
+    const activeQuestion = screen.getByRole("button", {
+      name: /What is the main theme/i,
+    });
+    expect(activeQuestion).toHaveAttribute("aria-pressed", "true");
+
+    // Other questions should have aria-pressed="false"
+    const inactiveQuestion = screen.getByRole("button", {
+      name: /How does this apply to us/i,
+    });
+    expect(inactiveQuestion).toHaveAttribute("aria-pressed", "false");
+  });
+
+  it("should not highlight any question when activeQuestionId is null", () => {
+    render(<QuestionList {...defaultProps} activeQuestionId={null} />);
+
+    // All questions should have aria-pressed="false"
+    const questionButtons = screen.getAllByRole("button");
+    questionButtons.forEach((button) => {
+      // Only check question items (not verse links which don't have aria-pressed)
+      if (button.hasAttribute("aria-pressed")) {
+        expect(button).toHaveAttribute("aria-pressed", "false");
+      }
+    });
   });
 
   it("should render empty list when no questions provided", () => {
@@ -85,5 +102,25 @@ describe("QuestionList", () => {
     expect(screen.getByText("Discussion Questions")).toBeInTheDocument();
     // No question items should be rendered
     expect(screen.queryAllByRole("button")).toHaveLength(0);
+  });
+
+  it("should only allow one question to be highlighted at a time", () => {
+    // This tests the visual behavior - only activeQuestionId should be highlighted
+    render(<QuestionList {...defaultProps} activeQuestionId="q2" />);
+
+    // Q1 should NOT be highlighted
+    const q1 = screen.getByRole("button", { name: /What is the main theme/i });
+    expect(q1).toHaveAttribute("aria-pressed", "false");
+
+    // Q2 should be highlighted (it has verse reference so check parent)
+    // Note: Q2 has "Read John 3:16 and discuss." which includes a verse link
+    const q2 = screen.getByRole("button", { name: /Read.*and discuss/i });
+    expect(q2).toHaveAttribute("aria-pressed", "true");
+
+    // Q3 should NOT be highlighted
+    const q3 = screen.getByRole("button", {
+      name: /How does this apply to us/i,
+    });
+    expect(q3).toHaveAttribute("aria-pressed", "false");
   });
 });
