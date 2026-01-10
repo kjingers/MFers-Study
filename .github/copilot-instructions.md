@@ -329,6 +329,51 @@ When planning features or phases, structure as:
 5. Open PR linking issue
 6. Merge after CI passes
 
+### Git Workflow for Implementing Issues
+
+When implementing a GitHub issue, follow this workflow:
+
+1. **Create feature branch from main**
+   ```bash
+   git checkout main
+   git pull origin main
+   git checkout -b kjinger/issue-XX-short-description
+   ```
+
+2. **Make changes on the feature branch**
+   - Implement the issue requirements
+   - Commit incrementally with descriptive messages
+
+3. **Run all tests before merging**
+   ```bash
+   # Frontend
+   cd mfers-app && npm run lint && npm run typecheck && npm run build && npm test
+   
+   # API
+   cd mfers-app/api && npm run lint && npm run typecheck && npm run build && npm test
+   ```
+
+4. **If tests pass → Merge to main**
+   ```bash
+   git checkout main
+   git merge kjinger/issue-XX-short-description --no-edit
+   git push origin main
+   git branch -d kjinger/issue-XX-short-description  # cleanup
+   ```
+
+5. **If tests fail or issue unresolved → Commit WIP and return to main**
+   ```bash
+   git add .
+   git commit -m "WIP: issue-XX - describe current state"
+   git checkout main  # return to stable code
+   ```
+   - Feature branch preserved for later work
+   - Main branch stays clean for other issues
+
+6. **Push triggers CI/CD**
+   - Push to `main` triggers Azure Static Web Apps deployment
+   - Use `Closes #XX` in commit message to auto-close issue
+
 ### Copilot Coding Agent
 
 To use coding agent for this repo:
