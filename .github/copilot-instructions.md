@@ -270,3 +270,68 @@ import { Button } from '../../../components/ui/button';
 - Add JSDoc to public APIs; include `@remarks` or `@example` when helpful
 - Write comments that capture intent, and remove stale notes during refactors
 - Document complex components and custom hooks with JSDoc
+
+## Personal Preferences
+
+- Be concise in all interactions and commit messages. Sacrifice grammar for brevity.
+
+### GitHub
+
+- Primary method for GitHub interaction: `gh` CLI
+- When tagging Claude in issues: use `@claude`
+
+### Git
+
+- Branch prefix: `kjinger/` (e.g., `kjinger/feature-name`)
+- Commit messages: concise, present tense
+
+### PR Comments
+
+When adding TODO comments to PRs, use checkbox markdown:
+
+```md
+- [ ] Description of the todo
+```
+
+### Plans
+
+- End each plan with unresolved questions (concise, grammar optional)
+
+### Phase Planning
+
+When planning features or phases, structure as:
+
+```md
+## Phase N: [Phase Name]
+
+### Goals
+- Goal 1
+- Goal 2
+
+### Tasks
+- [ ] Task 1
+- [ ] Task 2
+
+### Acceptance Criteria
+- Criteria 1
+- Criteria 2
+
+### Unresolved Questions
+- Question?
+```
+
+### Feature Development Flow
+
+1. Create issue with clear acceptance criteria
+2. Branch: `kjinger/issue-XX-short-description`
+3. Implement with tests
+4. Run CI checks locally
+5. Open PR linking issue
+6. Merge after CI passes
+
+### Copilot Coding Agent
+
+To use coding agent for this repo:
+1. Create detailed GitHub issue
+2. Assign to Copilot OR use `#github-pull-request_copilot-coding-agent` in chat
+3. Agent creates branch, implements, opens PR
