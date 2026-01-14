@@ -1,10 +1,12 @@
 import { useCallback, useMemo, useState } from "react";
+import { usePullToRefresh } from "../../hooks/usePullToRefresh";
 import { getCurrentWeekId, useWeeksQuery } from "../../hooks/useWeekQuery";
 import { useHighlightsStore } from "../../store";
 import type { BibleReference } from "../../types/verse";
 import { DinnerCard } from "../dinner/DinnerCard";
 import { QuestionList } from "../questions/QuestionList";
 import { ReadingContent } from "../reading/ReadingContent";
+import { PullRefreshIndicator } from "../ui/pull-refresh";
 import { Skeleton } from "../ui/skeleton";
 import { WeekNavigation } from "./WeekNavigation";
 
@@ -58,7 +60,16 @@ export interface WeekViewerProps {
 
 export function WeekViewer({ onVerseClick }: WeekViewerProps) {
   // Fetch weeks from API
-  const { data: weeks, isLoading, error } = useWeeksQuery();
+  const { data: weeks, isLoading, error, refetch } = useWeeksQuery();
+
+  // Pull-to-refresh functionality
+  const { containerRef, isRefreshing, pullDistance } = usePullToRefresh({
+    onRefresh: async () => {
+      await refetch();
+    },
+    threshold: 80,
+    enabled: !isLoading && !error,
+  });
 
   // Get sorted weeks for navigation
   const sortedWeeks = useMemo(
@@ -175,7 +186,17 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div
+      ref={containerRef}
+      className="min-h-screen bg-background pb-20 overflow-y-auto overscroll-contain"
+    >
+      {/* Pull-to-refresh indicator */}
+      <PullRefreshIndicator
+        isRefreshing={isRefreshing}
+        pullDistance={pullDistance}
+        threshold={80}
+      />
+
       <WeekNavigation
         weekTitle={`Week of ${formatWeekDate(week.weekDate)}`}
         hasPrevious={hasPrevious}
