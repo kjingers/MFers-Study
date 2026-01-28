@@ -11,6 +11,24 @@ import { expect, test } from "@playwright/test";
 
 test.describe("Visual Styling Tests", () => {
   test.beforeEach(async ({ page }) => {
+    // Set up localStorage before navigation to prevent family modal from blocking tests
+    await page.addInitScript(() => {
+      localStorage.setItem(
+        "family-storage",
+        JSON.stringify({
+          state: {
+            family: {
+              familyId: "test-family-123",
+              name: "Test Family",
+              createdAt: new Date().toISOString(),
+            },
+            showSetupModal: false,
+          },
+          version: 0,
+        })
+      );
+    });
+
     await page.goto("/");
     // Wait for DOM to be ready, then wait for visible UI elements
     await page.waitForLoadState("domcontentloaded");
@@ -90,6 +108,24 @@ test.describe("Visual Styling Tests", () => {
 
 test.describe("Content Area Tests", () => {
   test.beforeEach(async ({ page }) => {
+    // Set up localStorage before navigation to prevent family modal from blocking tests
+    await page.addInitScript(() => {
+      localStorage.setItem(
+        "family-storage",
+        JSON.stringify({
+          state: {
+            family: {
+              familyId: "test-family-123",
+              name: "Test Family",
+              createdAt: new Date().toISOString(),
+            },
+            showSetupModal: false,
+          },
+          version: 0,
+        })
+      );
+    });
+
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
     await page
@@ -135,6 +171,24 @@ test.describe("Mobile Responsiveness", () => {
   test.use({ viewport: { width: 375, height: 667 } }); // iPhone SE
 
   test("app renders correctly on mobile viewport", async ({ page }) => {
+    // Set up localStorage before navigation to prevent family modal from blocking tests
+    await page.addInitScript(() => {
+      localStorage.setItem(
+        "family-storage",
+        JSON.stringify({
+          state: {
+            family: {
+              familyId: "test-family-123",
+              name: "Test Family",
+              createdAt: new Date().toISOString(),
+            },
+            showSetupModal: false,
+          },
+          version: 0,
+        })
+      );
+    });
+
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
     await page
@@ -156,6 +210,24 @@ test.describe("Mobile Responsiveness", () => {
   });
 
   test("bottom navigation spans full width on mobile", async ({ page }) => {
+    // Set up localStorage before navigation to prevent family modal from blocking tests
+    await page.addInitScript(() => {
+      localStorage.setItem(
+        "family-storage",
+        JSON.stringify({
+          state: {
+            family: {
+              familyId: "test-family-123",
+              name: "Test Family",
+              createdAt: new Date().toISOString(),
+            },
+            showSetupModal: false,
+          },
+          version: 0,
+        })
+      );
+    });
+
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
     await page
@@ -175,6 +247,24 @@ test.describe("Mobile Responsiveness", () => {
 
 test.describe("Visual Regression Screenshots", () => {
   test("main page visual snapshot", async ({ page }) => {
+    // Set up localStorage before navigation to prevent family modal from blocking tests
+    await page.addInitScript(() => {
+      localStorage.setItem(
+        "family-storage",
+        JSON.stringify({
+          state: {
+            family: {
+              familyId: "test-family-123",
+              name: "Test Family",
+              createdAt: new Date().toISOString(),
+            },
+            showSetupModal: false,
+          },
+          version: 0,
+        })
+      );
+    });
+
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
     await page
