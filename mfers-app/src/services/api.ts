@@ -1,4 +1,4 @@
-import type { Week, WeekResponse, PassageResponse, Translation, BibleReference, RSVPSummary, RSVPRequest, RSVPResponse, RSVP } from "../types"
+import type { Week, WeekResponse, PassageResponse, Translation, BibleReference, RSVPSummary, RSVPRequest, RSVPResponse, RSVP, MealSignup, MealSignupRequest, MealSignupResponse } from "../types"
 
 /**
  * API base URL from environment variable.
@@ -114,6 +114,43 @@ export async function submitRSVP(rsvp: RSVPRequest): Promise<RSVPResponse> {
 }
 
 /**
+ * Fetch meal signup for a week.
+ * 
+ * @param weekId - The week ID
+ * @returns Meal signup data or null if unclaimed
+ */
+export async function fetchMeal(weekId: string): Promise<MealSignup | null> {
+  const data = await fetchApi<{ meal: MealSignup | null }>(`/meals/${weekId}`)
+  return data.meal
+}
+
+/**
+ * Claim a meal slot for a week.
+ * 
+ * @param request - The meal signup request
+ * @returns The saved meal signup
+ */
+export async function claimMeal(request: MealSignupRequest): Promise<MealSignupResponse> {
+  return fetchApi<MealSignupResponse>("/meals", {
+    method: "POST",
+    body: JSON.stringify(request),
+  })
+}
+
+/**
+ * Release a claimed meal slot.
+ * 
+ * @param weekId - The week ID
+ * @param familyId - The family ID (must match the claimer)
+ * @returns Success indicator
+ */
+export async function releaseMeal(weekId: string, familyId: string): Promise<{ success: boolean }> {
+  return fetchApi<{ success: boolean }>(`/meals/${weekId}?familyId=${familyId}`, {
+    method: "DELETE",
+  })
+}
+
+/**
  * API client object with all methods.
  */
 export const api = {
@@ -123,4 +160,7 @@ export const api = {
   fetchRSVPs,
   fetchFamilyRSVP,
   submitRSVP,
+  fetchMeal,
+  claimMeal,
+  releaseMeal,
 }

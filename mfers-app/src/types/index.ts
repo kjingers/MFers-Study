@@ -23,3 +23,9 @@ export type {
   RSVPRequest,
   RSVPResponse
 } from "./rsvp"
+
+export type {
+  MealSignup,
+  MealSignupRequest,
+  MealSignupResponse
+} from "./meal"

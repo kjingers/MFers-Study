@@ -202,7 +202,7 @@ export function WeekViewer({ onVerseClick, weekId }: WeekViewerProps) {
           onVerseClick={handleVerseClick}
         />
 
-        <DinnerCard familyName={week.dinnerFamily} notes={week.dinnerNotes} />
+        <DinnerCard weekId={week.weekId} familyName={week.dinnerFamily} notes={week.dinnerNotes} />
 
         <RSVPSection weekId={week.weekId} />
 

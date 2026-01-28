@@ -76,6 +76,29 @@ export interface RSVPSummary {
 }
 
 /**
+ * Meal entity stored in Azure Table Storage.
+ */
+export interface MealEntity {
+  partitionKey: string  // "meals" constant
+  rowKey: string        // WeekId
+  familyId: string
+  familyName: string
+  mealNotes?: string
+  claimedAt: string     // ISO date string
+}
+
+/**
+ * Meal signup data structure for API responses.
+ */
+export interface Meal {
+  weekId: string
+  familyId: string
+  familyName: string
+  mealNotes?: string
+  claimedAt: string
+}
+
+/**
  * API error response structure.
  */
 export interface ApiError {

@@ -3,7 +3,7 @@
  * Falls back to mock data when connection string is not configured.
  */
 import { TableClient, TableServiceClient } from "@azure/data-tables";
-import type { WeekEntity, QuestionEntity, RSVPEntity, RSVP, RSVPSummary } from "./types.js";
+import type { WeekEntity, QuestionEntity, RSVPEntity, RSVP, RSVPSummary, MealEntity, Meal } from "./types.js";
 
 /**
  * Week data structure returned from storage.
@@ -33,6 +33,7 @@ const TABLE_NAMES = {
   WEEKS: "weeks",
   QUESTIONS: "questions",
   RSVPS: "rsvps",
+  MEALS: "meals",
 } as const;
 
 const PARTITION_KEY = "mfers-study";
@@ -336,4 +337,102 @@ export async function upsertRSVP(rsvp: RSVP): Promise<RSVP> {
 
   await rsvpsClient.upsertEntity(entity, "Replace");
   return updatedRsvp;
+}
+
+/**
+ * Partition key for meals table.
+ */
+const MEALS_PARTITION_KEY = "meals";
+
+/**
+ * In-memory meal storage for fallback when Table Storage not configured.
+ */
+const inMemoryMeals: Map<string, Meal> = new Map();
+
+/**
+ * Get meal signup for a specific week.
+ */
+export async function getMealForWeek(weekId: string): Promise<Meal | null> {
+  if (!isTableStorageConfigured()) {
+    return inMemoryMeals.get(weekId) || null;
+  }
+
+  const mealsClient = getTableClient(TABLE_NAMES.MEALS);
+
+  try {
+    const entity = await mealsClient.getEntity<MealEntity>(MEALS_PARTITION_KEY, weekId);
+    return {
+      weekId: entity.rowKey!,
+      familyId: entity.familyId,
+      familyName: entity.familyName,
+      mealNotes: entity.mealNotes,
+      claimedAt: entity.claimedAt,
+    };
+  } catch (error: unknown) {
+    if (error instanceof Error && error.message.includes("ResourceNotFound")) {
+      return null;
+    }
+    throw error;
+  }
+}
+
+/**
+ * Claim a meal slot for a week.
+ */
+export async function claimMeal(meal: Meal): Promise<Meal> {
+  const claimedMeal: Meal = {
+    ...meal,
+    claimedAt: new Date().toISOString(),
+  };
+
+  if (!isTableStorageConfigured()) {
+    inMemoryMeals.set(meal.weekId, claimedMeal);
+    return claimedMeal;
+  }
+
+  const mealsClient = getTableClient(TABLE_NAMES.MEALS);
+
+  const entity: MealEntity = {
+    partitionKey: MEALS_PARTITION_KEY,
+    rowKey: meal.weekId,
+    familyId: meal.familyId,
+    familyName: meal.familyName,
+    mealNotes: meal.mealNotes,
+    claimedAt: claimedMeal.claimedAt,
+  };
+
+  await mealsClient.upsertEntity(entity, "Replace");
+  return claimedMeal;
+}
+
+/**
+ * Release a meal slot for a week.
+ */
+export async function releaseMeal(weekId: string, familyId: string): Promise<boolean> {
+  if (!isTableStorageConfigured()) {
+    const existing = inMemoryMeals.get(weekId);
+    if (existing && existing.familyId === familyId) {
+      inMemoryMeals.delete(weekId);
+      return true;
+    }
+    return false;
+  }
+
+  const mealsClient = getTableClient(TABLE_NAMES.MEALS);
+
+  try {
+    // First check if the family owns this meal slot
+    const entity = await mealsClient.getEntity<MealEntity>(MEALS_PARTITION_KEY, weekId);
+    if (entity.familyId !== familyId) {
+      return false;
+    }
+    
+    await mealsClient.deleteEntity(MEALS_PARTITION_KEY, weekId);
+    return true;
+  } catch (error: unknown) {
+    if (error instanceof Error && error.message.includes("ResourceNotFound")) {
+      return false;
+    }
+    throw error;
+  }
 }
