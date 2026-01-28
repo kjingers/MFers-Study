@@ -1,8 +1,10 @@
 import { useCallback, useMemo, useState } from "react";
 import { getCurrentWeekId, useWeeksQuery } from "../../hooks/useWeekQuery";
+import { useSignalRSync } from "../../hooks/useSignalRSync";
 import { useHighlightsStore } from "../../store";
 import type { BibleReference } from "../../types/verse";
 import { Skeleton } from "../ui/skeleton";
+import { SyncStatus } from "../ui/SyncStatus";
 import { QuestionList } from "./QuestionList";
 
 /**
@@ -87,17 +89,42 @@ export function QuestionsView({ onVerseClick }: QuestionsViewProps) {
   const week = sortedWeeks[safeWeekIndex];
 
   // Active question from store (single-select with toggle-off)
-  const { getActiveQuestionId, setActiveQuestion } = useHighlightsStore();
+  const { getActiveQuestionId, setActiveQuestion, setActiveQuestionDirect, isSyncEnabled } = useHighlightsStore();
   const activeQuestionId = week ? getActiveQuestionId(week.weekId) : null;
 
-  // Select/deselect question handler
+  // Handle highlight changes from SignalR sync
+  const handleSyncHighlightChange = useCallback(
+    (questionId: string | null) => {
+      if (week) {
+        setActiveQuestionDirect(week.weekId, questionId);
+      }
+    },
+    [week, setActiveQuestionDirect]
+  );
+
+  // SignalR sync for real-time highlight updates
+  const { mode, isConnecting, broadcastHighlight } = useSignalRSync({
+    weekId: week?.weekId ?? "",
+    onHighlightChange: handleSyncHighlightChange,
+    enabled: isSyncEnabled && !!week,
+  });
+
+  // Select/deselect question handler with broadcast
   const handleSelectQuestion = useCallback(
     (questionId: string) => {
       if (week) {
+        const currentActive = getActiveQuestionId(week.weekId);
+        const newActive = currentActive === questionId ? null : questionId;
+        
         setActiveQuestion(week.weekId, questionId);
+        
+        // Broadcast to other clients
+        if (isSyncEnabled) {
+          broadcastHighlight(newActive);
+        }
       }
     },
-    [week, setActiveQuestion]
+    [week, setActiveQuestion, getActiveQuestionId, broadcastHighlight, isSyncEnabled]
   );
 
   // Verse click handler
@@ -153,10 +180,11 @@ export function QuestionsView({ onVerseClick }: QuestionsViewProps) {
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-        <div className="flex items-center justify-center p-4">
+        <div className="flex items-center justify-between p-4">
           <h1 className="text-lg font-semibold">
             Questions - Week of {formatWeekDate(week.weekDate)}
           </h1>
+          <SyncStatus mode={mode} isConnecting={isConnecting} />
         </div>
       </header>
 

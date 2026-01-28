@@ -8,14 +8,20 @@ import { persist } from "zustand/middleware"
 interface ActiveQuestionState {
   /** Map of weekId to the active question ID (or null if none) */
   activeQuestionByWeek: Record<string, string | null>
+  /** Whether live sync is enabled */
+  isSyncEnabled: boolean
   /** Set or toggle the active question for a week */
   setActiveQuestion: (weekId: string, questionId: string) => void
+  /** Set the active question directly (for sync updates, no toggle) */
+  setActiveQuestionDirect: (weekId: string, questionId: string | null) => void
   /** Check if a question is the active one */
   isActive: (weekId: string, questionId: string) => boolean
   /** Get the active question ID for a week (or null) */
   getActiveQuestionId: (weekId: string) => string | null
   /** Clear the active question for a week */
   clearActiveQuestion: (weekId: string) => void
+  /** Enable or disable live sync */
+  setSyncEnabled: (enabled: boolean) => void
 }
 
 /**
@@ -28,6 +34,7 @@ export const useHighlightsStore = create<ActiveQuestionState>()(
   persist(
     (set, get) => ({
       activeQuestionByWeek: {},
+      isSyncEnabled: true,
 
       setActiveQuestion: (weekId: string, questionId: string) => {
         set((state) => {
@@ -45,6 +52,15 @@ export const useHighlightsStore = create<ActiveQuestionState>()(
         })
       },
 
+      setActiveQuestionDirect: (weekId: string, questionId: string | null) => {
+        set((state) => ({
+          activeQuestionByWeek: {
+            ...state.activeQuestionByWeek,
+            [weekId]: questionId,
+          },
+        }))
+      },
+
       isActive: (weekId: string, questionId: string) => {
         return get().activeQuestionByWeek[weekId] === questionId
       },
@@ -60,6 +76,10 @@ export const useHighlightsStore = create<ActiveQuestionState>()(
             [weekId]: null,
           },
         }))
+      },
+
+      setSyncEnabled: (enabled: boolean) => {
+        set({ isSyncEnabled: enabled })
       },
     }),
     {
