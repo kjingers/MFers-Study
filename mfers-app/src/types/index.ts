@@ -16,3 +16,10 @@ export type {
   PassageResponse,
   VerseRequest
 } from "./verse"
+
+export type {
+  RSVP,
+  RSVPSummary,
+  RSVPRequest,
+  RSVPResponse
+} from "./rsvp"

@@ -5,6 +5,7 @@ import type { BibleReference } from "../../types/verse";
 import { DinnerCard } from "../dinner/DinnerCard";
 import { QuestionList } from "../questions/QuestionList";
 import { ReadingContent } from "../reading/ReadingContent";
+import { RSVPSection } from "../rsvp";
 import { Skeleton } from "../ui/skeleton";
 import { WeekNavigation } from "./WeekNavigation";
 
@@ -13,9 +14,9 @@ import { WeekNavigation } from "./WeekNavigation";
  */
 function formatWeekDate(dateString: string): string {
   return new Date(dateString).toLocaleDateString("en-US", {
+    weekday: "short",
     month: "short",
     day: "numeric",
-    year: "numeric",
   });
 }
 
@@ -192,6 +193,8 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
         />
 
         <DinnerCard familyName={week.dinnerFamily} notes={week.dinnerNotes} />
+
+        <RSVPSection weekId={week.weekId} />
 
         <QuestionList
           questions={week.questions}

@@ -38,6 +38,44 @@ export interface PassageCacheEntity {
 }
 
 /**
+ * RSVP entity stored in Azure Table Storage.
+ */
+export interface RSVPEntity {
+  partitionKey: string  // WeekId
+  rowKey: string        // FamilyId
+  familyName: string
+  attending: boolean
+  adults: number
+  kids: number
+  updatedAt: string     // ISO date string
+}
+
+/**
+ * RSVP data structure for API responses.
+ */
+export interface RSVP {
+  weekId: string
+  familyId: string
+  familyName: string
+  attending: boolean
+  adults: number
+  kids: number
+  updatedAt: string
+}
+
+/**
+ * RSVP summary for a week.
+ */
+export interface RSVPSummary {
+  weekId: string
+  totalFamilies: number
+  totalAdults: number
+  totalKids: number
+  totalPeople: number
+  rsvps: RSVP[]
+}
+
+/**
  * API error response structure.
  */
 export interface ApiError {

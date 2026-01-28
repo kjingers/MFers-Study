@@ -130,6 +130,136 @@ const mockWeeks: Week[] = [
       },
     ],
   },
+  {
+    weekId: "2026-01-13",
+    weekDate: "2026-01-13",
+    readingAssignment: "John 5:19-47",
+    dinnerFamily: "The Garcia Family",
+    dinnerNotes: "Taco night!",
+    questions: [
+      {
+        questionId: "q1-2026-01-13",
+        order: 1,
+        text: "What does Jesus mean when he says 'the Son can do nothing by himself' (John 5:19)?",
+      },
+      {
+        questionId: "q2-2026-01-13",
+        order: 2,
+        text: "How does Jesus describe the resurrection in John 5:28-29?",
+      },
+      {
+        questionId: "q3-2026-01-13",
+        order: 3,
+        text: "What four witnesses does Jesus appeal to in John 5:31-47?",
+      },
+      {
+        questionId: "q4-2026-01-13",
+        order: 4,
+        text: "Why does Jesus say the Scriptures testify about him (John 5:39-40)?",
+      },
+    ],
+  },
+  {
+    weekId: "2026-01-20",
+    weekDate: "2026-01-20",
+    readingAssignment: "John 6:1-24",
+    dinnerFamily: "The Brown Family",
+    dinnerNotes: null,
+    questions: [
+      {
+        questionId: "q1-2026-01-20",
+        order: 1,
+        text: "What can we learn from the boy who offered his five loaves and two fish (John 6:8-9)?",
+      },
+      {
+        questionId: "q2-2026-01-20",
+        order: 2,
+        text: "Why did Jesus withdraw when the people wanted to make him king (John 6:15)?",
+      },
+      {
+        questionId: "q3-2026-01-20",
+        order: 3,
+        text: "What does Jesus walking on water reveal about his nature (John 6:16-21)?",
+      },
+    ],
+  },
+  {
+    weekId: "2026-01-27",
+    weekDate: "2026-01-27",
+    readingAssignment: "John 6:25-59",
+    dinnerFamily: "The Davis Family",
+    dinnerNotes: "Soup and bread - fitting for the passage!",
+    questions: [
+      {
+        questionId: "q1-2026-01-27",
+        order: 1,
+        text: "What does Jesus mean by 'I am the bread of life' (John 6:35)?",
+      },
+      {
+        questionId: "q2-2026-01-27",
+        order: 2,
+        text: "Why did Jesus' teaching about eating his flesh disturb the crowd (John 6:52)?",
+      },
+      {
+        questionId: "q3-2026-01-27",
+        order: 3,
+        text: "How does Jesus describe the relationship between faith and eternal life in John 6:40, 47?",
+      },
+      {
+        questionId: "q4-2026-01-27",
+        order: 4,
+        text: "What role does the Father play in bringing people to Jesus (John 6:37, 44)?",
+      },
+    ],
+  },
+  {
+    weekId: "2026-02-03",
+    weekDate: "2026-02-03",
+    readingAssignment: "John 6:60-71",
+    dinnerFamily: "The Martinez Family",
+    dinnerNotes: null,
+    questions: [
+      {
+        questionId: "q1-2026-02-03",
+        order: 1,
+        text: "Why did many disciples turn back after Jesus' teaching (John 6:60-66)?",
+      },
+      {
+        questionId: "q2-2026-02-03",
+        order: 2,
+        text: "What is the significance of Peter's confession in John 6:68-69?",
+      },
+      {
+        questionId: "q3-2026-02-03",
+        order: 3,
+        text: "What does Jesus mean by 'The Spirit gives life; the flesh counts for nothing' (John 6:63)?",
+      },
+    ],
+  },
+  {
+    weekId: "2026-02-10",
+    weekDate: "2026-02-10",
+    readingAssignment: "John 7:1-24",
+    dinnerFamily: "The Wilson Family",
+    dinnerNotes: "Chili cook-off!",
+    questions: [
+      {
+        questionId: "q1-2026-02-10",
+        order: 1,
+        text: "Why were Jesus' brothers encouraging him to go to Judea (John 7:3-5)?",
+      },
+      {
+        questionId: "q2-2026-02-10",
+        order: 2,
+        text: "What does Jesus mean by 'My time has not yet come' (John 7:6)?",
+      },
+      {
+        questionId: "q3-2026-02-10",
+        order: 3,
+        text: "Why does Jesus challenge their understanding of the Sabbath in John 7:21-24?",
+      },
+    ],
+  },
 ];
 
 /**

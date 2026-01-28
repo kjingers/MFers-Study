@@ -1,4 +1,4 @@
-import type { Week, WeekResponse, PassageResponse, Translation, BibleReference } from "../types"
+import type { Week, WeekResponse, PassageResponse, Translation, BibleReference, RSVPSummary, RSVPRequest, RSVPResponse, RSVP } from "../types"
 
 /**
  * API base URL from environment variable.
@@ -76,10 +76,51 @@ export async function fetchVerses(
 }
 
 /**
+ * Fetch all RSVPs for a week.
+ * 
+ * @param weekId - The week ID
+ * @returns RSVP summary with all responses
+ */
+export async function fetchRSVPs(weekId: string): Promise<RSVPSummary> {
+  return fetchApi<RSVPSummary>(`/rsvp/${weekId}`)
+}
+
+/**
+ * Fetch a specific family's RSVP.
+ * 
+ * @param weekId - The week ID
+ * @param familyId - The family ID
+ * @returns The RSVP or null if not found
+ */
+export async function fetchFamilyRSVP(weekId: string, familyId: string): Promise<RSVP | null> {
+  try {
+    return await fetchApi<RSVP>(`/rsvp/${weekId}/${familyId}`)
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Create or update an RSVP.
+ * 
+ * @param rsvp - The RSVP data
+ * @returns The saved RSVP and updated summary
+ */
+export async function submitRSVP(rsvp: RSVPRequest): Promise<RSVPResponse> {
+  return fetchApi<RSVPResponse>("/rsvp", {
+    method: "POST",
+    body: JSON.stringify(rsvp),
+  })
+}
+
+/**
  * API client object with all methods.
  */
 export const api = {
   fetchWeeks,
   fetchWeek,
   fetchVerses,
+  fetchRSVPs,
+  fetchFamilyRSVP,
+  submitRSVP,
 }

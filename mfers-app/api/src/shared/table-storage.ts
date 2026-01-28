@@ -3,7 +3,7 @@
  * Falls back to mock data when connection string is not configured.
  */
 import { TableClient, TableServiceClient } from "@azure/data-tables";
-import type { WeekEntity, QuestionEntity } from "./types.js";
+import type { WeekEntity, QuestionEntity, RSVPEntity, RSVP, RSVPSummary } from "./types.js";
 
 /**
  * Week data structure returned from storage.
@@ -32,6 +32,7 @@ export interface Question {
 const TABLE_NAMES = {
   WEEKS: "weeks",
   QUESTIONS: "questions",
+  RSVPS: "rsvps",
 } as const;
 
 const PARTITION_KEY = "mfers-study";
@@ -212,4 +213,127 @@ export async function saveWeekToStorage(week: Week): Promise<void> {
     };
     await questionsClient.upsertEntity(questionEntity, "Replace");
   }
+}
+
+/**
+ * In-memory RSVP storage for fallback when Table Storage not configured.
+ */
+const inMemoryRSVPs: Map<string, RSVP[]> = new Map();
+
+/**
+ * Get all RSVPs for a specific week.
+ */
+export async function getRSVPsForWeek(weekId: string): Promise<RSVPSummary> {
+  if (!isTableStorageConfigured()) {
+    // Return from in-memory storage
+    const rsvps = inMemoryRSVPs.get(weekId) || [];
+    const attendingRsvps = rsvps.filter(r => r.attending);
+    return {
+      weekId,
+      totalFamilies: attendingRsvps.length,
+      totalAdults: attendingRsvps.reduce((sum, r) => sum + r.adults, 0),
+      totalKids: attendingRsvps.reduce((sum, r) => sum + r.kids, 0),
+      totalPeople: attendingRsvps.reduce((sum, r) => sum + r.adults + r.kids, 0),
+      rsvps,
+    };
+  }
+
+  const rsvpsClient = getTableClient(TABLE_NAMES.RSVPS);
+  const rsvps: RSVP[] = [];
+
+  const entities = rsvpsClient.listEntities<RSVPEntity>({
+    queryOptions: { filter: `PartitionKey eq '${weekId}'` }
+  });
+
+  for await (const entity of entities) {
+    rsvps.push({
+      weekId: entity.partitionKey!,
+      familyId: entity.rowKey!,
+      familyName: entity.familyName,
+      attending: entity.attending,
+      adults: entity.adults,
+      kids: entity.kids,
+      updatedAt: entity.updatedAt,
+    });
+  }
+
+  const attendingRsvps = rsvps.filter(r => r.attending);
+  return {
+    weekId,
+    totalFamilies: attendingRsvps.length,
+    totalAdults: attendingRsvps.reduce((sum, r) => sum + r.adults, 0),
+    totalKids: attendingRsvps.reduce((sum, r) => sum + r.kids, 0),
+    totalPeople: attendingRsvps.reduce((sum, r) => sum + r.adults + r.kids, 0),
+    rsvps,
+  };
+}
+
+/**
+ * Get a family's RSVP for a specific week.
+ */
+export async function getFamilyRSVP(weekId: string, familyId: string): Promise<RSVP | null> {
+  if (!isTableStorageConfigured()) {
+    const rsvps = inMemoryRSVPs.get(weekId) || [];
+    return rsvps.find(r => r.familyId === familyId) || null;
+  }
+
+  const rsvpsClient = getTableClient(TABLE_NAMES.RSVPS);
+
+  try {
+    const entity = await rsvpsClient.getEntity<RSVPEntity>(weekId, familyId);
+    return {
+      weekId: entity.partitionKey!,
+      familyId: entity.rowKey!,
+      familyName: entity.familyName,
+      attending: entity.attending,
+      adults: entity.adults,
+      kids: entity.kids,
+      updatedAt: entity.updatedAt,
+    };
+  } catch (error: unknown) {
+    if (error instanceof Error && error.message.includes("ResourceNotFound")) {
+      return null;
+    }
+    throw error;
+  }
+}
+
+/**
+ * Create or update an RSVP.
+ */
+export async function upsertRSVP(rsvp: RSVP): Promise<RSVP> {
+  const updatedRsvp: RSVP = {
+    ...rsvp,
+    updatedAt: new Date().toISOString(),
+  };
+
+  if (!isTableStorageConfigured()) {
+    // Store in memory
+    const weekRsvps = inMemoryRSVPs.get(rsvp.weekId) || [];
+    const existingIndex = weekRsvps.findIndex(r => r.familyId === rsvp.familyId);
+    
+    if (existingIndex >= 0) {
+      weekRsvps[existingIndex] = updatedRsvp;
+    } else {
+      weekRsvps.push(updatedRsvp);
+    }
+    
+    inMemoryRSVPs.set(rsvp.weekId, weekRsvps);
+    return updatedRsvp;
+  }
+
+  const rsvpsClient = getTableClient(TABLE_NAMES.RSVPS);
+
+  const entity: RSVPEntity = {
+    partitionKey: rsvp.weekId,
+    rowKey: rsvp.familyId,
+    familyName: rsvp.familyName,
+    attending: rsvp.attending,
+    adults: rsvp.adults,
+    kids: rsvp.kids,
+    updatedAt: updatedRsvp.updatedAt,
+  };
+
+  await rsvpsClient.upsertEntity(entity, "Replace");
+  return updatedRsvp;
 }

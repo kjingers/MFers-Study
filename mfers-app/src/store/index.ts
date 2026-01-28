@@ -2,4 +2,5 @@
  * Central export file for all Zustand stores.
  */
 
-export { useHighlightsStore } from "./highlights"
+export { useFamilyStore, type Family } from "./family";
+export { useHighlightsStore } from "./highlights";

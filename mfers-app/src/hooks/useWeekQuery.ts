@@ -48,25 +48,74 @@ export function useWeekQuery(weekId: string | undefined) {
 }
 
 /**
- * Get the current week ID based on today's date.
- * Returns the most recent Tuesday's date in YYYY-MM-DD format.
+ * Get the next Tuesday date (including today if it's Tuesday).
+ * This represents the "current week" for Bible study purposes.
  *
- * @returns Week ID string
+ * @returns Date object for next Tuesday
  */
-export function getCurrentWeekId(): string {
+export function getNextTuesday(): Date {
   const today = new Date();
   const dayOfWeek = today.getDay();
 
-  // Calculate days since last Tuesday (Tuesday = 2)
-  // If today is Tuesday (2), daysSinceTuesday = 0
-  // If today is Wednesday (3), daysSinceTuesday = 1
-  // If today is Monday (1), daysSinceTuesday = 6
-  const daysSinceTuesday = (dayOfWeek + 5) % 7;
+  // Tuesday = 2
+  // Calculate days until next Tuesday
+  // If today is Tuesday (2), daysUntilTuesday = 0
+  // If today is Wednesday (3), daysUntilTuesday = 6
+  // If today is Monday (1), daysUntilTuesday = 1
+  const daysUntilTuesday = (9 - dayOfWeek) % 7;
 
-  const lastTuesday = new Date(today);
-  lastTuesday.setDate(today.getDate() - daysSinceTuesday);
+  const nextTuesday = new Date(today);
+  nextTuesday.setDate(today.getDate() + daysUntilTuesday);
+  nextTuesday.setHours(0, 0, 0, 0);
 
-  return lastTuesday.toISOString().split("T")[0];
+  return nextTuesday;
+}
+
+/**
+ * Get the current week ID based on today's date.
+ * Returns the next upcoming Tuesday's date in YYYY-MM-DD format.
+ * If today is Tuesday, returns today.
+ *
+ * @returns Week ID string (YYYY-MM-DD format)
+ */
+export function getCurrentWeekId(): string {
+  return getNextTuesday().toISOString().split("T")[0];
+}
+
+/**
+ * Find the best matching week from available weeks.
+ * Priority:
+ * 1. Exact match for next Tuesday
+ * 2. Closest future week
+ * 3. Most recent past week
+ *
+ * @param weeks - Array of available weeks
+ * @returns Best matching week or null
+ */
+export function findCurrentWeek(weeks: Week[]): Week | null {
+  if (!weeks.length) return null;
+
+  const nextTuesday = getNextTuesday().getTime();
+  
+  // Sort by date
+  const sortedWeeks = [...weeks].sort(
+    (a, b) => new Date(a.weekDate).getTime() - new Date(b.weekDate).getTime()
+  );
+
+  // Try exact match first
+  const exactMatch = sortedWeeks.find(
+    (w) => new Date(w.weekDate).getTime() === nextTuesday
+  );
+  if (exactMatch) return exactMatch;
+
+  // Find closest future week
+  const futureWeeks = sortedWeeks.filter(
+    (w) => new Date(w.weekDate).getTime() > nextTuesday
+  );
+  if (futureWeeks.length) return futureWeeks[0];
+
+  // Fall back to most recent past week
+  return sortedWeeks[sortedWeeks.length - 1];
 }
 
 /**

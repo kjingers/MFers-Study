@@ -1,13 +1,15 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BookOpen, Utensils } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ErrorBoundary } from "./components/error-boundary";
+import { FamilyModal } from "./components/family";
 import { WeekPageSkeleton } from "./components/ui";
 import { VerseModal } from "./components/verse-modal";
 import { WeekViewer } from "./components/week";
 import "./index.css";
 import { formatReference } from "./lib/verse-parser";
+import { useFamilyStore } from "./store";
 import type { BibleReference } from "./types/verse";
 
 /**
@@ -31,6 +33,16 @@ function WeekPage() {
     null
   );
   const isModalOpen = selectedVerse !== null;
+
+  // Family store - trigger setup modal on first visit
+  const { family, openSetupModal } = useFamilyStore();
+
+  // Show family modal on first visit (no family set)
+  useEffect(() => {
+    if (!family) {
+      openSetupModal();
+    }
+  }, [family, openSetupModal]);
 
   const handleVerseClick = (reference: BibleReference) => {
     console.log("Opening verse:", formatReference(reference));
@@ -88,6 +100,9 @@ function WeekPage() {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
       />
+
+      {/* Family Setup Modal - Shows on first visit */}
+      <FamilyModal />
     </>
   );
 }
