@@ -10,6 +10,7 @@ import { expect, test } from "@playwright/test";
  */
 
 // Helper to set up localStorage before page navigation
+// Uses "mfers-family" key matching the Zustand persist store config
 const familyStorageData = JSON.stringify({
   state: {
     family: {
@@ -27,7 +28,7 @@ async function setupPageWithFamily(page: import("@playwright/test").Page) {
   // This ensures localStorage is set before React hydrates
   await page.goto("/");
   await page.evaluate((data) => {
-    localStorage.setItem("family-storage", data);
+    localStorage.setItem("mfers-family", data);
   }, familyStorageData);
   await page.reload();
   await page.waitForLoadState("domcontentloaded");
