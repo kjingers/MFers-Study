@@ -6,123 +6,234 @@ import type { Week, WeekResponse } from "../types"
  */
 export const mockWeeks: Week[] = [
   {
-    weekId: "2025-12-16",
-    weekDate: "2025-12-16",
-    readingAssignment: "John 3:1-21",
+    weekId: "2026-01-13",
+    weekDate: "2026-01-13",
+    readingAssignment: "John 6:41-71",
     dinnerFamily: "The Smith Family",
     dinnerNotes: "Please bring dessert",
     questions: [
       {
-        questionId: "q1-2025-12-16",
+        questionId: "q1-2026-01-13",
         order: 1,
-        text: "What does it mean to be 'born again' as Jesus describes in John 3:3-7?"
+        text: "Why do the Jews grumble about Jesus claiming to be 'the bread that came down from heaven' (John 6:41-42)?"
       },
       {
-        questionId: "q2-2025-12-16",
+        questionId: "q2-2026-01-13",
         order: 2,
-        text: "Why did Nicodemus come to Jesus at night? What might this tell us about him?"
+        text: "What does Jesus mean when He says 'No one can come to me unless the Father draws him' (John 6:44)?"
       },
       {
-        questionId: "q3-2025-12-16",
+        questionId: "q3-2026-01-13",
         order: 3,
-        text: "How does John 3:16 summarize the gospel message?"
+        text: "How do you understand Jesus' teaching about eating His flesh and drinking His blood (John 6:53-58)?"
       },
       {
-        questionId: "q4-2025-12-16",
+        questionId: "q4-2026-01-13",
         order: 4,
-        text: "What is the significance of the comparison to Moses lifting up the serpent in John 3:14-15?"
+        text: "Why do many disciples turn away after this teaching? What does Peter's response reveal (John 6:66-69)?"
       }
     ]
   },
   {
-    weekId: "2025-12-23",
-    weekDate: "2025-12-23",
-    readingAssignment: "John 4:1-26",
+    weekId: "2026-01-20",
+    weekDate: "2026-01-20",
+    readingAssignment: "John 7:1-24",
     dinnerFamily: "The Johnson Family",
     dinnerNotes: null,
     questions: [
       {
-        questionId: "q1-2025-12-23",
+        questionId: "q1-2026-01-20",
         order: 1,
-        text: "Why was it significant that Jesus spoke with the Samaritan woman at the well?"
+        text: "Why does Jesus initially refuse to go to the Feast of Tabernacles (John 7:1-9)?"
       },
       {
-        questionId: "q2-2025-12-23",
+        questionId: "q2-2026-01-20",
         order: 2,
-        text: "What does Jesus mean by 'living water' in John 4:10-14?"
+        text: "What do the divided opinions about Jesus reveal about people's expectations (John 7:10-13)?"
       },
       {
-        questionId: "q3-2025-12-23",
+        questionId: "q3-2026-01-20",
         order: 3,
-        text: "How does Jesus address the woman's past in John 4:16-18? What does this reveal?"
+        text: "How does Jesus respond to those who question His teaching and authority (John 7:14-18)?"
       },
       {
-        questionId: "q4-2025-12-23",
+        questionId: "q4-2026-01-20",
         order: 4,
-        text: "What does it mean to worship 'in spirit and truth' (John 4:23-24)?"
-      },
-      {
-        questionId: "q5-2025-12-23",
-        order: 5,
-        text: "How does this passage challenge our assumptions about who can receive God's grace?"
+        text: "What principle does Jesus teach about judging rightly in John 7:24?"
       }
     ]
   },
   {
-    weekId: "2025-12-30",
-    weekDate: "2025-12-30",
-    readingAssignment: "John 5:1-18",
+    weekId: "2026-01-27",
+    weekDate: "2026-01-27",
+    readingAssignment: "John 7:25-52",
     dinnerFamily: "The Williams Family",
     dinnerNotes: "Potluck style - bring a main dish",
     questions: [
       {
-        questionId: "q1-2025-12-30",
+        questionId: "q1-2026-01-27",
         order: 1,
-        text: "Why did Jesus ask the man at the pool of Bethesda if he wanted to be healed (John 5:6)?"
+        text: "Why are the people confused about whether Jesus is the Christ (John 7:25-31)?"
       },
       {
-        questionId: "q2-2025-12-30",
+        questionId: "q2-2026-01-27",
         order: 2,
-        text: "What is significant about Jesus healing on the Sabbath?"
+        text: "What does Jesus mean by 'rivers of living water' flowing from within believers (John 7:37-39)?"
       },
       {
-        questionId: "q3-2025-12-30",
+        questionId: "q3-2026-01-27",
         order: 3,
-        text: "How does Jesus respond to the religious leaders' criticism in John 5:17?"
+        text: "How does the division among the people reflect different responses to Jesus today?"
       },
       {
-        questionId: "q4-2025-12-30",
+        questionId: "q4-2026-01-27",
         order: 4,
-        text: "What does this passage teach us about Jesus' relationship with the Father?"
+        text: "What can we learn from Nicodemus' intervention in John 7:50-52?"
       }
     ]
   },
   {
-    weekId: "2026-01-06",
-    weekDate: "2026-01-06",
-    readingAssignment: "John 6:1-15, John 6:25-40",
+    weekId: "2026-02-03",
+    weekDate: "2026-02-03",
+    readingAssignment: "John 8:1-30",
     dinnerFamily: null,
     dinnerNotes: null,
     questions: [
       {
-        questionId: "q1-2026-01-06",
+        questionId: "q1-2026-02-03",
         order: 1,
-        text: "What can we learn from how Jesus tests Philip in John 6:5-6?"
+        text: "What does Jesus' response to the woman caught in adultery teach us about grace and truth (John 8:1-11)?"
       },
       {
-        questionId: "q2-2026-01-06",
+        questionId: "q2-2026-02-03",
         order: 2,
-        text: "What is the significance of the twelve baskets of leftovers (John 6:12-13)?"
+        text: "What does Jesus mean when He says 'I am the light of the world' (John 8:12)?"
       },
       {
-        questionId: "q3-2026-01-06",
+        questionId: "q3-2026-02-03",
         order: 3,
-        text: "Why does Jesus say 'I am the bread of life' in John 6:35? What does this mean?"
+        text: "How does Jesus validate His testimony in John 8:14-18?"
       },
       {
-        questionId: "q4-2026-01-06",
+        questionId: "q4-2026-02-03",
         order: 4,
-        text: "How does Jesus describe the will of the Father in John 6:38-40?"
+        text: "What is significant about Jesus' statement 'Before Abraham was, I am' (John 8:58)?"
+      }
+    ]
+  },
+  {
+    weekId: "2026-02-10",
+    weekDate: "2026-02-10",
+    readingAssignment: "John 8:31-59",
+    dinnerFamily: "The Garcia Family",
+    dinnerNotes: "Taco night!",
+    questions: [
+      {
+        questionId: "q1-2026-02-10",
+        order: 1,
+        text: "What does it mean to be 'truly free' according to Jesus in John 8:31-36?"
+      },
+      {
+        questionId: "q2-2026-02-10",
+        order: 2,
+        text: "Why does Jesus say the Jews are children of the devil rather than Abraham (John 8:39-44)?"
+      },
+      {
+        questionId: "q3-2026-02-10",
+        order: 3,
+        text: "How does this passage challenge us to examine our own spiritual heritage?"
+      },
+      {
+        questionId: "q4-2026-02-10",
+        order: 4,
+        text: "What does the crowd's violent reaction reveal about their hearts?"
+      }
+    ]
+  },
+  {
+    weekId: "2026-02-17",
+    weekDate: "2026-02-17",
+    readingAssignment: "John 9:1-41",
+    dinnerFamily: "The Martinez Family",
+    dinnerNotes: null,
+    questions: [
+      {
+        questionId: "q1-2026-02-17",
+        order: 1,
+        text: "How does Jesus' answer about the blind man's condition challenge common assumptions about suffering (John 9:1-5)?"
+      },
+      {
+        questionId: "q2-2026-02-17",
+        order: 2,
+        text: "What is significant about the Pharisees' reaction to this healing?"
+      },
+      {
+        questionId: "q3-2026-02-17",
+        order: 3,
+        text: "How does the healed man's faith grow throughout the narrative?"
+      },
+      {
+        questionId: "q4-2026-02-17",
+        order: 4,
+        text: "What does Jesus mean by spiritual blindness in John 9:39-41?"
+      }
+    ]
+  },
+  {
+    weekId: "2026-02-24",
+    weekDate: "2026-02-24",
+    readingAssignment: "John 10:1-21",
+    dinnerFamily: null,
+    dinnerNotes: null,
+    questions: [
+      {
+        questionId: "q1-2026-02-24",
+        order: 1,
+        text: "What does the imagery of the Good Shepherd teach us about Jesus' relationship with His followers?"
+      },
+      {
+        questionId: "q2-2026-02-24",
+        order: 2,
+        text: "What does Jesus mean when He says 'I am the door' (John 10:7-9)?"
+      },
+      {
+        questionId: "q3-2026-02-24",
+        order: 3,
+        text: "How does the Good Shepherd differ from hired hands (John 10:11-13)?"
+      },
+      {
+        questionId: "q4-2026-02-24",
+        order: 4,
+        text: "What does Jesus mean by 'other sheep' in John 10:16?"
+      }
+    ]
+  },
+  {
+    weekId: "2026-03-03",
+    weekDate: "2026-03-03",
+    readingAssignment: "John 10:22-42",
+    dinnerFamily: "The Chen Family",
+    dinnerNotes: "Bring an appetizer to share",
+    questions: [
+      {
+        questionId: "q1-2026-03-03",
+        order: 1,
+        text: "Why do the Jews demand a plain answer about whether Jesus is the Christ (John 10:24)?"
+      },
+      {
+        questionId: "q2-2026-03-03",
+        order: 2,
+        text: "What comfort can we find in Jesus' promise about His sheep in John 10:27-30?"
+      },
+      {
+        questionId: "q3-2026-03-03",
+        order: 3,
+        text: "How does Jesus respond to the accusation of blasphemy (John 10:31-39)?"
+      },
+      {
+        questionId: "q4-2026-03-03",
+        order: 4,
+        text: "Why is Jesus' unity with the Father central to understanding His identity?"
       }
     ]
   }
