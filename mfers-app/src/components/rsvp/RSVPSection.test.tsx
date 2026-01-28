@@ -21,9 +21,9 @@ vi.mock("../../store", () => ({
 import { useRSVPsQuery, useSubmitRSVP } from "../../hooks/useRSVPQuery";
 import { useFamilyStore } from "../../store";
 
-const mockUseRSVPsQuery = useRSVPsQuery as ReturnType<typeof vi.fn>;
-const mockUseSubmitRSVP = useSubmitRSVP as ReturnType<typeof vi.fn>;
-const mockUseFamilyStore = useFamilyStore as ReturnType<typeof vi.fn>;
+const mockUseRSVPsQuery = useRSVPsQuery as unknown as ReturnType<typeof vi.fn>;
+const mockUseSubmitRSVP = useSubmitRSVP as unknown as ReturnType<typeof vi.fn>;
+const mockUseFamilyStore = useFamilyStore as unknown as ReturnType<typeof vi.fn>;
 
 describe("RSVPSection", () => {
   const mockFamily = {

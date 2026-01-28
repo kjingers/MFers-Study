@@ -22,10 +22,10 @@ vi.mock("../../store", () => ({
 import { useMealQuery, useMealClaimMutation, useMealReleaseMutation } from "../../hooks/useMealQuery";
 import { useFamilyStore } from "../../store";
 
-const mockUseMealQuery = useMealQuery as ReturnType<typeof vi.fn>;
-const mockUseMealClaimMutation = useMealClaimMutation as ReturnType<typeof vi.fn>;
-const mockUseMealReleaseMutation = useMealReleaseMutation as ReturnType<typeof vi.fn>;
-const mockUseFamilyStore = useFamilyStore as ReturnType<typeof vi.fn>;
+const mockUseMealQuery = useMealQuery as unknown as ReturnType<typeof vi.fn>;
+const mockUseMealClaimMutation = useMealClaimMutation as unknown as ReturnType<typeof vi.fn>;
+const mockUseMealReleaseMutation = useMealReleaseMutation as unknown as ReturnType<typeof vi.fn>;
+const mockUseFamilyStore = useFamilyStore as unknown as ReturnType<typeof vi.fn>;
 
 describe("MealSignup", () => {
   const mockFamily = {
