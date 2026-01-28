@@ -58,10 +58,13 @@ export function WeekNavigation({
         <h1 className="text-lg font-semibold">{weekTitle}</h1>
         {isCurrentWeek && (
           <span
-            className="w-2 h-2 rounded-full bg-accent mt-1"
-            role="img"
+            className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-accent/20 text-accent mt-1"
+            role="status"
             aria-label="This is the current week"
-          />
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-accent mr-1" aria-hidden="true" />
+            This Week
+          </span>
         )}
       </div>
 

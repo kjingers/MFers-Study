@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { getCurrentWeekId, useWeeksQuery } from "../../hooks/useWeekQuery";
 import { useHighlightsStore } from "../../store";
 import type { BibleReference } from "../../types/verse";
@@ -55,9 +55,11 @@ function findBestWeekIndex(
 export interface WeekViewerProps {
   /** Optional callback when a verse reference is clicked */
   onVerseClick?: (reference: BibleReference) => void;
+  /** Optional week ID to display (from URL param) */
+  weekId?: string;
 }
 
-export function WeekViewer({ onVerseClick }: WeekViewerProps) {
+export function WeekViewer({ onVerseClick, weekId }: WeekViewerProps) {
   // Fetch weeks from API
   const { data: weeks, isLoading, error } = useWeeksQuery();
 
@@ -76,15 +78,23 @@ export function WeekViewer({ onVerseClick }: WeekViewerProps) {
   // Find current week index
   const currentWeekId = getCurrentWeekId();
 
+  // Use weekId prop if provided, otherwise fall back to current week
+  const targetWeekId = weekId || currentWeekId;
+
   // Track the week index - derive initial value when data changes
   // We use a key pattern: reset index when sortedWeeks changes
   const initialIndex = useMemo(
-    () => findBestWeekIndex(sortedWeeks, currentWeekId),
-    [sortedWeeks, currentWeekId]
+    () => findBestWeekIndex(sortedWeeks, targetWeekId),
+    [sortedWeeks, targetWeekId]
   );
 
   // Use a ref to track if we've initialized with data
   const [weekIndex, setWeekIndex] = useState(initialIndex);
+
+  // Sync weekIndex when initialIndex changes (data loads or weekId prop changes)
+  useEffect(() => {
+    setWeekIndex(initialIndex);
+  }, [initialIndex]);
 
   // Keep weekIndex in sync when initialIndex changes (data loads)
   const effectiveWeekIndex = sortedWeeks.length > 0 ? weekIndex : 0;

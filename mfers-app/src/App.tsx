@@ -1,9 +1,17 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BookOpen, Utensils } from "lucide-react";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { ErrorBoundary } from "./components/error-boundary";
 import { FamilyModal } from "./components/family";
+import { ScheduleView } from "./components/schedule";
 import { WeekPageSkeleton } from "./components/ui";
 import { VerseModal } from "./components/verse-modal";
 import { WeekViewer } from "./components/week";
@@ -11,6 +19,9 @@ import "./index.css";
 import { formatReference } from "./lib/verse-parser";
 import { useFamilyStore } from "./store";
 import type { BibleReference } from "./types/verse";
+
+/** Tab types for bottom navigation */
+type TabType = "study" | "schedule";
 
 /**
  * Create a QueryClient instance for TanStack Query.
@@ -26,12 +37,59 @@ const queryClient = new QueryClient({
 });
 
 /**
- * Main week page component with verse modal integration.
+ * Bottom navigation component with tab switching.
  */
-function WeekPage() {
+interface BottomNavProps {
+  activeTab: TabType;
+  onTabChange: (tab: TabType) => void;
+}
+
+function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
+  return (
+    <nav
+      className="fixed bottom-0 inset-x-0 h-16 border-t border-border bg-surface safe-area-bottom"
+      aria-label="Main navigation"
+    >
+      <div className="flex justify-around items-center h-full" role="tablist">
+        <button
+          onClick={() => onTabChange("study")}
+          className={`flex flex-col items-center gap-1 p-2 min-w-[64px] min-h-[44px] ${
+            activeTab === "study" ? "text-accent" : "text-muted-foreground"
+          }`}
+          role="tab"
+          aria-selected={activeTab === "study"}
+          aria-label="View weekly study content"
+        >
+          <BookOpen className="h-6 w-6" aria-hidden="true" />
+          <span className="text-xs">Study</span>
+        </button>
+        <button
+          onClick={() => onTabChange("schedule")}
+          className={`flex flex-col items-center gap-1 p-2 min-w-[64px] min-h-[44px] ${
+            activeTab === "schedule" ? "text-accent" : "text-muted-foreground"
+          }`}
+          role="tab"
+          aria-selected={activeTab === "schedule"}
+          aria-label="View schedule and dinner assignments"
+        >
+          <Utensils className="h-6 w-6" aria-hidden="true" />
+          <span className="text-xs">Schedule</span>
+        </button>
+      </div>
+    </nav>
+  );
+}
+
+/**
+ * Main page component with tab-based navigation.
+ */
+function MainPage() {
+  const [activeTab, setActiveTab] = useState<TabType>("study");
   const [selectedVerse, setSelectedVerse] = useState<BibleReference | null>(
     null
   );
+  const navigate = useNavigate();
+  const { weekId } = useParams<{ weekId: string }>();
   const isModalOpen = selectedVerse !== null;
 
   // Family store - trigger setup modal on first visit
@@ -53,6 +111,11 @@ function WeekPage() {
     setSelectedVerse(null);
   };
 
+  const handleSelectWeek = (selectedWeekId: string) => {
+    setActiveTab("study");
+    navigate(`/week/${selectedWeekId}`);
+  };
+
   return (
     <>
       {/* Skip to main content link for keyboard users */}
@@ -64,35 +127,15 @@ function WeekPage() {
       </a>
 
       <main id="main-content">
-        <WeekViewer onVerseClick={handleVerseClick} />
+        {activeTab === "study" ? (
+          <WeekViewer onVerseClick={handleVerseClick} weekId={weekId} />
+        ) : (
+          <ScheduleView onSelectWeek={handleSelectWeek} />
+        )}
       </main>
 
       {/* Bottom Nav */}
-      <nav
-        className="fixed bottom-0 inset-x-0 h-16 border-t border-border bg-surface safe-area-bottom"
-        aria-label="Main navigation"
-      >
-        <div className="flex justify-around items-center h-full" role="tablist">
-          <button
-            className="flex flex-col items-center gap-1 p-2 min-w-[64px] min-h-[44px] text-accent"
-            role="tab"
-            aria-selected="true"
-            aria-label="View weekly study content"
-          >
-            <BookOpen className="h-6 w-6" aria-hidden="true" />
-            <span className="text-xs">Week</span>
-          </button>
-          <button
-            className="flex flex-col items-center gap-1 p-2 min-w-[64px] min-h-[44px] text-muted-foreground"
-            role="tab"
-            aria-selected="false"
-            aria-label="View dinner assignments"
-          >
-            <Utensils className="h-6 w-6" aria-hidden="true" />
-            <span className="text-xs">Dinner</span>
-          </button>
-        </div>
-      </nav>
+      <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* Verse Modal - Integrated with API */}
       <VerseModal
@@ -123,8 +166,8 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<WeekPage />} />
-            <Route path="/week/:weekId" element={<WeekPage />} />
+            <Route path="/" element={<MainPage />} />
+            <Route path="/week/:weekId" element={<MainPage />} />
             <Route path="/loading" element={<LoadingPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
