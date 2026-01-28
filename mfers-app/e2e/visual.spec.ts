@@ -9,33 +9,36 @@ import { expect, test } from "@playwright/test";
  * specific UI elements instead.
  */
 
+// Helper to set up localStorage before page navigation
+const familyStorageData = JSON.stringify({
+  state: {
+    family: {
+      familyId: "test-family-123",
+      name: "Test Family",
+      createdAt: "2026-01-01T00:00:00.000Z",
+    },
+    showSetupModal: false,
+  },
+  version: 0,
+});
+
+async function setupPageWithFamily(page: import("@playwright/test").Page) {
+  // Navigate to page first, then set localStorage and reload
+  // This ensures localStorage is set before React hydrates
+  await page.goto("/");
+  await page.evaluate((data) => {
+    localStorage.setItem("family-storage", data);
+  }, familyStorageData);
+  await page.reload();
+  await page.waitForLoadState("domcontentloaded");
+  await page
+    .locator("nav[aria-label='Main navigation']")
+    .waitFor({ state: "visible" });
+}
+
 test.describe("Visual Styling Tests", () => {
   test.beforeEach(async ({ page }) => {
-    // Set up localStorage before navigation to prevent family modal from blocking tests
-    await page.addInitScript(() => {
-      localStorage.setItem(
-        "family-storage",
-        JSON.stringify({
-          state: {
-            family: {
-              familyId: "test-family-123",
-              name: "Test Family",
-              createdAt: new Date().toISOString(),
-            },
-            showSetupModal: false,
-          },
-          version: 0,
-        })
-      );
-    });
-
-    await page.goto("/");
-    // Wait for DOM to be ready, then wait for visible UI elements
-    await page.waitForLoadState("domcontentloaded");
-    // Wait for the navigation to appear (always present regardless of API)
-    await page
-      .locator("nav[aria-label='Main navigation']")
-      .waitFor({ state: "visible" });
+    await setupPageWithFamily(page);
   });
 
   test("app has dark theme applied", async ({ page }) => {
@@ -108,29 +111,7 @@ test.describe("Visual Styling Tests", () => {
 
 test.describe("Content Area Tests", () => {
   test.beforeEach(async ({ page }) => {
-    // Set up localStorage before navigation to prevent family modal from blocking tests
-    await page.addInitScript(() => {
-      localStorage.setItem(
-        "family-storage",
-        JSON.stringify({
-          state: {
-            family: {
-              familyId: "test-family-123",
-              name: "Test Family",
-              createdAt: new Date().toISOString(),
-            },
-            showSetupModal: false,
-          },
-          version: 0,
-        })
-      );
-    });
-
-    await page.goto("/");
-    await page.waitForLoadState("domcontentloaded");
-    await page
-      .locator("nav[aria-label='Main navigation']")
-      .waitFor({ state: "visible" });
+    await setupPageWithFamily(page);
   });
 
   test("main content area has proper padding and layout", async ({ page }) => {
@@ -171,29 +152,7 @@ test.describe("Mobile Responsiveness", () => {
   test.use({ viewport: { width: 375, height: 667 } }); // iPhone SE
 
   test("app renders correctly on mobile viewport", async ({ page }) => {
-    // Set up localStorage before navigation to prevent family modal from blocking tests
-    await page.addInitScript(() => {
-      localStorage.setItem(
-        "family-storage",
-        JSON.stringify({
-          state: {
-            family: {
-              familyId: "test-family-123",
-              name: "Test Family",
-              createdAt: new Date().toISOString(),
-            },
-            showSetupModal: false,
-          },
-          version: 0,
-        })
-      );
-    });
-
-    await page.goto("/");
-    await page.waitForLoadState("domcontentloaded");
-    await page
-      .locator("nav[aria-label='Main navigation']")
-      .waitFor({ state: "visible" });
+    await setupPageWithFamily(page);
 
     // Verify no horizontal scrollbar (content fits viewport)
     const hasHorizontalScroll = await page.evaluate(() => {
@@ -210,29 +169,7 @@ test.describe("Mobile Responsiveness", () => {
   });
 
   test("bottom navigation spans full width on mobile", async ({ page }) => {
-    // Set up localStorage before navigation to prevent family modal from blocking tests
-    await page.addInitScript(() => {
-      localStorage.setItem(
-        "family-storage",
-        JSON.stringify({
-          state: {
-            family: {
-              familyId: "test-family-123",
-              name: "Test Family",
-              createdAt: new Date().toISOString(),
-            },
-            showSetupModal: false,
-          },
-          version: 0,
-        })
-      );
-    });
-
-    await page.goto("/");
-    await page.waitForLoadState("domcontentloaded");
-    await page
-      .locator("nav[aria-label='Main navigation']")
-      .waitFor({ state: "visible" });
+    await setupPageWithFamily(page);
 
     const nav = page.locator("nav[aria-label='Main navigation']");
     const box = await nav.boundingBox();
@@ -247,29 +184,7 @@ test.describe("Mobile Responsiveness", () => {
 
 test.describe("Visual Regression Screenshots", () => {
   test("main page visual snapshot", async ({ page }) => {
-    // Set up localStorage before navigation to prevent family modal from blocking tests
-    await page.addInitScript(() => {
-      localStorage.setItem(
-        "family-storage",
-        JSON.stringify({
-          state: {
-            family: {
-              familyId: "test-family-123",
-              name: "Test Family",
-              createdAt: new Date().toISOString(),
-            },
-            showSetupModal: false,
-          },
-          version: 0,
-        })
-      );
-    });
-
-    await page.goto("/");
-    await page.waitForLoadState("domcontentloaded");
-    await page
-      .locator("nav[aria-label='Main navigation']")
-      .waitFor({ state: "visible" });
+    await setupPageWithFamily(page);
 
     // Take a full page screenshot for visual comparison
     await expect(page).toHaveScreenshot("main-page.png", {
