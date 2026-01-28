@@ -164,6 +164,9 @@ export function WeekViewer({ onVerseClick, weekId }: WeekViewerProps) {
   if (error) {
     return (
       <div className="min-h-screen bg-background pb-20">
+        <header className="sticky top-0 z-10 h-14 flex items-center justify-center px-4 bg-surface border-b border-border">
+          <h1 className="text-lg font-semibold">MFers Bible Study</h1>
+        </header>
         <div className="p-4">
           <div className="rounded-lg border border-destructive bg-destructive/10 p-4">
             <h2 className="text-lg font-semibold text-destructive">
@@ -184,6 +187,9 @@ export function WeekViewer({ onVerseClick, weekId }: WeekViewerProps) {
   if (!week) {
     return (
       <div className="min-h-screen bg-background pb-20">
+        <header className="sticky top-0 z-10 h-14 flex items-center justify-center px-4 bg-surface border-b border-border">
+          <h1 className="text-lg font-semibold">MFers Bible Study</h1>
+        </header>
         <div className="p-4">
           <div className="rounded-lg border p-4 text-center">
             <p className="text-muted-foreground">No weeks available</p>
@@ -235,13 +241,11 @@ function WeekViewerSkeleton() {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header skeleton */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex items-center justify-between p-4">
-          <Skeleton className="h-10 w-10" />
-          <Skeleton className="h-6 w-40" />
-          <Skeleton className="h-10 w-10" />
-        </div>
-      </div>
+      <header className="sticky top-0 z-10 h-14 flex items-center justify-between px-4 bg-surface border-b border-border">
+        <Skeleton className="h-10 w-10" />
+        <Skeleton className="h-6 w-40" />
+        <Skeleton className="h-10 w-10" />
+      </header>
 
       {/* Reading card skeleton */}
       <div className="p-4">
