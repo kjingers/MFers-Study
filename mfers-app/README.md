@@ -13,6 +13,11 @@ A Progressive Web App (PWA) for weekly Bible study tracking with verse lookup an
 - **Server-Side Caching**: 7-day verse cache for cost optimization
 - **PWA Support**: Install to homescreen on mobile devices
 - **Mobile-First Design**: Dark theme with 44px touch targets
+- **Live Question Sync**: Real-time sync via Azure SignalR across all devices
+- **Meal Signup**: Claim/release dinner hosting slots with family selection
+- **RSVP Attendance**: Track who's coming each week
+- **Swipe Navigation**: Horizontal swipe gestures for mobile week navigation
+- **Bottom Tab Navigation**: Study/Schedule tabs for quick access
 - **Accessibility**: WCAG 2.1 AA compliant with skip links and ARIA labels
 
 ## 🛠️ Tech Stack
@@ -23,7 +28,7 @@ A Progressive Web App (PWA) for weekly Bible study tracking with verse lookup an
 - **Backend**: Azure Functions v4 (Node.js 20)
 - **AI Integration**: Azure OpenAI (GPT-4o)
 - **Hosting**: Azure Static Web Apps
-- **Testing**: Vitest + React Testing Library (62 unit tests) + Playwright (20 e2e tests)
+- **Testing**: Vitest + React Testing Library (166 unit tests) + Playwright (20 e2e tests)
 - **CI/CD**: GitHub Actions
 
 ## 📁 Project Structure

@@ -34,7 +34,12 @@ A mobile-first Progressive Web App (PWA) for small group Bible study. Opens inst
 | **PWA Support** | Install to homescreen on mobile devices |
 | **Mobile-First Design** | Dark theme with 44px touch targets |
 | **Question Highlighting** | Tap to highlight the current discussion question |
+| **Live Question Sync** | Real-time sync via Azure SignalR across all devices |
 | **Dinner Tracker** | See who's bringing dinner each week |
+| **Meal Signup** | Claim/release dinner hosting slots with family selection |
+| **RSVP Attendance** | Track who's coming each week |
+| **Swipe Navigation** | Horizontal swipe gestures for mobile week navigation |
+| **Bottom Tab Navigation** | Study/Schedule tabs for quick access |
 | **Accessibility** | WCAG 2.1 AA compliant with ARIA labels |
 
 ---
