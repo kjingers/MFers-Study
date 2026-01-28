@@ -1,0 +1,60 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "disabled_hooks": [
+    "context-window-monitor",
+    "comment-checker",
+    "background-notification",
+    "session-notification",
+    "startup-toast",
+    "agent-usage-reminder"
+  ],
+  "agents": {
+    "Sisyphus": {
+      "model": "claude-opus-4-5-20250514",
+      "prompt_append": "# Global Custom Instructions\n\n- Be concise in all interactions and commit messages. Sacrifice grammar for brevity.\n\n## GitHub\n\n- Primary method for GitHub interaction: `gh` CLI\n- When tagging Claude in issues: use `@claude`\n\n## Git\n\n- Branch prefix: `kjinger/`\n- Commit messages: concise, present tense\n\n## PR Comments\n\nWhen adding TODO comments to PRs, use checkbox markdown:\n\n```md\n- [ ] Description of the todo\n```\n\n## Plans\n\n- End each plan with unresolved questions (concise, grammar optional)"
+    },
+    "Planner-Sisyphus": {
+      "model": "claude-opus-4-5-20250514"
+    },
+    "librarian": {
+      "model": "github-copilot/gemini-3-flash-preview"
+    },
+    "explore": {
+      "model": "github-copilot/gemini-3-flash-preview"
+    },
+    "oracle": {
+      "model": "github-copilot/gpt-5.2"
+    },
+    "frontend-ui-ux-engineer": {
+      "model": "github-copilot/gemini-3-pro-preview"
+    },
+    "document-writer": {
+      "model": "github-copilot/gemini-3-flash-preview"
+    },
+    "multimodal-looker": {
+      "model": "github-copilot/gemini-3-flash-preview"
+    },
+    "code-change-explorer": {
+      "model": "github-copilot/gemini-3-flash-preview"
+    },
+    "app-builder": {
+      "model": "claude-opus-4-5-20250514",
+      "prompt_append": "# App Builder Context\n\n- MVP-first approach: Deploy quickly, iterate\n- Always track progress in todo.md\n- Human approval required before deploy\n- Branch prefix: `kjinger/`\n- Commit messages: concise, present tense"
+    },
+    "app-research": {
+      "model": "github-copilot/gemini-3-flash-preview"
+    },
+    "app-architect": {
+      "model": "claude-opus-4-5-20250514"
+    },
+    "app-coder": {
+      "model": "claude-opus-4-5-20250514"
+    },
+    "app-reviewer": {
+      "model": "github-copilot/gemini-3-pro-preview"
+    },
+    "app-deployer": {
+      "model": "github-copilot/gemini-3-flash-preview"
+    }
+  }
+}

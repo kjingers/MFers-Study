@@ -1,0 +1,36 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": ["oh-my-opencode"],
+  "mcp": {
+    "ado": {
+      "type": "local",
+      "command": ["npx", "-y", "@azure-devops/mcp", "msazure"],
+      "enabled": true
+    },
+    "microsoft-learn": {
+      "type": "remote",
+      "url": "https://learn.microsoft.com/api/mcp",
+      "enabled": true
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true
+    },
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app",
+      "enabled": true
+    },
+    "exa": {
+      "type": "remote",
+      "url": "https://mcp.exa.ai/mcp?tools=web_search_exa,deep_search_exa",
+      "enabled": true
+    },
+    "fetch": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-fetch"],
+      "enabled": true
+    }
+  }
+}

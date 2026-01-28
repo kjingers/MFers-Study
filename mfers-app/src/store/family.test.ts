@@ -2,7 +2,7 @@
  * Tests for family Zustand store.
  * Tests cover family setup, persistence to localStorage, and modal state.
  */
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { useFamilyStore } from "./family";
 
 describe("useFamilyStore", () => {
@@ -81,7 +81,7 @@ describe("useFamilyStore", () => {
     });
 
     it("should return true for isSetUp after setting family", () => {
-      const { setFamily, isSetUp } = useFamilyStore.getState();
+      const { setFamily } = useFamilyStore.getState();
 
       setFamily("Test Family");
 

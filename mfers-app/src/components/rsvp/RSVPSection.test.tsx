@@ -2,7 +2,7 @@
  * Tests for RSVPSection component.
  * Tests cover RSVP form, attendance toggle, counters, and summary display.
  */
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { RSVPSection } from "./RSVPSection";
 import type { RSVP, RSVPSummary } from "../../types";

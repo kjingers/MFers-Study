@@ -4,7 +4,7 @@
  */
 import { renderHook, act } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { useSwipeGesture, type SwipeGestureHandlers } from "./useSwipeGesture";
+import { useSwipeGesture } from "./useSwipeGesture";
 
 /**
  * Helper to create a mock TouchEvent with specified coordinates.
