@@ -43,7 +43,7 @@
 - Automatic deployment on push to `main` branch
 - Frontend deploys to Azure Static Web Apps
 - API (Azure Functions) deploys alongside frontend
-- Live at: https://lively-sand-015fd1b0f.4.azurestaticapps.net
+- Live at: https://salmon-sky-01fd35c1e.1.azurestaticapps.net
 - **NEW:** CI workflow with lint, typecheck, test, build steps
 
 ### ✅ Testing Infrastructure

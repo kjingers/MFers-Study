@@ -5,7 +5,7 @@
 
 A mobile-first Progressive Web App (PWA) for small group Bible study. Opens instantly to the current week's content—no login, no friction.
 
-**🌐 Live Demo:** [https://lively-sand-015fd1b0f.4.azurestaticapps.net](https://lively-sand-015fd1b0f.4.azurestaticapps.net)
+**🌐 Live Demo:** [https://salmon-sky-01fd35c1e.1.azurestaticapps.net](https://salmon-sky-01fd35c1e.1.azurestaticapps.net)
 
 ---
 

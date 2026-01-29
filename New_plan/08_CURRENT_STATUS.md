@@ -10,7 +10,7 @@ The project has completed **Phase 0 (Setup)**, **Phase 1 (Week Viewer)**, **Phas
 
 **Key Achievements:**
 
-- ✅ **Production Deployment**: https://lively-sand-015fd1b0f.4.azurestaticapps.net
+- ✅ **Production Deployment**: https://salmon-sky-01fd35c1e.1.azurestaticapps.net
 - ✅ **Azure OpenAI Integration**: GPT-4o powered verse retrieval with 7-day server-side caching
 - ✅ **62 Unit Tests** + **20 E2E Visual Tests** (Playwright)
 - ✅ **CI/CD Pipeline**: GitHub Actions with automated testing and deployment

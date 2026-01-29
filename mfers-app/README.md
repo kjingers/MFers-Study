@@ -2,7 +2,7 @@
 
 A Progressive Web App (PWA) for weekly Bible study tracking with verse lookup and multiple translation support.
 
-**Live Demo:** https://lively-sand-015fd1b0f.4.azurestaticapps.net
+**Live Demo:** https://salmon-sky-01fd35c1e.1.azurestaticapps.net
 
 ## ✨ Features
 
@@ -234,13 +234,13 @@ npm run test:watch
 
 ```bash
 # Run e2e tests against deployed URL
-PLAYWRIGHT_BASE_URL="https://lively-sand-015fd1b0f.4.azurestaticapps.net" npm run test:e2e
+PLAYWRIGHT_BASE_URL="https://salmon-sky-01fd35c1e.1.azurestaticapps.net" npm run test:e2e
 
 # Run with UI mode for debugging
-PLAYWRIGHT_BASE_URL="https://lively-sand-015fd1b0f.4.azurestaticapps.net" npm run test:e2e:ui
+PLAYWRIGHT_BASE_URL="https://salmon-sky-01fd35c1e.1.azurestaticapps.net" npm run test:e2e:ui
 
 # Update visual snapshots
-PLAYWRIGHT_BASE_URL="https://lively-sand-015fd1b0f.4.azurestaticapps.net" npm run test:e2e:update
+PLAYWRIGHT_BASE_URL="https://salmon-sky-01fd35c1e.1.azurestaticapps.net" npm run test:e2e:update
 ```
 
 **Visual Tests Cover:**

@@ -25,7 +25,7 @@ The app has been successfully deployed to Azure Static Web Apps. The primary foc
    - Initialized `memory-bank/` folder with core documentation files
 
 ## Live Deployment
-- **URL**: https://lively-sand-015fd1b0f.4.azurestaticapps.net
+- **URL**: https://salmon-sky-01fd35c1e.1.azurestaticapps.net
 - **Auto-deploy**: Enabled on push to `main` branch
 
 ## Next Steps
