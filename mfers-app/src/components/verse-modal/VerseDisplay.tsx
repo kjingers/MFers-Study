@@ -71,13 +71,13 @@ export function VerseDisplay({
     );
   }
 
-  // Success state - render verses
+  // Success state - render verses with scripture typography
   return (
-    <div className="prose prose-lg">
-      <div className="space-y-2">
+    <div className="prose">
+      <div className="space-y-3">
         {verses.map((verse) => (
-          <p key={verse.number} className="text-foreground leading-relaxed">
-            <sup className="text-accent font-semibold mr-1 text-sm">
+          <p key={verse.number} className="text-scripture text-foreground">
+            <sup className="verse-number">
               {verse.number}
             </sup>
             {verse.text}
@@ -86,7 +86,7 @@ export function VerseDisplay({
       </div>
 
       {copyright && (
-        <p className="text-xs text-muted-foreground mt-6 border-t border-border pt-4">
+        <p className="text-caption mt-6 border-t border-border pt-4">
           {copyright}
         </p>
       )}

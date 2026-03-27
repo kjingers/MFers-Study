@@ -67,7 +67,7 @@ export function QuestionItem({
         >
           {question.order}.
         </span>
-        <div className={cn("flex-1", isHighlighted && "font-semibold")}>
+        <div className={cn("text-reading flex-1", isHighlighted && "font-semibold")}>
           {segments.map((segment, index) =>
             segment.type === "text" ? (
               <span key={index}>{segment.content}</span>
