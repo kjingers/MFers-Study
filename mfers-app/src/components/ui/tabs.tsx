@@ -137,7 +137,9 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
           "focus-visible:ring-accent focus-visible:ring-offset-2",
           "disabled:pointer-events-none disabled:opacity-50",
           "min-h-[36px] min-w-[60px]", // Touch-friendly
-          isActive && "bg-background text-foreground shadow-sm",
+          isActive
+            ? "bg-accent text-accent-foreground shadow-md border-2 border-accent-foreground/20"
+            : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
           className
         )}
         {...props}
