@@ -61,7 +61,7 @@ export function QuestionItem({
       <div className="flex gap-3">
         <span
           className={cn(
-            "text-lg font-medium min-w-[24px] flex-shrink-0",
+            "text-lg font-medium min-w-6 flex-shrink-0",
             isHighlighted ? "text-accent" : "text-muted-foreground"
           )}
         >
