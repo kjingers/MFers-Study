@@ -42,6 +42,18 @@ export default {
         "safe-right": "env(safe-area-inset-right)",
         // Minimum touch target size (44px)
         "touch": "2.75rem",
+        // Custom spacing scale using CSS variables
+        // These map to var(--space-X) for semantic spacing
+        "section": "var(--space-6)",  // 24px - between sections
+        "card": "var(--space-4)",     // 16px - card internal padding & gaps
+        "inline": "var(--space-2)",   // 8px - tight inline gaps
+      },
+      gap: {
+        // Semantic gap utilities
+        "section": "var(--space-6)",  // 24px - between major sections
+        "card": "var(--space-4)",     // 16px - between cards
+        "inline": "var(--space-2)",   // 8px - tight inline gaps
+        "tight": "var(--space-1)",    // 4px - minimal spacing
       },
       minHeight: {
         touch: "2.75rem",
