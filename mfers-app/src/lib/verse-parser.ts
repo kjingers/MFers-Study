@@ -8,11 +8,11 @@ import type { BibleReference } from "../types/verse";
  * - "1 John 1:1-4" (numbered book)
  * - "2 Corinthians 4:7-18" (numbered book with range)
  *
- * Note: The pattern avoids capturing leading whitespace by using a non-capturing
- * group for optional book numbers (1, 2, 3) followed by mandatory book name.
+ * The pattern uses a lookbehind to ensure there's whitespace or start-of-string
+ * before the reference, preventing matches like "inJohn" from appearing.
  */
 const BIBLE_REFERENCE_REGEX =
-  /\b((?:\d\s+)?[A-Za-z]+)\s+(\d+):(\d+)(?:[-–](\d+))?\b/g;
+  /(?<=^|[\s])((?:\d\s+)?[A-Za-z]+)\s+(\d+):(\d+)(?:[-–](\d+))?(?=\s|[.,;:!?]|$)/g;
 
 /**
  * Normalizes a book name to proper capitalization.
